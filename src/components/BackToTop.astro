@@ -1,0 +1,43 @@
+---
+---
+
+<!-- Desktop version -->
+<button
+  id="back-to-top"
+  class="w-12 h-12 bg-white dark:bg-ui-dark-surface rounded-base border-2 border-ui-light-border dark:border-ui-dark-border shadow-light dark:shadow-dark hover:bg-ui-light-hover dark:hover:bg-ui-dark-hover hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none dark:hover:shadow-none transition-all flex items-center justify-center hidden md:flex"
+  aria-label="Scroll to top"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-ui-light-text dark:text-ui-dark-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+  </svg>
+</button>
+
+<!-- Mobile floating button -->
+<button
+  id="back-to-top-mobile"
+  class="fixed bottom-6 right-6 w-12 h-12 bg-white dark:bg-ui-dark-surface rounded-full border-2 border-ui-light-border dark:border-ui-dark-border shadow-lg dark:shadow-dark hover:bg-ui-light-hover dark:hover:bg-ui-dark-hover transition-all flex items-center justify-center md:hidden z-50"
+  aria-label="Scroll to top"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-ui-light-text dark:text-ui-dark-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+  </svg>
+</button>
+
+<script>
+  // Back to top button functionality for both desktop and mobile
+  function setupBackToTop(buttonId: string) {
+    const button = document.getElementById(buttonId);
+    
+    if (button) {
+      button.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+  }
+
+  setupBackToTop('back-to-top');
+  setupBackToTop('back-to-top-mobile');
+</script>

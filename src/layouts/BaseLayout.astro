@@ -1,0 +1,95 @@
+---
+import ThemeSwitcher from '../components/ThemeSwitcher.astro';
+import BackToTop from '../components/BackToTop.astro';
+import Logo from '../components/Logo.astro';
+import '../styles/callouts.css';
+import '../styles/fonts.css';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "AI-utbildning för lärare och elever" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="sv" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <title>{title}</title>
+    <style>
+      :root {
+        --radius: 0.5rem;
+      }
+    </style>
+  </head>
+  <body class="bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground font-sans transition-colors duration-300 antialiased">
+    <header class="sticky top-0 z-40 w-full border-b border-border dark:border-dark-border bg-background/95 dark:bg-dark-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-dark-background/60">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <a href="/" class="flex items-center gap-3 rounded-lg border border-border dark:border-dark-border bg-card dark:bg-dark-card hover:bg-accent dark:hover:bg-dark-accent transition-colors px-3 py-2">
+            <Logo />
+            <span class="hidden md:inline font-excalifont text-xl text-foreground dark:text-dark-foreground">ai.summor.se</span>
+          </a>
+        </div>
+        
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="/" class="text-sm font-medium text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Hem</a>
+          <a href="/kurser" class="text-sm font-medium text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Kurser</a>
+          <a href="/verktyg" class="text-sm font-medium text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Verktyg</a>
+          <a href="/om" class="text-sm font-medium text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Om</a>
+        </nav>
+
+        <div class="flex items-center space-x-3">
+          <ThemeSwitcher />
+        </div>
+      </div>
+    </header>
+
+    <main class="min-h-screen">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border dark:border-dark-border bg-muted/50 dark:bg-dark-muted/50 mt-12">
+      <div class="max-w-6xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="flex items-start gap-3">
+            <Logo />
+            <div>
+              <h3 class="text-lg font-excalifont mb-2 text-foreground dark:text-dark-foreground">ai.summor.se</h3>
+              <p class="text-sm text-muted-foreground dark:text-dark-muted-foreground font-sans">
+                AI-utbildning för lärare och elever. Lär dig om artificiell intelligens på ett enkelt och tillgängligt sätt.
+              </p>
+            </div>
+          </div>
+          
+          <div>
+            <h4 class="font-medium mb-4">Snabblänkar</h4>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/" class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Hem</a></li>
+              <li><a href="/kurser" class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Kurser</a></li>
+              <li><a href="/verktyg" class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Verktyg</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 class="font-medium mb-4">Kontakt</h4>
+            <p class="text-sm text-muted-foreground dark:text-dark-muted-foreground">
+              Del av <a href="https://summor.se" class="text-primary hover:text-accent transition-colors">Summor.se</a>
+            </p>
+          </div>
+        </div>
+        
+        <div class="border-t border-border dark:border-dark-border mt-8 pt-8 text-center text-sm text-muted-foreground dark:text-dark-muted-foreground font-sans">
+          <p>&copy; 2024 ai.summor.se. Alla rättigheter förbehållna.</p>
+        </div>
+      </div>
+    </footer>
+
+    <BackToTop />
+  </body>
+</html>

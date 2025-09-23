@@ -1,0 +1,134 @@
+/* Base callout styles */
+.callout {
+  @apply my-4 p-4 rounded-lg border-l-4 bg-opacity-10;
+  font-weight: 400;
+}
+
+.callout-content {
+  @apply text-gray-800 dark:text-gray-200;
+  font-weight: inherit;
+  font-style: normal;
+}
+
+.callout-content p {
+  @apply m-0;
+  font-style: normal;
+}
+
+.callout-content em {
+  font-style: italic;
+}
+
+.callout-content strong {
+  font-weight: 600;
+}
+
+/* Hide title by default, but show for collapsible callouts */
+.callout-title {
+  display: none;
+}
+
+.callout.collapsible .callout-title {
+  @apply flex items-center gap-2 font-semibold mb-2;
+  display: flex;
+  cursor: pointer;
+}
+
+.callout.collapsible .callout-collapse-button {
+  @apply ml-auto p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/5;
+}
+
+/* Hide icons in callout titles */
+.callout-icon {
+  display: none;
+}
+
+/* Collapsible styles */
+.callout.collapsible .callout-content {
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+}
+
+.callout.collapsible:not(.expanded) .callout-content {
+  height: 0;
+}
+
+/* Color variants */
+.callout.note {
+  @apply bg-blue-100 border-blue-500 dark:bg-blue-900 dark:bg-opacity-20;
+}
+
+.callout.tip {
+  @apply bg-green-100 border-green-500 dark:bg-green-900 dark:bg-opacity-20;
+}
+
+.callout.warning {
+  @apply bg-yellow-100 border-yellow-500 dark:bg-yellow-900 dark:bg-opacity-20;
+}
+
+.callout.danger {
+  @apply bg-red-100 border-red-500 dark:bg-red-900 dark:bg-opacity-20;
+}
+
+.callout.info {
+  @apply bg-blue-100 border-blue-500 dark:bg-blue-900 dark:bg-opacity-20;
+}
+
+.callout.todo {
+  @apply bg-purple-100 border-purple-500 dark:bg-purple-900 dark:bg-opacity-20;
+}
+
+.callout.success {
+  @apply bg-emerald-100 border-emerald-500 dark:bg-emerald-900 dark:bg-opacity-20;
+}
+
+.callout.question {
+  @apply bg-violet-100 border-violet-500 dark:bg-violet-900 dark:bg-opacity-20;
+}
+
+.callout.bug {
+  @apply bg-rose-100 border-rose-500 dark:bg-rose-900 dark:bg-opacity-20;
+}
+
+.callout.example {
+  @apply bg-teal-100 border-teal-500 dark:bg-teal-900 dark:bg-opacity-20;
+}
+
+.callout.failure {
+  @apply bg-red-100 border-red-500 dark:bg-red-900 dark:bg-opacity-20;
+}
+
+.callout.quote {
+  @apply bg-gray-100 border-gray-500 dark:bg-gray-900 dark:bg-opacity-20;
+}
+
+/* Title colors for collapsible callouts */
+.callout.collapsible.info .callout-title {
+  @apply text-blue-700 dark:text-blue-300;
+}
+
+.callout.collapsible.warning .callout-title {
+  @apply text-yellow-700 dark:text-yellow-300;
+}
+
+.callout.collapsible.danger .callout-title {
+  @apply text-red-700 dark:text-red-300;
+}
+
+.callout.collapsible.note .callout-title {
+  @apply text-purple-700 dark:text-purple-300;
+}
+
+.callout.collapsible.tip .callout-title {
+  @apply text-green-700 dark:text-green-300;
+}
+
+.callout.collapsible.example .callout-title {
+  @apply text-indigo-700 dark:text-indigo-300;
+}
+
+/* Remove quotes from all text elements */
+.callout *::before,
+.callout *::after {
+  content: none !important;
+}
