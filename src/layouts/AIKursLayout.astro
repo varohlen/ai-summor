@@ -1,0 +1,29 @@
+---
+import CourseLayout from './CourseLayout.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    tags?: string[];
+    description?: string;
+    begrepp?: string[];
+    fragor?: string[];
+    [key: string]: any;
+  };
+  url?: string;
+  isFolder?: boolean;
+}
+
+const { frontmatter, url = '', isFolder = false } = Astro.props;
+---
+
+<CourseLayout
+  collection="ai-kurs"
+  collectionTitle="AI Nivå 1"
+  defaultTitle="Artificiell Intelligens Nivå 1 - ai.summor.se"
+  frontmatter={frontmatter}
+  url={url}
+  isFolder={isFolder}
+>
+  <slot />
+</CourseLayout>

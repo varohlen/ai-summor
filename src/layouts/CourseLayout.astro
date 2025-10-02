@@ -1,0 +1,92 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { getCollection } from "astro:content";
+import { organizeContent } from "../utils/OrganizeContent";
+import HamburgerMenu from "../components/HamburgerMenu.astro";
+import SidePanel from "../components/SidePanel.astro";
+import BackToTop from "../components/BackToTop.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+
+type RegularCollections = 'ai-kurs';
+
+interface Props {
+  collection: RegularCollections;
+  collectionTitle: string;
+  defaultTitle: string;
+  frontmatter: {
+    title: string;
+    tags?: string[];
+    description?: string;
+    [key: string]: any;
+  };
+  url?: string;
+  isFolder?: boolean;
+}
+
+const { 
+  collection, 
+  collectionTitle,
+  defaultTitle,
+  frontmatter, 
+  url = '', 
+  isFolder = false 
+} = Astro.props;
+
+const collections = await getCollection(collection);
+const result = organizeContent(collections);
+
+const rootContent = result.rootContent as any[];
+const folders = result.folders as any[];
+
+const currentPath = Astro.url.pathname;
+
+const showSidePanel = frontmatter?.tags?.includes('sammanfattning') || false;
+const begrepp = frontmatter?.begrepp || [];
+const fragor = frontmatter?.fragor || [];
+---
+
+<BaseLayout title={frontmatter?.title || defaultTitle}>
+  <div class="relative min-h-screen">
+    <div class="absolute -left-14 md:-left-16 top-0 h-full z-[100]">
+      <div class="fixed top-40 flex flex-col gap-4">
+        <BackToTop />
+        <HamburgerMenu
+          rootContent={rootContent}
+          folders={folders}
+          collection={collection}
+          currentPath={currentPath}
+        />
+      </div>
+    </div>
+    
+    <div class="max-w-3xl mx-auto px-0 md:px-4 relative z-10 flex flex-col items-center">
+      <div class="w-full">
+        <div>
+          <Breadcrumbs 
+            currentPath={currentPath} 
+            collection={collection} 
+            collectionTitle={collectionTitle}
+            pageTitle={frontmatter.title}
+          />
+        </div>
+        <article class="prose dark:prose-invert w-full mb-8">
+          {frontmatter?.title && <h1>{frontmatter.title}</h1>}
+          {isFolder && frontmatter?.description && (
+            <p class="text-lg text-gray-600 dark:text-gray-300 mt-2">
+              {frontmatter.description}
+            </p>
+          )}
+        </article>
+        <slot />
+      </div>
+    </div>
+
+    {showSidePanel && (begrepp.length > 0 || fragor.length > 0) && (
+      <div class="absolute -right-2 md:-right-6 top-0 h-full z-[100]">
+        <div class="fixed top-40">
+          <SidePanel begrepp={begrepp} fragor={fragor} />
+        </div>
+      </div>
+    )}
+  </div>
+</BaseLayout>

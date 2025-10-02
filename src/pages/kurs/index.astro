@@ -1,0 +1,74 @@
+---
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { organizeContent } from "../../utils/OrganizeContent";
+
+const collection = await getCollection('ai-kurs') as CollectionEntry<'ai-kurs'>[];
+const { rootContent, folders } = organizeContent(collection);
+---
+
+<BaseLayout title="Artificiell Intelligens Nivå 1 - ai.summor.se">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-3xl md:text-4xl font-bold font-sans mb-8">Artificiell Intelligens Nivå 1</h1>
+    
+    <div class="space-y-12">
+      <div class="bg-card dark:bg-dark-card border border-border dark:border-dark-border p-6 rounded-xl">
+        <h2 class="text-2xl font-semibold mb-6">Kursinformation</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {rootContent.length === 0 && folders.length === 0 ? (
+            <p class="text-muted-foreground col-span-full">Kursinnehållet är under utveckling. Kom tillbaka snart!</p>
+          ) : (
+            rootContent.map((entry) => {
+              const type = entry.data.tags?.includes("sammanfattning") ? "sammanfattning" :
+                          entry.data.tags?.includes("info") ? "info" :
+                          entry.data.tags?.includes("uppgift") ? "uppgift" : "default";
+
+              const styles = {
+                sammanfattning: "border-l-blue-500 hover:bg-blue-500/5 dark:hover:bg-blue-500/10",
+                info: "border-l-yellow-500 hover:bg-yellow-500/5 dark:hover:bg-yellow-500/10",
+                uppgift: "border-l-emerald-500 hover:bg-emerald-500/5 dark:hover:bg-emerald-500/10",
+                default: "border-l-border hover:bg-muted/50 dark:hover:bg-dark-muted/50"
+              };
+              
+              return (
+                <a
+                  href={`/kurs/${entry.slug}`}
+                  class={`block p-4 bg-background dark:bg-dark-background rounded-lg border-l-4 ${styles[type]} transition-colors`}
+                >
+                  <div class="font-medium">{entry.data.title}</div>
+                  {entry.data.description && (
+                    <p class="text-sm text-muted-foreground mt-1">
+                      {entry.data.description}
+                    </p>
+                  )}
+                </a>
+              );
+            })
+          )}
+        </div>
+      </div>
+
+      {folders.length > 0 && (
+        <div class="bg-card dark:bg-dark-card border border-border dark:border-dark-border p-6 rounded-xl">
+          <h2 class="text-2xl font-semibold mb-6">Områden</h2>
+          <div class="grid grid-cols-1 gap-4">
+            {folders.map(([folderSlug, folder]) => (
+              <a
+                href={`/kurs/${folderSlug}`}
+                class="block p-4 bg-background dark:bg-dark-background rounded-lg border-l-4 border-l-purple-500 hover:bg-purple-500/5 dark:hover:bg-purple-500/10 transition-colors group"
+              >
+                <div class="font-medium group-hover:text-purple-500 dark:group-hover:text-purple-400">{folder.title}</div>
+                {folder.indexFile?.data.description && (
+                  <p class="text-sm text-muted-foreground mt-1">
+                    {folder.indexFile.data.description}
+                  </p>
+                )}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</BaseLayout>

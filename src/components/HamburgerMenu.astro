@@ -1,0 +1,320 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+type Entry = CollectionEntry<'ai-kurs'> & {
+  slug: string;
+  data: {
+    title: string;
+    order?: number;
+    draft?: boolean;
+  };
+}
+
+interface FolderEntry {
+  title: string;
+  entries: Entry[];
+  subfolders: Map<string, FolderEntry>;
+  order?: number;
+  path: string;
+}
+
+interface Props {
+  rootContent: Entry[];
+  folders: [string, FolderEntry][];
+  collection: string;
+  currentPath?: string;
+}
+
+const { rootContent, folders, collection, currentPath } = Astro.props;
+
+const courseNames = {
+  'ai-kurs': 'Artificiell Intelligens Nivå 1',
+} as const;
+
+type CourseType = keyof typeof courseNames;
+
+const courseName = courseNames[collection as CourseType] || collection;
+
+const isActive = (path: string): boolean => {
+  if (!currentPath) return false;
+  return currentPath === path || currentPath.startsWith(path + '/');
+};
+
+const isCourseOverviewActive = (path: string): boolean => {
+  if (!currentPath) return false;
+  return isActive(path) && currentPath.endsWith(path.substring(1));
+};
+
+const renderFolderContent = (folder: FolderEntry, level: number = 0) => {
+  const paddingClass = `pl-${level * 4}`;
+  return `
+    <div class="space-y-1">
+      ${folder.entries.map(entry => {
+        const href = entry.id.includes('/') ? `/${collection}/${entry.slug}` : `/${collection}/${entry.id.replace('.md', '')}`;
+        return `
+        <a
+          href="${href}"
+          class="block py-2 px-4 ${paddingClass} text-sm hover:bg-gray-100 dark:hover:bg-gray-800 ${
+            isActive(href) 
+              ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 font-medium border-r-4 border-blue-500' 
+              : 'text-gray-700 dark:text-gray-300'
+          }"
+        >
+          <div class="flex items-center">
+            <svg class="w-4 h-4 mr-2 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+              <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+            </svg>
+            ${entry.data.title}
+          </div>
+        </a>
+      `;
+      }).join('')}
+      ${[...folder.subfolders.entries()].map(([key, subfolder]) => `
+        <div class="subfolder">
+          <button
+            data-folder-button
+            data-folder-slug="${subfolder.path}"
+            data-folder-title="${subfolder.title}"
+            class="w-full text-left py-2 px-4 ${paddingClass} text-sm font-medium flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-800 ${
+              isActive(`/${collection}/${subfolder.path}`)
+                ? 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                : 'text-gray-700 dark:text-gray-300'
+            }"
+          >
+            <div class="flex items-center">
+              <svg class="w-4 h-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+              </svg>
+              ${subfolder.title}
+            </div>
+            <svg class="w-4 h-4 transform transition-transform" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+          <div class="folder-content hidden" set:html={renderFolderContent(subfolder, level + 1)} />
+        </div>
+      `).join('')}
+    </div>
+  `;
+};
+---
+
+<div class="relative z-[100]" id="hamburger-container">
+  <button
+    id="hamburger-button"
+    class="flex items-center justify-center w-12 h-12 bg-white dark:bg-dark-card rounded-lg border-2 border-border dark:border-dark-border shadow-md dark:shadow-dark-md hover:bg-accent dark:hover:bg-dark-accent transition-all"
+    aria-label="Toggle menu"
+  >
+    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <div
+    id="hamburger-menu"
+    class="fixed top-0 left-0 w-72 h-screen bg-background dark:bg-dark-background border-r-2 border-border dark:border-dark-border transform -translate-x-full transition-transform duration-300 ease-in-out"
+  >
+    <div class="flex justify-between items-center p-4 border-b-2 border-border dark:border-dark-border bg-muted/30 dark:bg-dark-muted/30">
+      <h2 class="text-lg font-semibold">{courseName}</h2>
+      <button
+        id="close-menu"
+        class="p-2 hover:bg-accent dark:hover:bg-dark-accent rounded-lg"
+        aria-label="Close menu"
+      >
+        <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="main-menu" class="space-y-2 max-h-[calc(100vh-6rem)] overflow-y-auto p-2">
+      <div class="space-y-1">
+        <a
+          href={`/${collection}`}
+          class={`block py-2 px-4 text-sm hover:bg-accent dark:hover:bg-dark-accent rounded-md ${
+            isCourseOverviewActive(`/${collection}`)
+              ? 'bg-primary/10 text-primary font-medium border-r-4 border-primary' 
+              : 'text-muted-foreground'
+          }`}
+        >
+          <div class="flex items-center">
+            <svg class="w-4 h-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+            Kursöversikt
+          </div>
+        </a>
+        {rootContent.map(entry => {
+          const href = entry.id.includes('/') ? `/${collection}/${entry.slug}` : `/${collection}/${entry.id.replace('.md', '')}`;
+          
+          return (
+          <a
+            href={href}
+            class={`block py-2 px-4 text-sm hover:bg-accent dark:hover:bg-dark-accent rounded-md ${
+              isActive(href) 
+                ? 'bg-primary/10 text-primary font-medium border-r-4 border-primary' 
+                : 'text-muted-foreground'
+            }`}
+          >
+            <div class="flex items-center">
+              <svg class="w-4 h-4 mr-2 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd" />
+              </svg>
+              {entry.data.title}
+            </div>
+          </a>
+          );
+        })}
+      </div>
+
+      <div class="space-y-2">
+        {folders.map(([folderSlug, folder]) => (
+          <div class="folder">
+            <button
+              data-folder-button
+              data-folder-slug={folderSlug}
+              data-folder-title={folder.title}
+              class={`w-full text-left py-2 px-4 text-sm font-medium flex items-center justify-between hover:bg-accent dark:hover:bg-dark-accent rounded-md ${
+                isActive(`/${collection}/${folderSlug}`)
+                  ? 'bg-muted dark:bg-dark-muted text-foreground dark:text-dark-foreground'
+                  : 'text-muted-foreground'
+              }`}
+            >
+              <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+                </svg>
+                {folder.title}
+              </div>
+              <svg class="w-4 h-4 transform transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div class="folder-content hidden" set:html={renderFolderContent(folder)} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupHamburgerMenu() {
+    const container = document.getElementById('hamburger-container');
+    const button = document.getElementById('hamburger-button');
+    const menu = document.getElementById('hamburger-menu');
+    const mainMenu = document.getElementById('main-menu');
+    const closeButton = document.getElementById('close-menu');
+
+    if (!container || !button || !menu || !mainMenu || !closeButton) return;
+
+    let isMenuOpen = false;
+
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      if (!menu || !button) return;
+      
+      menu.style.transform = isMenuOpen ? 'translateX(0)' : 'translateX(-100%)';
+      button.setAttribute('aria-expanded', isMenuOpen.toString());
+      if (isMenuOpen) {
+        resetMenuState();
+      }
+    }
+
+    function closeMenu() {
+      isMenuOpen = false;
+      if (!menu || !button) return;
+      
+      menu.style.transform = 'translateX(-100%)';
+      button.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    function resetMenuState() {
+      const currentPath = window.location.pathname;
+      
+      document.querySelectorAll('.folder-content').forEach(content => {
+        if (content instanceof HTMLElement) {
+          content.classList.add('hidden');
+          const button = content.previousElementSibling?.querySelector('svg:last-child') as HTMLElement;
+          if (button) {
+            button.style.transform = '';
+          }
+        }
+      });
+
+      document.querySelectorAll('[data-folder-button]').forEach(button => {
+        if (!(button instanceof HTMLElement)) return;
+        
+        const folderSlug = button.dataset.folderSlug;
+        if (!folderSlug) return;
+
+        if (currentPath.includes(`/${folderSlug}`)) {
+          let currentElement = button;
+          while (currentElement) {
+            const content = currentElement.nextElementSibling as HTMLElement;
+            const arrow = currentElement.querySelector('svg:last-child') as HTMLElement;
+            
+            if (content && arrow) {
+              content.classList.remove('hidden');
+              arrow.style.transform = 'rotate(180deg)';
+            }
+            
+            const parentFolder = currentElement.closest('.subfolder')?.parentElement?.closest('.subfolder');
+            if (!parentFolder) break;
+            
+            const parentButton = parentFolder.querySelector('[data-folder-button]');
+            if (!parentButton || !(parentButton instanceof HTMLElement)) break;
+            
+            currentElement = parentButton;
+          }
+        }
+      });
+    }
+
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    closeButton.addEventListener('click', closeMenu);
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (isMenuOpen && !menu.contains(target) && target !== button) {
+        closeMenu();
+      }
+    });
+
+    menu.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+
+    document.querySelectorAll('[data-folder-button]').forEach(folderButton => {
+      folderButton.addEventListener('click', (e) => {
+        const button = e.currentTarget as HTMLElement;
+        const content = button.nextElementSibling as HTMLElement;
+        const arrow = button.querySelector('svg:last-child') as HTMLElement;
+        
+        if (content && arrow) {
+          const isExpanded = !content.classList.contains('hidden');
+          content.classList.toggle('hidden');
+          arrow.style.transform = isExpanded ? '' : 'rotate(180deg)';
+        }
+      });
+    });
+
+    resetMenuState();
+
+    document.addEventListener('astro:page-load', () => {
+      if (isMenuOpen) {
+        resetMenuState();
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupHamburgerMenu);
+  setupHamburgerMenu();
+</script>

@@ -1,0 +1,129 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { courseIcons, type CourseType } from '../config/courseIcons';
+
+interface Props {
+    currentPath: string;
+    collection: CourseType;
+    collectionTitle: string;
+    pageTitle?: string;
+}
+
+type BreadcrumbType = 'home' | 'folder' | 'document';
+
+interface BreadcrumbItem {
+    title: string;
+    url: string;
+    type: BreadcrumbType;
+}
+
+const { currentPath = '', collection, collectionTitle, pageTitle } = Astro.props;
+
+const courseIcon = courseIcons[collection];
+
+const pathStr = currentPath?.toString() || '';
+const cleanPath = pathStr.replace(/^\/|\/$/g, '').split('/');
+const segments = cleanPath.filter(Boolean);
+
+const allContent = await getCollection(collection);
+
+function normalizePath(path: string): string {
+    return decodeURIComponent(path)
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[åä]/g, 'a')
+        .replace(/[ö]/g, 'o')
+        .replace(/[^a-z0-9-]/g, '');
+}
+
+function findContentBySegment(currentSegments: string[]): CollectionEntry<typeof collection> | null {
+    const path = currentSegments.join('/');
+    const normalizedPath = normalizePath(path);
+    
+    const fileMatch = allContent.find((entry: CollectionEntry<typeof collection>) => {
+        const entryPath = normalizePath(entry.slug);
+        return entryPath === normalizedPath;
+    });
+    
+    if (fileMatch) {
+        return fileMatch;
+    }
+    
+    const indexMatch = allContent.find((entry: CollectionEntry<typeof collection>) => {
+        return entry.id === `${path}/index.md`;
+    });
+    
+    return indexMatch || null;
+}
+
+function isFolder(segments: string[]): boolean {
+    const path = segments.join('/');
+    return allContent.some((entry: CollectionEntry<typeof collection>) => entry.id === `${path}/index.md`);
+}
+
+const breadcrumbs: BreadcrumbItem[] = [];
+
+breadcrumbs.push({
+    title: collectionTitle,
+    url: `/${collection}`,
+    type: 'home'
+});
+
+let currentSegments: string[] = [];
+for (const segment of segments.slice(1)) {
+    currentSegments.push(segment);
+    const entry = findContentBySegment(currentSegments);
+    const isDirectory = isFolder(currentSegments);
+    
+    const isLastSegment = currentSegments.length === segments.length - 1;
+    const title = (isLastSegment && pageTitle) ? pageTitle : (entry?.data?.title ?? segment);
+    
+    const item: BreadcrumbItem = {
+        title: title,
+        url: `/${collection}/${currentSegments.join('/')}`,
+        type: isDirectory ? 'folder' : 'document'
+    };
+    breadcrumbs.push(item);
+}
+---
+
+<nav class="text-s text-muted-foreground mb-6" aria-label="Breadcrumbs">
+    <ol class="flex flex-wrap items-center">
+        {breadcrumbs.map((item, index) => (
+            <li class="flex items-center">
+                {index > 0 && (
+                    <svg class="w-3 h-3 mx-2 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                )}
+                <div class="flex items-center">
+                    {(() => {
+                        switch (item.type) {
+                            case 'home':
+                                return <i class={`${courseIcon} w-4 h-4 mr-1`}></i>;
+                            case 'folder':
+                                return (
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                    </svg>
+                                );
+                            default:
+                                return null;
+                        }
+                    })()}
+                    {index === breadcrumbs.length - 1 ? (
+                        <span class="text-foreground">{item.title}</span>
+                    ) : (
+                        <a
+                            href={item.url}
+                            class="hover:text-primary transition-colors duration-150"
+                        >
+                            {item.title}
+                        </a>
+                    )}
+                </div>
+            </li>
+        ))}
+    </ol>
+</nav>

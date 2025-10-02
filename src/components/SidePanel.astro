@@ -1,0 +1,244 @@
+---
+interface Props {
+  begrepp?: string[];
+  fragor?: string[];
+}
+
+const { begrepp = [], fragor = [] } = Astro.props;
+---
+
+<div class="flex flex-col gap-4">
+  {begrepp.length > 0 && (
+    <div class="relative" id="begrepp-container">
+      <button
+        class="w-12 h-12 p-3 bg-card dark:bg-dark-card rounded-lg border-2 border-border dark:border-dark-border shadow-md dark:shadow-dark-md hover:bg-accent dark:hover:bg-dark-accent transition-all"
+        id="begrepp-button"
+        aria-label="Visa begrepp"
+        aria-expanded="false"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-foreground dark:text-dark-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+        </svg>
+      </button>
+      <div
+        id="begrepp-content"
+        class="absolute top-0 right-16 w-72 hidden bg-card dark:bg-dark-card rounded-lg border-2 border-border dark:border-dark-border shadow-lg dark:shadow-dark-lg z-50"
+      >
+        <div class="px-4 py-3">
+          <ul class="space-y-1 text-sm">
+            {begrepp.map((begrepp) => (
+              <li>
+                <button
+                  class="w-full text-left px-2 py-1 text-foreground dark:text-dark-foreground rounded hover:bg-accent dark:hover:bg-dark-accent transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+                  data-begrepp={begrepp}
+                >
+                  {begrepp}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {fragor.length > 0 && (
+    <div class="relative" id="fragor-container">
+      <button
+        class="w-12 h-12 p-3 bg-card dark:bg-dark-card rounded-lg border-2 border-border dark:border-dark-border shadow-md dark:shadow-dark-md hover:bg-accent dark:hover:bg-dark-accent transition-all"
+        id="fragor-button"
+        aria-label="Visa instuderingsfrågor"
+        aria-expanded="false"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full text-foreground dark:text-dark-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+        </svg>
+      </button>
+      <div
+        id="fragor-content"
+        class="absolute top-0 right-16 w-72 hidden bg-card dark:bg-dark-card rounded-lg border-2 border-border dark:border-dark-border shadow-lg dark:shadow-dark-lg z-50"
+      >
+        <div class="px-4 py-3">
+          <ul class="list-decimal list-inside space-y-2 text-sm text-foreground dark:text-dark-foreground">
+            {fragor.map((fraga) => <li>{fraga}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+<script is:inline>
+  function setupPanel(buttonId, contentId) {
+    const button = document.getElementById(buttonId);
+    const content = document.getElementById(contentId);
+    
+    if (!button || !content) return;
+
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      
+      const otherId = buttonId === 'begrepp-button' ? 'fragor-content' : 'begrepp-content';
+      const otherButton = buttonId === 'begrepp-button' ? 'fragor-button' : 'begrepp-button';
+      const otherPanel = document.getElementById(otherId);
+      const otherBtn = document.getElementById(otherButton);
+      
+      if (otherPanel && otherBtn) {
+        otherPanel.classList.add('hidden');
+        otherBtn.setAttribute('aria-expanded', 'false');
+      }
+      
+      const isHidden = content.classList.contains('hidden');
+      content.classList.toggle('hidden');
+      button.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+    });
+  }
+
+  setupPanel('begrepp-button', 'begrepp-content');
+  setupPanel('fragor-button', 'fragor-content');
+
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!target.closest('#begrepp-container') && !target.closest('#fragor-container')) {
+      ['begrepp-content', 'fragor-content'].forEach(id => {
+        const panel = document.getElementById(id);
+        const button = document.getElementById(id.replace('-content', '-button'));
+        if (panel && button) {
+          panel.classList.add('hidden');
+          button.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      ['begrepp-content', 'fragor-content'].forEach(id => {
+        const panel = document.getElementById(id);
+        const button = document.getElementById(id.replace('-content', '-button'));
+        if (panel && button) {
+          panel.classList.add('hidden');
+          button.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  });
+
+  function setupWordHighlighting() {
+    const begreppButtons = document.querySelectorAll('[data-begrepp]');
+    const contentArea = document.querySelector('main');
+    let activeHighlights = [];
+    let activeButton = null;
+
+    function clearHighlights() {
+      activeHighlights.forEach(el => {
+        const parent = el.parentNode;
+        if (parent) {
+          parent.replaceChild(document.createTextNode(el.textContent || ''), el);
+        }
+      });
+      activeHighlights = [];
+      
+      if (activeButton) {
+        activeButton.classList.remove('ring-2', 'ring-primary', 'bg-accent', 'dark:bg-dark-accent');
+      }
+      activeButton = null;
+    }
+
+    function highlightWord(word, button) {
+      if (button === activeButton) {
+        clearHighlights();
+        return;
+      }
+
+      clearHighlights();
+      
+      if (!contentArea) return;
+
+      button.classList.add('ring-2', 'ring-primary', 'bg-accent', 'dark:bg-dark-accent');
+      activeButton = button;
+
+      const regex = new RegExp(`\\b${word}\\b`, 'gi');
+      const walk = document.createTreeWalker(
+        contentArea,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode: function(node) {
+            const parent = node.parentElement;
+            if (!parent) return NodeFilter.FILTER_REJECT;
+            
+            const tagName = parent.tagName.toUpperCase();
+            if (tagName === 'SCRIPT' || tagName === 'STYLE') {
+              return NodeFilter.FILTER_REJECT;
+            }
+            
+            return regex.test(node.textContent || '')
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_SKIP;
+          }
+        }
+      );
+
+      const nodes = [];
+      let node;
+      while (node = walk.nextNode()) nodes.push(node);
+
+      let firstHighlight = null;
+
+      nodes.forEach(textNode => {
+        const text = textNode.textContent || '';
+        const fragment = document.createDocumentFragment();
+        let lastIndex = 0;
+        
+        text.replace(regex, (match, index) => {
+          if (index > lastIndex) {
+            fragment.appendChild(document.createTextNode(text.slice(lastIndex, index)));
+          }
+          
+          const highlight = document.createElement('span');
+          highlight.textContent = match;
+          highlight.className = 'bg-yellow-200 dark:bg-yellow-800 rounded px-1 transition-colors';
+          fragment.appendChild(highlight);
+          activeHighlights.push(highlight);
+          
+          if (!firstHighlight) firstHighlight = highlight;
+          lastIndex = index + match.length;
+        });
+        
+        if (lastIndex < text.length) {
+          fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+        }
+        
+        textNode.parentNode?.replaceChild(fragment, textNode);
+      });
+
+      if (firstHighlight) {
+        const yOffset = -100;
+        const y = firstHighlight.getBoundingClientRect().top + window.scrollY + yOffset;
+        window.scrollTo({
+          top: y,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    begreppButtons.forEach(button => {
+      const word = button.getAttribute('data-begrepp');
+      if (!word) return;
+
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        highlightWord(word, button);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('[data-begrepp]') && !e.target.closest('.bg-yellow-200, .dark\\:bg-yellow-800')) {
+        clearHighlights();
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', setupWordHighlighting);
+  setupWordHighlighting();
+</script>

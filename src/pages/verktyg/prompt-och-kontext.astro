@@ -1,0 +1,374 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Prompt och kontext">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <!-- Header -->
+    <section class="mb-12">
+      <div class="flex items-center gap-4 mb-6">
+        <a href="/verktyg" class="text-muted-foreground hover:text-primary transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+        <h1 class="text-3xl md:text-4xl font-bold font-sans">Prompt och kontext</h1>
+      </div>
+            <p class="text-lg text-muted-foreground font-sans max-w-3xl">
+        Ett verktyg för att bygga bättre prompter genom att tydligt separera <b>instruktion (prompt)</b> från <b>information (kontext)</b>. Genom att ge din AI tydliga roller, uppgifter och bakgrundsinformation får du mer exakta och användbara svar.
+      </p>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Left Side - Instructions & Guidance -->
+      <div class="space-y-6 lg:col-span-1">
+        <!-- Template Selection -->
+        <div class="rounded-lg border bg-card p-6">
+          <h2 class="text-xl font-semibold mb-4 font-sans flex items-center gap-2">
+            <i class="fas fa-star text-primary"></i>
+            Visa exempel
+          </h2>
+          
+          <button id="clear-btn" class="w-full text-left p-3 mb-4 rounded-lg border border-dashed hover:bg-accent transition-colors flex items-center gap-2 text-sm text-muted-foreground">
+            <i class="fas fa-times-circle"></i>
+            Rensa & börja på ny
+          </button>
+          <div class="space-y-2">
+             <button 
+              data-example="practice-exercises"
+              class="example-btn w-full text-left p-3 rounded-lg border hover:bg-accent transition-colors"
+            >
+              <div class="font-medium text-sm">🤸 Övningsuppgifter (Matematik 3b)</div>
+              <div class="text-xs text-muted-foreground mt-1">Skapa uppgifter baserat på kursplan och NP</div>
+            </button>
+
+            <button 
+              data-example="new-exam-version"
+              class="example-btn w-full text-left p-3 rounded-lg border hover:bg-accent transition-colors"
+            >
+              <div class="font-medium text-sm">📝 Ny version av prov (Miljö- och energikunskap)</div>
+              <div class="text-xs text-muted-foreground mt-1">Iterera och förbättra ett befintligt prov</div>
+            </button>
+
+            <button 
+              data-example="update-course-content"
+              class="example-btn w-full text-left p-3 rounded-lg border hover:bg-accent transition-colors"
+            >
+              <div class="font-medium text-sm">🔄 Uppdatera kursinnehåll (Biologi 1)</div>
+              <div class="text-xs text-muted-foreground mt-1">Anpassa material från GY11 till GY25</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Process Steps -->
+        <div class="rounded-lg border bg-card p-6">
+          <h3 class="text-lg font-semibold mb-4 font-sans flex items-center gap-2">
+            <i class="fas fa-shoe-prints text-primary"></i>
+            Så här gör du
+          </h3>
+          
+          <div class="space-y-3">
+            <div class="flex items-start gap-3 text-sm">
+              <div class="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold mt-0.5 shrink-0">1</div>
+              <div>
+                <div class="font-medium text-foreground">Börja från grunden</div>
+                <div class="text-muted-foreground text-xs">Fyll i fälten till höger för att bygga din egen prompt.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 text-sm">
+              <div class="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold mt-0.5 shrink-0">2</div>
+              <div>
+                <div class="font-medium text-foreground">Låt dig inspireras</div>
+                <div class="text-muted-foreground text-xs">Klicka på ett exempel för att se en komplett, verklig prompt.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-3 text-sm">
+              <div class="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold mt-0.5 shrink-0">3</div>
+              <div>
+                <div class="font-medium text-foreground">Kopiera & använd</div>
+                <div class="text-muted-foreground text-xs">Använd prompten i t.ex. ChatGPT, Gemini eller Claude.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="rounded-lg border bg-gradient-to-br from-primary/5 to-accent/5 p-6">
+          <h3 class="text-lg font-semibold mb-3 font-sans flex items-center gap-2">
+            <i class="fas fa-lightbulb text-primary"></i>
+            Tips för bättre resultat
+          </h3>
+          <ul class="space-y-3 text-sm text-muted-foreground font-sans">
+            <li class="flex items-start gap-3"><span class="text-primary font-bold">1.</span><div><b>Ge kontext.</b> Ju mer information (text, länkar, filer) AI:n får, desto bättre blir resultatet.</div></li>
+            <li class="flex items-start gap-3"><span class="text-primary font-bold">2.</span><div><b>Länka till kursplaner.</b> Använd <a href="https://gy25.se" target="_blank" class="text-primary hover:underline">gy25.se</a> för att ge AI:n exakta styrdokument att följa.</div></li>
+            <li class="flex items-start gap-3"><span class="text-primary font-bold">3.</span><div><b>Be AI:n att fråga.</b> Lägg till en instruktion som "Fråga om något är oklart" för att undvika missförstånd och få bättre svar.</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Side - Input Forms & Output -->
+      <div class="space-y-6 lg:col-span-2">
+        <!-- Input Form -->
+        <div class="rounded-lg border bg-card p-6">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold font-sans">Komponenter</h2>
+            <div class="flex items-center gap-2 text-sm text-muted-foreground">
+              <span id="selected-example">Ny</span>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold mb-2 font-sans">Roll & Expertis</label>
+              <textarea id="role-input" placeholder="Du är en erfaren gymnasielärare i..." class="w-full p-3 border border-input rounded-lg bg-background text-foreground font-sans h-28 resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-2 font-sans">Uppgift</label>
+              <textarea id="task-input" placeholder="Skapa en lektionsplan för..." class="w-full p-3 border border-input rounded-lg bg-background text-foreground font-sans h-28 resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-2 font-sans">Kontext & Bakgrund</label>
+              <textarea id="context-input" placeholder="Eleverna är i årskurs 2 på naturvetenskapsprogrammet..." class="w-full p-3 border border-input rounded-lg bg-background text-foreground font-sans h-32 resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-2 font-sans">Format & Struktur</label>
+              <textarea id="format-input" placeholder="Svara i punktform med tydliga rubriker..." class="w-full p-3 border border-input rounded-lg bg-background text-foreground font-sans h-28 resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-2 font-sans">Exempel <span class="text-xs text-muted-foreground font-normal">(valfritt)</span></label>
+              <textarea id="examples-input" placeholder="Exempel på önskad output..." class="w-full p-3 border border-input rounded-lg bg-background text-foreground font-sans h-28 resize-none focus:ring-2 focus:ring-accent/20 focus:border-accent transition-colors"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-2 font-sans">Begränsningar & Krav</label>
+              <textarea id="constraints-input" placeholder="Anpassa till svenska förhållanden, följ Skolverkets riktlinjer..." class="w-full p-3 border border-input rounded-lg bg-background text-foreground font-sans h-28 resize-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="rounded-lg border bg-card p-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold font-sans flex items-center gap-2">
+              <i class="fas fa-file-alt text-primary"></i>
+              Genererad prompt
+            </h2>
+            <button id="copy-btn" class="bg-secondary text-secondary-foreground hover:bg-secondary/80 px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center gap-2 text-sm">
+              <span id="copy-default-icon"><i class="fas fa-copy"></i></span>
+              <span id="copy-success-icon" class="hidden"><i class="fas fa-check text-green-500"></i></span>
+              <span id="copy-text">Kopiera</span>
+            </button>
+          </div>
+          
+          <div id="output-area" class="w-full p-4 border border-input rounded-lg bg-muted/30 text-foreground font-mono text-sm min-h-80 whitespace-pre-wrap leading-relaxed">Välj en mall och fyll i fälten för att generera din strukturerade AI-prompt...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sources Section -->
+    <section class="mt-16 pt-8 border-t">
+      <h2 class="text-2xl font-bold font-sans mb-4">Källor & Inspiration</h2>
+      <p class="text-muted-foreground mb-6 max-w-2xl">Verktyget och konceptet med strukturerade prompter är inspirerat av följande resurser. Utforska dem för att fördjupa din förståelse för "Context Engineering".</p>
+      <ul class="space-y-4 text-muted-foreground">
+        <li class="flex items-start gap-3">
+          <i class="fas fa-book text-primary mt-1"></i>
+          <div>
+            <a href="https://github.com/davidkimai/context-engineering" target="_blank" rel="noopener noreferrer" class="font-medium text-foreground hover:text-primary transition-colors">
+              Context Engineering: Beyond Prompt Engineering
+            </a>
+            <p class="text-sm">En guide på GitHub som utforskar principerna bakom Context Engineering.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <i class="fas fa-external-link-alt text-primary mt-1"></i>
+          <div>
+            <a href="https://context.addy.ie/" target="_blank" rel="noopener noreferrer" class="font-medium text-foreground hover:text-primary transition-colors">
+              Context Buddy
+            </a>
+            <p class="text-sm">Ett liknande verktyg som varit en stor inspirationskälla för detta projekt.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-3">
+          <i class="fab fa-google text-primary mt-1"></i>
+          <div>
+            <a href="https://docs.google.com/presentation/d/1MTyP-BBusYw2rHKE_lQ2QVDA7uT7ngYaGfBy9HypQdY/edit" target="_blank" rel-="noopener noreferrer" class="font-medium text-foreground hover:text-primary transition-colors">
+              100+ ways to use Gemini in Education
+            </a>
+            <p class="text-sm">En guide för att hjälpa lärare och personal att komma igång med Googles AI-verktyg som Gemini for Education, NotebookLM och Gemini i Classroom.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+
+  <script>
+    type Template = {
+      role: string;
+      task: string;
+      context: string;
+      format: string;
+      examples: string;
+      constraints: string;
+    };
+    type ExampleKey = 'practice-exercises' | 'new-exam-version' | 'update-course-content';
+
+    const examples: Record<ExampleKey, Template> = {
+      'practice-exercises': {
+        role: 'Du är en expert på provkonstruktion och kursplanering för den svenska gymnasieskolan, med djup kunskap om Matematik 3b och läroplanen GY25.',
+        task: 'Analysera de uppladdade gamla nationella proven mot det centrala innehållet i kursen. Skapa därefter ett material med övningsuppgifter som liknar uppgifterna på de nationella proven och som specifikt testar det angivna området.',
+        context: 'Jag har laddat upp alla gamla frisläppta Nationella Prov i Matematik 3b, namngivna efter år och termin.\n\nNuvarande läroplan (GY25) finns här: https://gy25.se/compare/matmat03b/mato1b00x\n\nÖvningsuppgifterna ska täcka följande begrepp och delar av det centrala innehållet för algebraiska uttryck:\n- Begreppet rationella uttryck och hantering av dessa.\n- Begreppet gränsvärde.\n- Begreppet polynom, egenskaper hos polynomfunktioner och metoder för att lösa enklare polynomekvationer.\n\nEleverna har jobbat med förenkling av polynom och rationella uttryck, ekvationslösning, samt undersökt gränsvärden algebraiskt och i problemlösning.',
+        format: 'Lägg in alla uppgifter i ett .tex dokument för snygg formatering och ökad läsbarhet.',
+        examples: '',
+        constraints: 'Basera uppgifterna på både de gamla nationella proven och det nuvarande centrala innehållet. Du kan även titta på bedömningskriterierna för att se vad eleverna bedöms på. Fråga om någon information är otillräcklig. Detta material kommer att utgöra basen för kommande prov i kursen.'
+      },
+      'new-exam-version': {
+        role: 'Du är en expert på provkonstruktion och kursplanering för den svenska gymnasieskolan, med specialisering inom Miljö- och energikunskap enligt GY11.',
+        task: 'Skapa en ny version av ett befintligt prov. Du ska återanvända vissa frågor, omarbeta andra och skapa några helt nya frågor för att säkerställa en fräsch men likvärdig bedömning.',
+        context: 'Kursen är Miljö- och energikunskap för elever i årskurs 3 på naturvetenskapliga programmet. Provet ska baseras på mitt eget kursmaterial (filerna 1.md, 2.md, ..., 7.md) som jag laddat upp. Läroplanen (GY11) finns här: https://gy25.se/compare/h%C3%A5lmij0/milj1000x',
+        format: 'Strukturera det nya provet med exakt 16 kryssfrågor och 2 öppna frisvarsfrågor. Konstruera det i en .tex fil som kan kompileras med en onlinekompilator.',
+        examples: 'Det tidigare provet, `hållbar.tex`, som jag också laddat upp, fungerar som en mall för stil, struktur och svårighetsgrad.',
+        constraints: 'Det nya provet ska hålla exakt samma svårighetsgrad som det bifogade exempelprovet. Fråga om material saknas, inte kan läsas eller om övriga instruktioner är otydliga.'
+      },
+      'update-course-content': {
+        role: 'Du är en expert på kursutveckling för den svenska gymnasieskolan, med specialkunskap inom Biologi 1 och övergången från läroplanen GY11 till GY25.',
+        task: 'Analysera mitt befintliga kursmaterial om genetik (skrivet för GY11) och identifiera vad som behöver anpassas för GY25. Föreslå vad som kan tas bort, läggas till eller kondenseras för att möta den nya läroplanen och göra plats för nya moment.',
+        context: 'Jag har laddat upp mitt nuvarande material om genetik (`@/bio1/3`). Traditionellt har jag delat upp det i: Den genetiska koden, Celldelning och mutationer, Klassisk genetik, och Genteknik. \n\n- Nya läroplanen (GY25) för Biologi 1: https://gy25.se/gy25/biog/biog1000x/ \n- Jämförelse mellan GY11 och GY25: https://gy25.se/compare/biobio01/biog1000x',
+        format: 'Ge mig en strukturerad analys med följande rubriker: 1. Gapanalys (vad saknas för GY25?), 2. Förslag på anpassningar (vad bör ändras/läggas till?), 3. Förslag på kondensering (vad kan slås ihop eller kortas ner?).',
+        examples: '',
+        constraints: 'Tänk efter ordentligt innan du svarar. Fråga om något är otydligt, om du behöver fler källor, eller om du inte kan läsa de bifogade filerna.'
+      }
+    };
+
+    const dom = {
+      exampleBtns: document.querySelectorAll<HTMLButtonElement>('.example-btn'),
+      clearBtn: document.getElementById('clear-btn') as HTMLButtonElement,
+      selectedExampleSpan: document.getElementById('selected-example') as HTMLSpanElement,
+      inputs: {
+        role: document.getElementById('role-input') as HTMLTextAreaElement,
+        task: document.getElementById('task-input') as HTMLTextAreaElement,
+        context: document.getElementById('context-input') as HTMLTextAreaElement,
+        format: document.getElementById('format-input') as HTMLTextAreaElement,
+        examples: document.getElementById('examples-input') as HTMLTextAreaElement,
+        constraints: document.getElementById('constraints-input') as HTMLTextAreaElement,
+      },
+      copyBtn: document.getElementById('copy-btn') as HTMLButtonElement,
+      copyDefaultIcon: document.getElementById('copy-default-icon') as HTMLSpanElement,
+      copySuccessIcon: document.getElementById('copy-success-icon') as HTMLSpanElement,
+      copyText: document.getElementById('copy-text') as HTMLSpanElement,
+      outputArea: document.getElementById('output-area') as HTMLDivElement,
+    };
+
+    function loadExample(exampleKey: ExampleKey) {
+      const example = examples[exampleKey];
+      if (!example) return;
+      for (const key of Object.keys(example) as Array<keyof Template>) {
+        if (dom.inputs[key]) {
+          dom.inputs[key].value = example[key];
+        }
+      }
+    }
+
+    function clearFields() {
+      for (const key in dom.inputs) {
+        if (dom.inputs[key as keyof typeof dom.inputs]) {
+          (dom.inputs[key as keyof typeof dom.inputs] as HTMLTextAreaElement).value = '';
+        }
+      }
+      generatePrompt();
+    }
+
+    function generatePrompt() {
+      const components = [
+        { title: 'ROLL OCH EXPERTIS', value: dom.inputs.role?.value },
+        { title: 'UPPGIFT', value: dom.inputs.task?.value },
+        { title: 'KONTEXT OCH BAKGRUND', value: dom.inputs.context?.value },
+        { title: 'FORMAT OCH STRUKTUR', value: dom.inputs.format?.value },
+        { title: 'EXEMPEL', value: dom.inputs.examples?.value },
+        { title: 'BEGRÄNSNINGAR OCH KRAV', value: dom.inputs.constraints?.value },
+      ];
+      const prompt = components
+        .filter(c => c.value && c.value.trim())
+        .map(c => `## ${c.title}\n${c.value.trim()}`)
+        .join('\n\n');
+      if (dom.outputArea) {
+        dom.outputArea.textContent = prompt || 'Välj en mall och fyll i fälten för att generera din strukturerade AI-prompt...';
+      }
+    }
+
+    function copyToClipboard() {
+      if (!dom.outputArea?.textContent || dom.outputArea.textContent.startsWith('Välj')) return;
+      navigator.clipboard.writeText(dom.outputArea.textContent).then(() => {
+        if(dom.copyDefaultIcon) dom.copyDefaultIcon.classList.add('hidden');
+        if(dom.copySuccessIcon) dom.copySuccessIcon.classList.remove('hidden');
+        if(dom.copyText) dom.copyText.textContent = 'Kopierat!';
+        setTimeout(() => {
+          if(dom.copyDefaultIcon) dom.copyDefaultIcon.classList.remove('hidden');
+          if(dom.copySuccessIcon) dom.copySuccessIcon.classList.add('hidden');
+          if(dom.copyText) dom.copyText.textContent = 'Kopiera';
+        }, 2000);
+      });
+    }
+
+    const exampleNames: Record<ExampleKey, string> = { 'practice-exercises': 'Övningsuppgifter (Matematik 3b)', 'new-exam-version': 'Ny version av prov (Miljö- och energikunskap)', 'update-course-content': 'Uppdatera kursinnehåll (Biologi 1)' };
+
+    function updateActiveExample(exampleKey: ExampleKey | null) {
+      dom.exampleBtns.forEach(btn => {
+        btn.classList.remove('bg-primary/10', 'border-primary');
+        btn.classList.add('border-border');
+      });
+
+      if (exampleKey) {
+        const activeBtn = document.querySelector(`[data-example="${exampleKey}"]`);
+        if (activeBtn) {
+          activeBtn.classList.add('bg-primary/10', 'border-primary');
+          activeBtn.classList.remove('border-border');
+        }
+        if (dom.selectedExampleSpan) {
+          dom.selectedExampleSpan.textContent = exampleNames[exampleKey];
+        }
+      } else {
+        if (dom.selectedExampleSpan) {
+          dom.selectedExampleSpan.textContent = 'Ny';
+        }
+      }
+    }
+
+    dom.exampleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const exampleKey = btn.dataset.example as ExampleKey;
+        if (exampleKey) {
+          updateActiveExample(exampleKey);
+          loadExample(exampleKey);
+          generatePrompt();
+        }
+      });
+    });
+
+    if (dom.clearBtn) {
+      dom.clearBtn.addEventListener('click', () => {
+        updateActiveExample(null);
+        clearFields();
+      });
+    }
+
+    Object.values(dom.inputs).forEach(input => {
+      if (input) {
+        input.addEventListener('input', () => {
+          updateActiveExample(null);
+          generatePrompt();
+        });
+      }
+    });
+
+    if (dom.copyBtn) dom.copyBtn.addEventListener('click', copyToClipboard);
+
+    clearFields();
+    updateActiveExample(null);
+    generatePrompt();
+  </script>
+</BaseLayout>
