@@ -135,29 +135,25 @@ Genom att koppla ihop neuroner i lager kan ett neuronnät lära sig komplexa mö
   explanation="Totalt 7 lager: 1 indatalager + 5 dolda lager + 1 utdatalager = 7 lager. Ju fler dolda lager, desto 'djupare' är nätet!"
 />
 
-### Flerlagersperceptron
+### Hur tränar man ett neuronnät?
 
-Ett klassiskt exempel på ett flerlagers neuronnät är en så kallad **flerlagersperceptron** (eng. multilayer perceptron, MLP). 
+Perceptronalgoritmen som Rosenblatt utvecklade fungerar bra för en enskild neuron. Men hur tränar man ett helt nätverk med många lager?
 
-Den tidigare nämnda perceptronalgoritmen som Rosenblatt utarbetat lämpar sig för att justera vikterna på en enskild neuron. I flerlagersperceptroner är justeringen av vikter en utmaning av ett helt annat slag och att hitta en fungerande lösning tog väldigt länge.
+Detta var länge ett olöst problem. Att justera vikterna i ett flerlagers neuronnät var en utmaning av ett helt annat slag.
 
-### Backpropagation: Genombrottet
+### Backpropagation: Lösningen
 
-Till slut hittade man ändå en lösning: den så kallade **backpropagation-algoritmen** bidrog till att neuronnäten återuppstod i slutet av 80-talet. Den utgör fortfarande kärnan för många metoder inom djupinlärning.
+Till slut hittade man en lösning: **backpropagation-algoritmen**. Den bidrog till att neuronnäten återuppstod i slutet av 80-talet och utgör fortfarande kärnan för hur moderna neuronnät tränas.
 
-Backpropagation fungerar genom att:
-1. Mata in data genom nätet (framåt)
-2. Jämföra utdata med rätt svar
-3. Beräkna felet
-4. **Skicka felet bakåt** genom nätet
-5. Justera vikterna i varje lager baserat på hur mycket de bidrog till felet
+**Så här fungerar backpropagation:**
 
-> [!INFO] Under tiden i Helsingfors…
-> Vägen som ledde till backpropagation är lång och krokig. Ett fascinerande spår går via Institutionen för datavetenskap vid Helsingfors universitet. 
-> 
-> År 1967 – ca tre år efter att institutionen hade grundats – skrev studenten **Seppo Linnainmaa** en magistersavhandling med rubriken "Kumulativa avrundningsfel i en algoritm som en Taylor-approximation av individuella avrundningsfel".
-> 
-> Den metod för automatisk derivering som utarbetades i avhandlingen kunde senare användas av andra forskare för att beräkna känsligheten i utdata i flerlagers neuronnät med hänsyn till deras individuella vikter, vilket är den centrala idén med backpropagation.
+1. **Framåt** - Mata in data genom nätet
+2. **Jämför** - Se hur långt ifrån rätt svar vi är
+3. **Beräkna fel** - Hur mycket har vi fel?
+4. **Bakåt** - Skicka felet bakåt genom nätet (därav namnet!)
+5. **Justera** - Ändra vikterna baserat på hur mycket varje neuron bidrog till felet
+
+Genom att upprepa detta tusentals gånger lär sig nätet gradvis att göra bättre förutsägelser.
 
 <MultipleChoiceQuiz 
   question="Vad gör backpropagation-algoritmen?"
