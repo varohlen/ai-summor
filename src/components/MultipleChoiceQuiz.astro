@@ -1,0 +1,127 @@
+---
+export interface Props {
+  question: string;
+  options: string[];
+  correctAnswer: number; // Index of correct answer (0-based)
+  explanation?: string;
+}
+
+const { question, options, correctAnswer, explanation } = Astro.props;
+const quizId = `quiz-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<div class="quiz-container my-6 p-6 rounded-lg border border-border dark:border-dark-border bg-card dark:bg-dark-card">
+  <h4 class="text-lg font-semibold mb-4 text-foreground dark:text-dark-foreground">{question}</h4>
+  
+  <div class="options-container space-y-3 mb-4">
+    {options.map((option, index) => (
+      <label 
+        class="option-label flex items-center p-3 rounded-md border border-border dark:border-dark-border cursor-pointer transition-colors hover:bg-muted/50 dark:hover:bg-dark-muted/50"
+        data-quiz-id={quizId}
+        data-option-index={index}
+      >
+        <input 
+          type="radio" 
+          name={quizId}
+          value={index}
+          class="mr-3 w-4 h-4 text-primary focus:ring-primary"
+        />
+        <span class="text-foreground dark:text-dark-foreground">{option}</span>
+      </label>
+    ))}
+  </div>
+
+  <button 
+    class="check-answer-btn px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
+    data-quiz-id={quizId}
+    data-correct-answer={correctAnswer}
+  >
+    Kontrollera svar
+  </button>
+
+  <div 
+    class="feedback-container mt-4 p-4 rounded-md hidden"
+    data-quiz-id={quizId}
+  >
+    <p class="feedback-text font-medium mb-2"></p>
+    {explanation && (
+      <p class="explanation-text text-sm text-muted-foreground dark:text-dark-muted-foreground mt-2">
+        <strong>Förklaring:</strong> {explanation}
+      </p>
+    )}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const checkButtons = document.querySelectorAll('.check-answer-btn');
+    
+    checkButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const quizId = button.getAttribute('data-quiz-id');
+        const correctAnswer = parseInt(button.getAttribute('data-correct-answer') || '0');
+        
+        const selectedOption = document.querySelector(`input[name="${quizId}"]:checked`) as HTMLInputElement;
+        const feedbackContainer = document.querySelector(`.feedback-container[data-quiz-id="${quizId}"]`) as HTMLElement;
+        const feedbackText = feedbackContainer?.querySelector('.feedback-text') as HTMLElement;
+        
+        if (!selectedOption) {
+          alert('Välj ett alternativ först!');
+          return;
+        }
+        
+        const selectedAnswer = parseInt(selectedOption.value);
+        const isCorrect = selectedAnswer === correctAnswer;
+        
+        // Show feedback
+        if (feedbackContainer && feedbackText) {
+          feedbackContainer.classList.remove('hidden');
+          
+          if (isCorrect) {
+            feedbackContainer.classList.remove('bg-red-100', 'dark:bg-red-900/20');
+            feedbackContainer.classList.add('bg-green-100', 'dark:bg-green-900/20');
+            feedbackText.classList.remove('text-red-700', 'dark:text-red-300');
+            feedbackText.classList.add('text-green-700', 'dark:text-green-300');
+            feedbackText.textContent = '✓ Rätt svar!';
+          } else {
+            feedbackContainer.classList.remove('bg-green-100', 'dark:bg-green-900/20');
+            feedbackContainer.classList.add('bg-red-100', 'dark:bg-red-900/20');
+            feedbackText.classList.remove('text-green-700', 'dark:text-green-300');
+            feedbackText.classList.add('text-red-700', 'dark:text-red-300');
+            feedbackText.textContent = '✗ Fel svar. Försök igen!';
+          }
+        }
+        
+        // Highlight correct/incorrect options
+        const labels = document.querySelectorAll(`label[data-quiz-id="${quizId}"]`);
+        labels.forEach((label, index) => {
+          label.classList.remove('bg-green-100', 'dark:bg-green-900/20', 'bg-red-100', 'dark:bg-red-900/20', 'border-green-500', 'border-red-500');
+          
+          if (index === correctAnswer) {
+            label.classList.add('bg-green-100', 'dark:bg-green-900/20', 'border-green-500');
+          } else if (index === selectedAnswer && !isCorrect) {
+            label.classList.add('bg-red-100', 'dark:bg-red-900/20', 'border-red-500');
+          }
+        });
+        
+        // Disable button after answer
+        button.setAttribute('disabled', 'true');
+        button.classList.add('opacity-50', 'cursor-not-allowed');
+      });
+    });
+  });
+</script>
+
+<style>
+  .quiz-container {
+    font-family: inherit;
+  }
+  
+  .option-label:has(input:checked) {
+    background-color: hsl(var(--muted) / 0.5);
+  }
+  
+  input[type="radio"] {
+    accent-color: hsl(var(--primary));
+  }
+</style>

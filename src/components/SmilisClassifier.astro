@@ -1,0 +1,296 @@
+---
+// Interaktiv komponent för att klassificera smilisar
+---
+
+<div class="smilis-classifier my-8 p-6 rounded-lg border border-border dark:border-dark-border bg-card dark:bg-dark-card">
+  <h3 class="text-xl font-semibold mb-4 text-foreground dark:text-dark-foreground">
+    Träna din smilisklassificerare
+  </h3>
+  
+  <p class="mb-4 text-muted-foreground dark:text-dark-muted-foreground">
+    Klicka på rutorna för att sätta vikter: <strong>1 klick = +1</strong>, <strong>2 klick = -1</strong>, <strong>3 klick = 0</strong>
+  </p>
+
+  <!-- Viktrutnät -->
+  <div class="mb-6">
+    <h4 class="text-lg font-medium mb-3">Sätt vikter (klicka på rutorna)</h4>
+    <div class="grid grid-cols-5 gap-2 max-w-xs mx-auto mb-4">
+      {Array.from({ length: 25 }).map((_, i) => (
+        <button
+          class="weight-cell w-12 h-12 border-2 border-border dark:border-dark-border rounded flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-muted/50 transition-colors"
+          data-index={i}
+          data-weight="0"
+        >
+          0
+        </button>
+      ))}
+    </div>
+    <button class="reset-btn px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors">
+      Återställ vikter
+    </button>
+  </div>
+
+  <!-- Resultat -->
+  <div class="results-section">
+    <h4 class="text-lg font-medium mb-3">Resultat</h4>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div class="text-center">
+        <p class="font-semibold mb-2">Leende smilisar 😊</p>
+        <p class="text-3xl font-bold happy-score text-green-600 dark:text-green-400">0/8</p>
+      </div>
+      <div class="text-center">
+        <p class="font-semibold mb-2">Ledsna smilisar 😢</p>
+        <p class="text-3xl font-bold sad-score text-blue-600 dark:text-blue-400">0/8</p>
+      </div>
+    </div>
+    
+    <!-- Test smilisar -->
+    <div class="test-smilis">
+      <h5 class="font-medium mb-2">Testbilder (klicka för att se beräkning)</h5>
+      <div class="grid grid-cols-4 gap-3">
+        <!-- Leende smilisar -->
+        <div class="smilis-test" data-type="happy" data-pixels="0,1,1,1,0,1,0,0,0,1,1,0,1,0,1,0,1,0,1,0,0,1,1,1,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,1,0,0,0,1,1,0,1,0,1,0,1,0,1,0,0,1,1,1,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="happy" data-pixels="0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,0,1,0,1,0,0,1,1,1,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,0,1,0,1,0,0,1,1,1,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="happy" data-pixels="1,1,1,1,1,1,0,0,0,1,1,0,1,0,1,1,0,0,0,1,1,1,1,1,1">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[1,1,1,1,1,1,0,0,0,1,1,0,1,0,1,1,0,0,0,1,1,1,1,1,1].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="happy" data-pixels="0,1,1,1,0,1,0,1,0,1,1,0,1,0,1,0,1,0,1,0,0,1,1,1,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,1,0,1,0,1,1,0,1,0,1,0,1,0,1,0,0,1,1,1,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="happy" data-pixels="1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="happy" data-pixels="0,1,1,1,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,1,1,1,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,1,1,1,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="happy" data-pixels="1,1,1,1,1,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,1,1,1,1,1">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[1,1,1,1,1,1,0,1,0,1,1,0,1,0,1,1,0,1,0,1,1,1,1,1,1].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="happy" data-pixels="0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,0,1,0,0,1,1,1,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,1,0,1,0,0,1,1,1,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        
+        <!-- Ledsna smilisar -->
+        <div class="smilis-test" data-type="sad" data-pixels="0,1,1,1,0,1,0,0,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,1,0,0,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="sad" data-pixels="0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,1,0,0,0,1,1,1,0,1,1,0,0,1,0,0,0,0,0,0,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="sad" data-pixels="1,1,1,1,1,1,0,0,0,1,1,0,1,0,1,1,1,1,1,1,0,0,0,0,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[1,1,1,1,1,1,0,0,0,1,1,0,1,0,1,1,1,1,1,1,0,0,0,0,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="sad" data-pixels="0,1,1,1,0,1,0,1,0,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,1,0,1,0,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="sad" data-pixels="1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="sad" data-pixels="0,1,1,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="sad" data-pixels="1,1,1,1,1,1,0,1,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[1,1,1,1,1,1,0,1,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+        <div class="smilis-test" data-type="sad" data-pixels="0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0">
+          <div class="smilis-grid grid grid-cols-5 gap-0.5 w-20 h-20 mx-auto cursor-pointer border-2 border-transparent hover:border-primary transition-colors">
+            {[0,1,1,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0].map((pixel) => (
+              <div class={`w-3 h-3 ${pixel === 1 ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beräkningsvisning -->
+  <div class="calculation-display mt-4 p-4 rounded-md bg-muted/30 dark:bg-dark-muted/30 hidden">
+    <h5 class="font-semibold mb-2">Beräkning:</h5>
+    <p class="calculation-text font-mono text-sm mb-2"></p>
+    <p class="result-text font-semibold"></p>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const weightCells = document.querySelectorAll('.weight-cell');
+    const resetBtn = document.querySelector('.reset-btn');
+    const happyScore = document.querySelector('.happy-score');
+    const sadScore = document.querySelector('.sad-score');
+    const smilisTests = document.querySelectorAll('.smilis-test');
+    const calculationDisplay = document.querySelector('.calculation-display');
+    const calculationText = document.querySelector('.calculation-text');
+    const resultText = document.querySelector('.result-text');
+
+    // Hantera viktklick
+    weightCells.forEach(cell => {
+      cell.addEventListener('click', () => {
+        let weight = parseInt(cell.getAttribute('data-weight') || '0');
+        weight = weight === 0 ? 1 : weight === 1 ? -1 : 0;
+        cell.setAttribute('data-weight', weight.toString());
+        cell.textContent = weight.toString();
+        
+        // Uppdatera färg
+        cell.classList.remove('bg-green-100', 'dark:bg-green-900/20', 'bg-red-100', 'dark:bg-red-900/20');
+        if (weight === 1) {
+          cell.classList.add('bg-green-100', 'dark:bg-green-900/20');
+        } else if (weight === -1) {
+          cell.classList.add('bg-red-100', 'dark:bg-red-900/20');
+        }
+        
+        updateScores();
+      });
+    });
+
+    // Återställ vikter
+    resetBtn?.addEventListener('click', () => {
+      weightCells.forEach(cell => {
+        cell.setAttribute('data-weight', '0');
+        cell.textContent = '0';
+        cell.classList.remove('bg-green-100', 'dark:bg-green-900/20', 'bg-red-100', 'dark:bg-red-900/20');
+      });
+      updateScores();
+      if (calculationDisplay) {
+        calculationDisplay.classList.add('hidden');
+      }
+    });
+
+    // Klick på smilis för att visa beräkning
+    smilisTests.forEach(test => {
+      test.addEventListener('click', () => {
+        const pixels = test.getAttribute('data-pixels')?.split(',').map(Number) || [];
+        const type = test.getAttribute('data-type');
+        showCalculation(pixels, type === 'happy');
+      });
+    });
+
+    function getWeights() {
+      return Array.from(weightCells).map(cell => 
+        parseInt(cell.getAttribute('data-weight') || '0')
+      );
+    }
+
+    function calculateScore(pixels: number[]) {
+      const weights = getWeights();
+      return pixels.reduce((sum, pixel, i) => sum + pixel * weights[i], 0);
+    }
+
+    function updateScores() {
+      let happyCorrect = 0;
+      let sadCorrect = 0;
+
+      smilisTests.forEach(test => {
+        const pixels = test.getAttribute('data-pixels')?.split(',').map(Number) || [];
+        const type = test.getAttribute('data-type');
+        const score = calculateScore(pixels);
+        const activation = score > 0 ? 1 : -1;
+        
+        const grid = test.querySelector('.smilis-grid');
+        grid?.classList.remove('border-green-500', 'border-red-500');
+        
+        if (type === 'happy' && activation === 1) {
+          happyCorrect++;
+          grid?.classList.add('border-green-500');
+        } else if (type === 'sad' && activation === -1) {
+          sadCorrect++;
+          grid?.classList.add('border-green-500');
+        } else {
+          grid?.classList.add('border-red-500');
+        }
+      });
+
+      if (happyScore) happyScore.textContent = `${happyCorrect}/8`;
+      if (sadScore) sadScore.textContent = `${sadCorrect}/8`;
+    }
+
+    function showCalculation(pixels: number[], isHappy: boolean) {
+      const weights = getWeights();
+      const terms = pixels.map((p, i) => `(${p} × ${weights[i]})`).join(' + ');
+      const score = calculateScore(pixels);
+      const activation = score > 0 ? 1 : -1;
+      const correct = (isHappy && activation === 1) || (!isHappy && activation === -1);
+
+      if (calculationText) {
+        calculationText.textContent = `${terms} = ${score}`;
+      }
+      if (resultText) {
+        resultText.textContent = `Aktivering: ${activation} → ${activation === 1 ? '😊 Leende' : '😢 Ledsen'} ${correct ? '✓' : '✗'}`;
+        resultText.className = `result-text font-semibold ${correct ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`;
+      }
+      calculationDisplay?.classList.remove('hidden');
+    }
+
+    // Initial uppdatering
+    updateScores();
+  });
+</script>
+
+<style>
+  .smilis-classifier {
+    font-family: inherit;
+  }
+</style>

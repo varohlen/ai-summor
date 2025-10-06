@@ -1,0 +1,148 @@
+---
+export interface Props {
+  question: string;
+  correctAnswer: string | string[]; // Single answer or array of acceptable answers
+  placeholder?: string;
+  caseSensitive?: boolean;
+  explanation?: string;
+  type?: 'text' | 'number'; // Type of input
+}
+
+const { 
+  question, 
+  correctAnswer, 
+  placeholder = "Skriv ditt svar här...", 
+  caseSensitive = false,
+  explanation,
+  type = 'text'
+} = Astro.props;
+
+const quizId = `fillin-${Math.random().toString(36).substr(2, 9)}`;
+const correctAnswers = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
+---
+
+<div class="quiz-container my-6 p-6 rounded-lg border border-border dark:border-dark-border bg-card dark:bg-dark-card">
+  <h4 class="text-lg font-semibold mb-4 text-foreground dark:text-dark-foreground">{question}</h4>
+  
+  <div class="input-container mb-4">
+    <input 
+      type={type}
+      class="answer-input w-full p-3 rounded-md border border-border dark:border-dark-border bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground focus:ring-2 focus:ring-primary focus:border-primary"
+      placeholder={placeholder}
+      data-quiz-id={quizId}
+    />
+  </div>
+
+  <button 
+    class="check-answer-btn px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
+    data-quiz-id={quizId}
+    data-correct-answers={JSON.stringify(correctAnswers)}
+    data-case-sensitive={caseSensitive}
+  >
+    Kontrollera svar
+  </button>
+
+  <div 
+    class="feedback-container mt-4 p-4 rounded-md hidden"
+    data-quiz-id={quizId}
+  >
+    <p class="feedback-text font-medium mb-2"></p>
+    {explanation && (
+      <p class="explanation-text text-sm text-muted-foreground dark:text-dark-muted-foreground mt-2">
+        <strong>Förklaring:</strong> {explanation}
+      </p>
+    )}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const checkButtons = document.querySelectorAll('.check-answer-btn');
+    
+    checkButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const quizId = button.getAttribute('data-quiz-id');
+        const correctAnswers = JSON.parse(button.getAttribute('data-correct-answers') || '[]');
+        const caseSensitive = button.getAttribute('data-case-sensitive') === 'true';
+        
+        const input = document.querySelector(`input[data-quiz-id="${quizId}"]`) as HTMLInputElement;
+        const feedbackContainer = document.querySelector(`.feedback-container[data-quiz-id="${quizId}"]`) as HTMLElement;
+        const feedbackText = feedbackContainer?.querySelector('.feedback-text') as HTMLElement;
+        
+        if (!input || !input.value.trim()) {
+          alert('Skriv ett svar först!');
+          return;
+        }
+        
+        let userAnswer = input.value.trim();
+        
+        // Check if answer is correct
+        const isCorrect = correctAnswers.some((correct: string) => {
+          const correctStr = String(correct).trim();
+          const userStr = caseSensitive ? userAnswer : userAnswer.toLowerCase();
+          const correctCompare = caseSensitive ? correctStr : correctStr.toLowerCase();
+          return userStr === correctCompare;
+        });
+        
+        // Show feedback
+        if (feedbackContainer && feedbackText) {
+          feedbackContainer.classList.remove('hidden');
+          
+          if (isCorrect) {
+            feedbackContainer.classList.remove('bg-red-100', 'dark:bg-red-900/20');
+            feedbackContainer.classList.add('bg-green-100', 'dark:bg-green-900/20');
+            feedbackText.classList.remove('text-red-700', 'dark:text-red-300');
+            feedbackText.classList.add('text-green-700', 'dark:text-green-300');
+            feedbackText.textContent = '✓ Rätt svar!';
+            
+            input.classList.remove('border-red-500');
+            input.classList.add('border-green-500');
+          } else {
+            feedbackContainer.classList.remove('bg-green-100', 'dark:bg-green-900/20');
+            feedbackContainer.classList.add('bg-red-100', 'dark:bg-red-900/20');
+            feedbackText.classList.remove('text-green-700', 'dark:text-green-300');
+            feedbackText.classList.add('text-red-700', 'dark:text-red-300');
+            
+            if (correctAnswers.length === 1) {
+              feedbackText.textContent = `✗ Fel svar. Rätt svar är: ${correctAnswers[0]}`;
+            } else {
+              feedbackText.textContent = `✗ Fel svar. Accepterade svar: ${correctAnswers.join(', ')}`;
+            }
+            
+            input.classList.remove('border-green-500');
+            input.classList.add('border-red-500');
+          }
+        }
+        
+        // Disable input and button after answer
+        input.setAttribute('disabled', 'true');
+        button.setAttribute('disabled', 'true');
+        button.classList.add('opacity-50', 'cursor-not-allowed');
+      });
+    });
+    
+    // Allow Enter key to submit
+    const inputs = document.querySelectorAll('.answer-input');
+    inputs.forEach(input => {
+      input.addEventListener('keypress', (e) => {
+        if ((e as KeyboardEvent).key === 'Enter') {
+          const quizId = input.getAttribute('data-quiz-id');
+          const button = document.querySelector(`.check-answer-btn[data-quiz-id="${quizId}"]`) as HTMLButtonElement;
+          if (button && !button.disabled) {
+            button.click();
+          }
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .quiz-container {
+    font-family: inherit;
+  }
+  
+  .answer-input:focus {
+    outline: none;
+  }
+</style>

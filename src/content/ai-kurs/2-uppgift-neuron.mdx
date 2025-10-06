@@ -5,6 +5,9 @@ order: 2
 pubDate: 2025-10-03
 ---
 
+import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../components/FillInQuiz.astro';
+
 ## Uppgift: Din första tänkande maskin
 
 I den här uppgiften ska du agera som en artificiell neuron. Målet är att du ska få en praktisk känsla för hur en neuron väger samman information för att fatta ett beslut. 
@@ -59,8 +62,15 @@ En mycket solig dag (10 soltimmar) har det inte regnat igår och jorden är helt
 Ställ upp och beräkna den linjära kombinationen:
 
 $$
-\text{Totalpoäng} = (x_1 \times w_1) + (x_2 \times w_2) + (x_3 \times w_3) = \text{?}
+\text{Totalpoäng} = (x_1 \times w_1) + (x_2 \times w_2) + (x_3 \times w_3)
 $$
+
+<FillInQuiz 
+  question="Vad blir totalpoängen för Uppgift A?"
+  correctAnswer={["20", "20.0"]}
+  type="number"
+  explanation="Beräkning: (0 × -5) + (10 × 2) + (0 × -3) = 0 + 20 + 0 = 20"
+/>
 
 **Uppgift B: Molnig och fuktig dag**
 
@@ -73,8 +83,15 @@ Det är en molnig dag (2 soltimmar), men det regnade igår och jorden är fortfa
 Ställ upp och beräkna den linjära kombinationen:
 
 $$
-\text{Totalpoäng} = (x_1 \times w_1) + (x_2 \times w_2) + (x_3 \times w_3) = \text{?}
+\text{Totalpoäng} = (x_1 \times w_1) + (x_2 \times w_2) + (x_3 \times w_3)
 $$
+
+<FillInQuiz 
+  question="Vad blir totalpoängen för Uppgift B?"
+  correctAnswer={["-4", "-4.0"]}
+  type="number"
+  explanation="Beräkning: (1 × -5) + (2 × 2) + (1 × -3) = -5 + 4 - 3 = -4"
+/>
 
 ### Fråga 3: Fatta ett beslut med aktiveringsfunktion
 
@@ -85,15 +102,31 @@ Om Totalpoäng > 5  → Utdata = 1 (Vattna!)
 Om Totalpoäng ≤ 5  → Utdata = 0 (Vattna inte)
 ```
 
-![Stegfunktion](../../assets/images/steg.png)
+![Stegfunktion med tröskelvärde 5 — Neuronbeslut för bevattning](../../assets/images/step_function.png)
 
 **Din uppgift:**
 
 Baserat på dina uträkningar i Fråga 2, vilket beslut fattar neuronen i:
-- **Uppgift A** (solig och torr)?
-- **Uppgift B** (molnig och fuktig)?
 
-Är besluten vettiga? Varför/varför inte?
+<MultipleChoiceQuiz 
+  question="Uppgift A (solig och torr, totalpoäng = 20): Vad blir utdata?"
+  options={[
+    "Utdata = 0 (Vattna inte)",
+    "Utdata = 1 (Vattna!)"
+  ]}
+  correctAnswer={1}
+  explanation="Eftersom totalpoängen (20) är större än tröskelvärdet (5), blir utdata 1. Neuronen bestämmer sig för att vattna, vilket är vettigt eftersom jorden är torr och det varit mycket sol!"
+/>
+
+<MultipleChoiceQuiz 
+  question="Uppgift B (molnig och fuktig, totalpoäng = -4): Vad blir utdata?"
+  options={[
+    "Utdata = 0 (Vattna inte)",
+    "Utdata = 1 (Vattna!)"
+  ]}
+  correctAnswer={0}
+  explanation="Eftersom totalpoängen (-4) är mindre än eller lika med tröskelvärdet (5), blir utdata 0. Neuronen bestämmer sig för att INTE vattna, vilket är vettigt eftersom jorden redan är fuktig!"
+/>
 
 ---
 

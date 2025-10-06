@@ -5,6 +5,9 @@ order: 1
 pubDate: 2025-10-03
 ---
 
+import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../components/FillInQuiz.astro';
+
 ## Vad ska du lära dig?
 
 I den här lektionen dyker vi ner i den absolut minsta, men viktigaste, komponenten i nästan all modern AI: den **artificiella neuronen**. Det är den grundläggande byggstenen i de neuronnät som driver allt från självkörande bilar till språkmodeller som ChatGPT.
@@ -29,6 +32,18 @@ En enskild neuron är egentligen inte så komplicerad. Tänk dig att du handlar 
 - **Totalsumman** → Resultatet av neuronens första beräkning
 
 En neuron gör precis detta: den tar emot flera olika indata, multiplicerar varje indata med en vikt, och summerar allt.
+
+<MultipleChoiceQuiz 
+  question="I kvitto-analogin, vad motsvarar 'priset per vara'?"
+  options={[
+    "Neuronens indata",
+    "Neuronens vikter",
+    "Neuronens utdata",
+    "Aktiveringsfunktionen"
+  ]}
+  correctAnswer={1}
+  explanation="Priset per vara motsvarar vikterna - de bestämmer hur mycket varje indata (antal varor) ska påverka slutresultatet (totalsumman)!"
+/>
 
 ## Indata, vikter och linjär kombination
 
@@ -70,6 +85,13 @@ $$
 > - **Hög negativ vikt** → "Detta är ett starkt bevis EMOT"
 > - **Vikt nära noll** → "Detta spelar ingen roll"
 
+<FillInQuiz 
+  question="I katt-exemplet ovan, vad blir totalpoängen om djuret säger 'vov' (x₃ = 1 istället för 0)?"
+  correctAnswer={["-2", "-2.0"]}
+  type="number"
+  explanation="Beräkning: (1 × 4) + (1 × 4) + (1 × -10) = 4 + 4 - 10 = -2. Den negativa vikten för 'skäller' drar ner totalpoängen kraftigt!"
+/>
+
 ## Aktiveringsfunktionen: Neuronens beslut
 
 När neuronens totalpoäng är uträknad, måste den bestämma sig för vad den ska göra med den. Ska den skicka en signal vidare? Och i så fall, hur stark ska signalen vara?
@@ -94,8 +116,7 @@ En mjukare version. Istället för bara PÅ/AV, ger den ett värde *mellan* 0 oc
 
 En av de mest populära i moderna neuronnät. Om totalpoängen är negativ blir utdata 0. Om den är positiv skickas den vidare som den är. Enkel men effektiv!
 
-> [!NOTE] ReLU saknar bild
-> En bild för ReLU-funktionen behöver läggas till.
+![ReLU-funktion](../../assets/images/relu.png)
 
 **4. Identitetsfunktion (Linear function)**
 
@@ -103,28 +124,17 @@ Den gör ingenting alls, utan skickar bara vidare totalpoängen precis som den �
 
 ![Identitetsfunktion](../../assets/images/identitet.png)
 
-## Från en neuron till ett nätverk
-
-En enskild neuron är bra på att fatta enkla, linjära beslut. Men verkligheten är sällan så enkel. Hur känner en AI igen din mormor på ett foto?
-
-En neuron kan kanske lära sig att känna igen en vertikal linje i en bild. En annan kan lära sig känna igen en horisontell linje. En tredje en böjd linje. Var för sig är de ganska begränsade.
-
-Men om vi kopplar ihop dem i ett **neuronnät** kan magi uppstå:
-
-**1. Första lagret (enkla mönster)**
-
-Neuroner som känner igen grundläggande saker: kanter, hörn, färgfläckar.
-
-**2. Andra lagret (kombinationer)**
-
-Tar emot information från första lagret. En neuron här kanske aktiveras om den får signaler från en "vertikal linje"-neuron och en "horisontell linje"-neuron, och lär sig på så sätt att känna igen ett kors eller en näsa.
-
-**3. Tredje lagret (komplexa strukturer)**
-
-Tar emot information om näsor, ögon och munnar från andra lagret och lär sig att känna igen ett helt ansikte.
-
-> [!INFO] Hierarkisk inlärning
-> Genom att koppla ihop neuroner i lager kan ett neuronnät lära sig otroligt komplexa mönster och hierarkier. Det är denna struktur som gör djupinlärning så kraftfullt. Den enskilda neuronen är bara en liten, men fundamental, del av ett mycket större system.
+<MultipleChoiceQuiz 
+  question="Vilken aktiveringsfunktion ger ett värde mellan 0 och 1?"
+  options={[
+    "Stegfunktion",
+    "Sigmoidfunktion",
+    "ReLU",
+    "Identitetsfunktion"
+  ]}
+  correctAnswer={1}
+  explanation="Sigmoidfunktionen ger alltid ett värde mellan 0 och 1, vilket gör den perfekt för att visa sannolikheter eller 'hur säker' neuronen är!"
+/>
 
 ---
 
@@ -135,10 +145,11 @@ Tar emot information om näsor, ögon och munnar från andra lagret och lär sig
 > 2. Den multiplicerar varje indata med en **vikt** ($w_1, w_2, w_3, ...$) för att avgöra dess betydelse
 > 3. Alla produkter summeras till en **linjär kombination** (en totalpoäng)
 > 4. En **aktiveringsfunktion** bestämmer neuronens slutgiltiga **utdata** baserat på totalpoängen
-> 5. Genom att koppla ihop många neuroner i **lager** skapas ett **neuronnät** som kan lösa komplexa problem
+
+Du har nu lärt dig grunderna om hur en enskild neuron fungerar - den minsta byggstenen i artificiell intelligens!
 
 ---
 
-**Nästa steg:** I nästa lektion ska vi se hur man kan koppla ihop många sådana här neuroner för att skapa ett **neuronnät** som kan lösa mycket mer komplexa problem än vad en enskild neuron klarar av.
+**Nästa steg:** I nästa lektion ska vi bygga vidare på denna kunskap och se hur man kan koppla ihop många neuroner för att skapa **neuronnät** som kan lösa mycket mer komplexa problem.
 
 

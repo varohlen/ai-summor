@@ -1,0 +1,236 @@
+---
+title: '4. Enkel neuronnätsklassificerare'
+description: 'Bygg din första bildklassificerare! Lär dig hur neuronnät kan känna igen mönster genom att klassificera kryss, cirklar och smilisar.'
+order: 4
+pubDate: 2025-10-06
+---
+
+import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../components/FillInQuiz.astro';
+import SmilisClassifier from '../../components/SmilisClassifier.astro';
+
+## Enkel neuronnätsklassificerare
+
+För att ge ett relativt enkelt exempel på hur neuronnät kan tillämpas i klassificeringsuppgifter, ska vi se på en klassificeringssituation som i hög grad påminner om den berömda **MNIST-uppgiften** (att känna igen handskrivna siffror).
+
+Målet är att urskilja bilder i två olika klasser. Vi ska börja med att bygga en klassificerare som kan skilja på **kryss** och **cirklar**.
+
+### Från bild till siffror
+
+Bilderna visas som färggranna eller gråa pixlar i ett **5 × 5 stort rutnät**. För att tillämpa neuronnätklassificeraren behöver man framställa problemet på ett lämpligt sätt.
+
+Det första steget är att ange indata i form av numeriska värden:
+- **1** = färggrann pixel (grön eller blå)
+- **0** = grå pixel
+
+**Exempel: Kryss och cirkel i 5×5 rutnät**
+
+```
+Kryss:              Cirkel:
+┌───┬───┬───┬───┬───┐    ┌───┬───┬───┬───┬───┐
+│ ■ │   │   │   │ ■ │    │   │ ■ │ ■ │ ■ │   │
+├───┼───┼───┼───┼───┤    ├───┼───┼───┼───┼───┤
+│   │ ■ │   │ ■ │   │    │ ■ │   │   │   │ ■ │
+├───┼───┼───┼───┼───┤    ├───┼───┼───┼───┼───┤
+│   │   │ ■ │   │   │    │ ■ │   │   │   │ ■ │
+├───┼───┼───┼───┼───┤    ├───┼───┼───┼───┼───┤
+│   │ ■ │   │ ■ │   │    │ ■ │   │   │   │ ■ │
+├───┼───┼───┼───┼───┤    ├───┼───┼───┼───┼───┤
+│ ■ │   │   │   │ ■ │    │   │ ■ │ ■ │ ■ │   │
+└───┴───┴───┴───┴───┘    └───┴───┴───┴───┴───┘
+■ = färggrann pixel (1)     = grå pixel (0)
+```
+
+> [!NOTE] Färg spelar ingen roll
+> Trots att de färggranna rutorna är av olika färger (grön och blå), spelar det ingen roll för klassificeraren vilken färg det är så länge den skiljer sig från den gråa.
+
+### Läsa av pixlarna
+
+De 25 pixlarna i rutnätet bildar därmed indata som består av **25 värden**.
+
+För att inte blanda ihop pixlarna på olika punkter, kommer vi överens om att avläsa pixlarna i vanlig ordning:
+- Högst uppifrån
+- Rad för rad
+- Från vänster till höger
+
+**Exempel: Kryss**
+
+Raden högst upp: `1, 0, 0, 0, 1`  
+Nästa rad: `0, 1, 0, 1, 0`  
+Och så vidare...
+
+Hela uppsättningen indata för krysset blir:  
+`1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1`
+
+<FillInQuiz 
+  question="Hur många indata (pixlar) har vår klassificerare för ett 5×5 rutnät?"
+  correctAnswer={["25", "25 pixlar", "tjugofem"]}
+  type="text"
+  explanation="Ett 5×5 rutnät har 5 × 5 = 25 pixlar. Varje pixel är en indata till neuronen, så vi har 25 vikter att lära oss!"
+/>
+
+### Modellen
+
+Vi tillämpar en enkel neuronmodell där vi:
+1. Räknar ut **linjärkombinationen** för våra indata
+2. För varje pixel behöver vi en vikt, alltså sammanlagt **25 vikter**
+3. Tillämpar **stegfunktionen** för att beräkna aktiveringen
+
+**Beslut:**
+- Om linjärkombinationen är **negativ** (< 0) → Aktiveringen = 0 → **Kryss**
+- Om linjärkombinationen är **positiv** (> 0) → Aktiveringen = 1 → **Cirkel**
+
+---
+
+## Experiment: Alla vikter = 1
+
+Låt oss testa vad som händer om alla vikter har samma värde, exempelvis **1**.
+
+### Kryss
+- Bilden innehåller **9 färggranna pixlar**
+- Beräkning: 9 × 1 + 16 × 0 = **9**
+- Resultat: Positivt → Klassificeras som **cirkel** ❌
+
+### Cirkel
+- Bilden innehåller **8 färggranna pixlar**
+- Beräkning: 8 × 1 + 17 × 0 = **8**
+- Resultat: Positivt → Klassificeras som **cirkel** ✓
+
+**Problem:** Båda bilderna får positivt värde! Krysset klassificeras fel. Vi måste justera vikterna.
+
+<MultipleChoiceQuiz 
+  question="Varför fungerar det inte att sätta alla vikter till 1?"
+  options={[
+    "Datorn blir för långsam",
+    "Både kryss och cirkel får positivt värde",
+    "Neuronen kan inte räkna till 25",
+    "Stegfunktionen slutar fungera"
+  ]}
+  correctAnswer={1}
+  explanation="När alla vikter är 1 räknar neuronen bara antalet färggranna pixlar. Både kryss (9 pixlar) och cirkel (8 pixlar) får positivt värde, så båda klassificeras som cirkel!"
+/>
+
+---
+
+## En fungerande lösning
+
+För att förbättra resultatet måste vi justera vikterna. Man kan uppnå det rätta svaret med ett flertal olika lösningar. Här är en:
+
+**Vikter:**
+- Pixeln i **mitten** (pixel 13): vikt = **-1**
+- Alla pixlar i **mitten på kanterna** (pixel 8, 12, 14, 18): vikt = **1**
+- Resten av pixlarna: vikt = **0**
+
+**Viktrutnät (siffror = vikter):**
+
+```
+┌────┬────┬────┬────┬────┐
+│  0 │  0 │  0 │  0 │  0 │  Rad 1
+├────┼────┼────┼────┼────┤
+│  0 │  0 │ +1 │  0 │  0 │  Rad 2
+├────┼────┼────┼────┼────┤
+│  0 │ +1 │ -1 │ +1 │  0 │  Rad 3 (mitten)
+├────┼────┼────┼────┼────┤
+│  0 │  0 │ +1 │  0 │  0 │  Rad 4
+├────┼────┼────┼────┼────┤
+│  0 │  0 │  0 │  0 │  0 │  Rad 5
+└────┴────┴────┴────┴────┘
+
++1 = Belönar färggranna pixlar på kanterna
+-1 = Straffar färggrann pixel i mitten
+ 0 = Ignorerar dessa pixlar
+```
+
+### Testa med kryss
+
+Färggranna pixlar i krysset:
+- Pixel i mitten: 1 × (-1) = -1
+- Alla andra färggranna pixlar har vikt 0
+
+**Totalpoäng:** -1  
+**Aktiveringen:** 0 → **Kryss** ✓
+
+### Testa med cirkel
+
+Färggranna pixlar i cirkeln:
+- Fyra pixlar i mitten på kanterna: 4 × 1 = 4
+- Alla andra färggranna pixlar har vikt 0
+
+**Totalpoäng:** 4  
+**Aktiveringen:** 1 → **Cirkel** ✓
+
+**Båda rätt!** 🎉
+
+<FillInQuiz 
+  question="Om ett kryss har pixeln i mitten (vikt -1) och 8 andra färggranna pixlar (alla vikt 0), vad blir totalpoängen?"
+  correctAnswer={["-1", "-1.0"]}
+  type="number"
+  explanation="Endast pixeln i mitten bidrar: 1 × (-1) = -1. Alla andra färggranna pixlar har vikt 0, så de bidrar inte till summan."
+/>
+
+---
+
+## Utmaning: Klassificera smilisar! 😊😢
+
+Nu ska vi använda samma teknik och bygga en klassificerare för smilisar. Uppgiften är att skilja mellan:
+- **Leende smilisar** 😊 (aktiveringen = 1)
+- **Ledsna smilisar** 😢 (aktiveringen = -1)
+
+<SmilisClassifier />
+
+> [!WARNING] En viktig lärdom
+> Du kommer förmodligen märka att det är **omöjligt** att klassificera alla smilisar rätt med denna enkla klassificerare!
+> 
+> Detta är en viktig insikt: ibland kan vi inte uppnå perfekt klassificeringsexakthet om klassificeraren är för enkel. I det här fallet består klassificeraren av en enstaka neuron baserad på linjärkombination.
+> 
+> Du kan få klassificeraren att fungera med vissa indata, så länge du accepterar att en del andra smilisar klassificeras felaktigt.
+
+**Utmaning:** Klarar du av att klassificera 6 rätt av både de leende och de ledsna smilisarna?
+
+<MultipleChoiceQuiz 
+  question="Varför kan en enskild neuron inte klassificera alla smilisar perfekt?"
+  options={[
+    "Smilisar är för komplexa för en enkel linjär klassificerare",
+    "Datorn har inte tillräckligt med minne",
+    "Stegfunktionen är fel aktiveringsfunktion",
+    "Vi behöver fler pixlar i rutnätet"
+  ]}
+  correctAnswer={0}
+  explanation="En enskild neuron med linjärkombination är för enkel för att fånga alla variationer av smilisar. För komplexa mönster behöver vi flera neuroner i ett neuronnät!"
+/>
+
+---
+
+## Begränsningar och lösningar
+
+### Vad vi har lärt oss
+
+1. **En neuron kan lösa enkla problem** - som att skilja kryss från cirklar med rätt vikter
+2. **Komplexa problem kräver mer** - en enskild neuron räcker inte för alla variationer
+3. **Vikter är nyckeln** - rätt vikter gör att neuronen kan känna igen mönster
+
+### Vägen framåt
+
+För att klassificera mer komplexa mönster (som alla variationer av smilisar) behöver vi:
+- **Flera neuroner** som arbetar tillsammans
+- **Flera lager** som kan lära sig hierarkiska mönster
+- **Mer träningsdata** för att lära sig alla variationer
+
+Detta är precis vad moderna neuronnät gör!
+
+---
+
+## Sammanfattning
+
+> [!TIP] Nyckelkoncept
+> - **Pixlar → Siffror**: Bilder måste omvandlas till numeriska värden (0 och 1)
+> - **25 pixlar = 25 vikter**: Varje pixel behöver en vikt i vår 5×5 klassificerare
+> - **Rätt vikter är avgörande**: Med rätt vikter kan en neuron skilja enkla mönster
+> - **Begränsningar finns**: En enskild neuron kan inte lösa alla problem
+> - **Lösningen**: Flera neuroner i nätverk kan lösa komplexa problem
+
+Du har nu byggt din första bildklassificerare och förstår både dess styrkor och begränsningar!
+
+---
+
+**Nästa steg:** I nästa lektion ska vi utforska avancerade neuronnätsmetoder som faltningsnät och generativa nätverk - tekniker som driver moderna AI-system!

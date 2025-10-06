@@ -1,0 +1,255 @@
+---
+title: '6. Stora språkmodeller och ChatGPT'
+description: 'Upptäck revolutionen inom AI: transformers, uppmärksamhetsmekanismer och stora språkmodeller som ChatGPT som förändrat hur vi interagerar med AI.'
+order: 6
+pubDate: 2025-10-06
+draft: true
+---
+
+import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../components/FillInQuiz.astro';
+
+## Framväxten av stora språkmodeller
+
+Som nämnts ovan minskar faltningsnätverk (CNN) antalet vikter som behöver tränas i ett neuralt nätverk. En annan innovation kopplad till nätverkens arkitektur, förutom idén om ett CNN, kallas **uppmärksamhet** (attention) och driver för närvarande många toppmoderna djupinlärningsmodeller.
+
+---
+
+## Uppmärksamhetsmekanismer
+
+Uppmärksamhets-mekanismer introducerades ursprungligen för **maskinöversättning**. 
+
+### Problemet
+
+När man översätter en mening från ett språk till ett annat, behöver man inte vara uppmärksam på alla ord samtidigt. Vissa ord i inmatningstexten är mer relevanta när man genererar ett specifikt ord i utmatningen.
+
+### Lösningen
+
+Mekanismen innebär att man **selektivt kan fokusera** modellens uppmärksamhet på vissa ord i inmatningstexten när de genererar ett visst ord i utmatningen.
+
+**Exempel:**
+- När man översätter "The cat sat on the mat" till svenska
+- För att generera ordet "katten" fokuserar modellen på "cat"
+- För att generera "mattan" fokuserar modellen på "mat"
+
+På så sätt behöver modellen inte vara uppmärksam på all inmatning samtidigt, vilket **förenklar inlärningsuppgiften avsevärt**.
+
+<MultipleChoiceQuiz 
+  question="Vad är fördelen med uppmärksamhetsmekanismer?"
+  options={[
+    "De gör datorn snabbare",
+    "De låter modellen fokusera på relevanta delar av indata istället för allt samtidigt",
+    "De tar bort behovet av träningsdata",
+    "De gör neuronnäten mindre"
+  ]}
+  correctAnswer={1}
+  explanation="Uppmärksamhetsmekanismer låter modellen selektivt fokusera på de delar av indata som är mest relevanta för varje del av utdata. Detta förenklar inlärningen enormt jämfört med att försöka vara uppmärksam på allt samtidigt!"
+/>
+
+Uppmärksamhets-mekanismer visade sig snart vara extremt användbara också **utanför maskinöversättning**.
+
+---
+
+## Transformers: "Attention is All You Need"
+
+År 2017 publicerade ett team på Google succéartikeln **"Attention is All You Need"**, som introducerade den så kallade **transformer-arkitekturen** för djupa neurala nätverk.
+
+### Vad är en transformer?
+
+Om du inte har levt under en sten eller hållit dig borta från sociala medier, har du troligtvis redan hört talas om transformers (de neurala nätverksmodellerna, inte film-serien). 
+
+Om du inte känner igen det kan det vara för att den ingår i en akronym: **GPT** (Generative Pretrained Transformer).
+
+> [!NOTE] Transformers överallt
+> Som titeln på artikeln från Google-teamet antyder utnyttjar transformers i hög grad uppmärksamhets-mekanismer för att få ut mesta möjliga av tillgängliga träningsdata och beräkningsresurser.
+
+*[PLATSHÅLLARE FÖR BILD: Transformer-arkitektur med uppmärksamhetslager]*
+
+### De mest kända tillämpningarna
+
+De mest kända tillämpningarna av transformers finns i **stora språkmodeller** (LLMs - Large Language Models):
+
+**OpenAI:s GPT-serie**
+- GPT-1 (juni 2018)
+- GPT-2 (2019)
+- GPT-3 (2020)
+- GPT-4 (mars 2023)
+
+**Google BERT** (oktober 2018)
+- Namn inspirerat av Sesame Street
+- BERT = Bidirectional Encoder Representations from Transformers
+
+**Meta LLaMA** (februari 2023)
+- Namn inspirerat av djurvärlden
+- LLaMA = Large Language Model Meta AI
+
+**Öppen källkod**
+- Universitet och forskningsorganisationer bidrar med modeller
+- Syfte: demokratisera tekniken
+
+<FillInQuiz 
+  question="Vad står GPT för?"
+  correctAnswer={["Generative Pretrained Transformer", "generative pretrained transformer"]}
+  caseSensitive={false}
+  explanation="GPT står för Generative Pretrained Transformer. 'Generative' betyder att den kan generera text, 'Pretrained' att den är förtränad på stora mängder data, och 'Transformer' är arkitekturen den bygger på!"
+/>
+
+---
+
+## Vad är en LLM?
+
+LLMs är modeller som utifrån ett textstycke som **"Finlands huvudstad är"** förutspår hur texten sannolikt kommer att fortsätta. 
+
+I det här fallet skulle **"Helsingfors"** eller **"ett litet metropol"** vara troliga fortsättningar.
+
+### Träningsdata
+
+LLM-modeller tränas på **stora mängder text**, t.ex.:
+- Hela innehållet i Wikipedia
+- CommonCrawl-datasetet (260 miljarder webbsidor när detta skrivs)
+- Böcker, artiklar, forum, etc.
+
+### Mer än bara ordförutsägelse
+
+I princip kan man se LLMs som endast extremt kraftfulla tekniker för att förutsäga vad nästa ord i en mening sannolikt kommer vara. 
+
+Men med lite mer eftertanke blir det uppenbart att förmågan att kunna förutsäga fortsättningen på en mening på ett sätt som inte går att skilja från mänskligt skrivande är (eller skulle vara) en **stor bedrift** och omfattar många aspekter av intelligens.
+
+**Exempel på vad LLMs har lärt sig:**
+
+1. **Världskunskap**
+   - Associationen mellan "Finlands huvudstad" och "Helsingfors"
+   - Fakta om världen från träningsdata
+
+2. **Resonemang** (begränsat)
+   - Kan resonera på sätt som går utöver memorering
+   - Kan lätt göra triviala misstag
+   - Bygger "bara" på statistisk maskininlärning
+
+3. **Språkförståelse**
+   - Grammatik och syntax
+   - Kontext och sammanhang
+   - Stilistiska variationer
+
+> [!WARNING] Begränsningar
+> För närvarande kan LLM-modeller göra begränsat resonemang och de kan lätt göra triviala misstag eftersom de "bara" bygger på statistisk maskininlärning. 
+> 
+> Intensiva forsknings- och utvecklingsinsatser riktas mot att bygga djupinlärningsmodeller med mer robusta resonemangsalgoritmer och databaser med verifierade fakta.
+
+<MultipleChoiceQuiz 
+  question="Hur fungerar en språkmodell i grunden?"
+  options={[
+    "Den memorerar alla möjliga meningar",
+    "Den förutspår det mest troliga nästa ordet baserat på tidigare ord",
+    "Den översätter allt till matematik först",
+    "Den frågar en människa vad som kommer härnäst"
+  ]}
+  correctAnswer={1}
+  explanation="En språkmodell är tränad på att förutsäga det mest troliga nästa ordet i en sekvens. Genom att göra detta väldigt bra kan den generera sammanhängande text, svara på frågor och till och med resonera (i begränsad omfattning)!"
+/>
+
+---
+
+## ChatGPT: AI för folket
+
+En kraftig jordbävning inträffade i San Francisco den **30 november 2022**. Den var så kraftig att nästan alla på jorden påverkades av den. 
+
+Trots detta var det inte en enda seismometer som registrerade jordbävningen. 
+
+Denna metaforiska "jordbävning" var **OpenAI:s lansering av ChatGPT**.
+
+### Explosiv tillväxt
+
+Ryktet om chatbot-tjänsten som vem som helst kunde använda gratis spred sig snabbt över världen:
+
+- **Efter 5 dagar:** 1 miljon registrerade användare
+  - (Jämför: Elements of AI tog 5 år att nå samma antal)
+- **Efter 2 månader:** 100 miljoner användare
+
+Ingen annan AI-tjänst, eller förmodligen någon tjänst överhuvudtaget, har blivit ett hushållsnamn så snabbt.
+
+*[PLATSHÅLLARE FÖR BILD: ChatGPT-gränssnitt eller tillväxtkurva]*
+
+### Vad gjorde ChatGPT speciell?
+
+Den första versionen av ChatGPT byggde på en **GPT-3.5-modell** som finjusterats genom:
+- **Väglett lärande** (supervised learning)
+- **Förstärkningsinlärning** (reinforcement learning)
+- Baserat på en stor mängd data som bedömts och klassificerats av människor
+
+**Syftet med finjusteringen:**
+- Styra modellen bort från felaktiga svar
+- Styra mot omfattande och hjälpsamma svar
+- Göra modellen säkrare och mer användbar
+
+### Varför blev det så populärt?
+
+Det är inte lätt att säga vad som orsakade det massiva mediedrevet och det aldrig tidigare skådade intresset för ChatGPT. Förmodligen en kombination av:
+
+1. **Bättre kvalitet** på grund av finjusteringen
+2. **Chatt-gränssnittet** som möjliggör sammanhängande konversation
+3. **Flexibiliteten** - man kan be om olika stilar:
+   - "Förklara detta för en femåring"
+   - "Skriv det som en sång i stil med Nick Cave"
+   - (Herr Cave var dock inte imponerad, enligt BBC)
+
+<MultipleChoiceQuiz 
+  question="Hur snabbt nådde ChatGPT 1 miljon användare?"
+  options={[
+    "5 år",
+    "1 år",
+    "2 månader",
+    "5 dagar"
+  ]}
+  correctAnswer={3}
+  explanation="ChatGPT nådde 1 miljon användare på bara 5 dagar! Detta är extremt snabbt jämfört med andra tjänster. Till exempel tog det Elements of AI (en annan AI-kurs) 5 år att nå samma antal användare."
+/>
+
+---
+
+## Framtida tillämpningar
+
+Det återstår att se vilka som är de verkligt banbrytande tillämpningarna för ChatGPT och andra LLM-baserade lösningar. 
+
+### Mest troliga kandidater
+
+Vi tror att de mest troliga kandidaterna är sådana där:
+1. Användaren matar in **data och/eller fakta** från ett annat system
+2. Språkmodellen används för att **formatera utdata** i form av språk
+   - Antingen naturligt språk
+   - Eller eventuellt formellt språk som programkod
+
+**Exempel på tillämpningar:**
+- Sammanfatta långa dokument
+- Generera rapporter från data
+- Översätta mellan språk
+- Skriva kod baserat på beskrivningar
+- Besvara frågor om specifik dokumentation
+
+> [!INFO] Framtiden
+> Vi återkommer till de förväntade effekterna av ChatGPT och andra LLM-baserade applikationer i det sista kapitlet av kursen.
+
+<FillInQuiz 
+  question="Vilket år lanserades ChatGPT?"
+  correctAnswer={["2022", "2022-11-30", "november 2022"]}
+  caseSensitive={false}
+  explanation="ChatGPT lanserades den 30 november 2022 och blev omedelbart en global sensation. Detta markerade början på en ny era där AI blev tillgänglig för alla!"
+/>
+
+---
+
+## Sammanfattning
+
+> [!TIP] Nyckelkoncept
+> - **Uppmärksamhet** = Mekanism som låter modellen fokusera på relevanta delar av indata
+> - **Transformers** = Arkitektur som bygger på uppmärksamhetsmekanismer
+> - **GPT** = Generative Pretrained Transformer
+> - **LLM** = Large Language Model, tränad på enorma mängder text
+> - **ChatGPT** = Finjusterad GPT-modell med chatt-gränssnitt
+> - **Begränsningar** = Kan göra misstag, bygger på statistik, inte verklig förståelse
+
+Du har nu lärt dig om den senaste revolutionen inom AI - stora språkmodeller som har förändrat hur vi interagerar med artificiell intelligens!
+
+---
+
+**Nästa steg:** I kommande lektioner kommer vi att utforska praktiska tillämpningar av AI och diskutera etiska frågor kring tekniken.
