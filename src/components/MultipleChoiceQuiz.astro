@@ -32,9 +32,10 @@ const quizId = `quiz-${Math.random().toString(36).substr(2, 9)}`;
   </div>
 
   <button 
-    class="check-answer-btn px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
+    class="check-answer-btn px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
     data-quiz-id={quizId}
     data-correct-answer={correctAnswer}
+    disabled
   >
     Kontrollera svar
   </button>
@@ -56,24 +57,58 @@ const quizId = `quiz-${Math.random().toString(36).substr(2, 9)}`;
   document.addEventListener('DOMContentLoaded', () => {
     const checkButtons = document.querySelectorAll('.check-answer-btn');
     
-    checkButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const quizId = button.getAttribute('data-quiz-id');
-        const correctAnswer = parseInt(button.getAttribute('data-correct-answer') || '0');
-        
-        const selectedOption = document.querySelector(`input[name="${quizId}"]:checked`) as HTMLInputElement;
+    // Enable button and clear feedback when user changes selection
+    const radioInputs = document.querySelectorAll('input[type="radio"]');
+    radioInputs.forEach(radio => {
+      radio.addEventListener('change', () => {
+        const quizId = radio.getAttribute('name');
+        const button = document.querySelector(`.check-answer-btn[data-quiz-id="${quizId}"]`) as HTMLButtonElement;
         const feedbackContainer = document.querySelector(`.feedback-container[data-quiz-id="${quizId}"]`) as HTMLElement;
         const feedbackText = feedbackContainer?.querySelector('.feedback-text') as HTMLElement;
+        const labels = document.querySelectorAll(`label[data-quiz-id="${quizId}"]`);
         
-        if (!selectedOption) {
-          alert('Välj ett alternativ först!');
+        // Enable button when option is selected
+        if (button && !button.classList.contains('opacity-50')) {
+          button.removeAttribute('disabled');
+        }
+        
+        // Hide feedback and reset all colors
+        if (feedbackContainer) {
+          feedbackContainer.classList.add('hidden');
+          feedbackContainer.classList.remove('bg-red-100', 'dark:bg-red-900/20', 'bg-green-100', 'dark:bg-green-900/20');
+        }
+        
+        if (feedbackText) {
+          feedbackText.classList.remove('text-red-700', 'dark:text-red-300', 'text-green-700', 'dark:text-green-300');
+          feedbackText.textContent = '';
+        }
+        
+        // Remove highlighting from all options
+        labels.forEach(label => {
+          label.classList.remove('bg-red-100', 'dark:bg-red-900/20', 'border-red-500');
+        });
+      });
+    });
+    
+    checkButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Check if already answered
+        if (button.hasAttribute('disabled')) {
           return;
         }
         
+        const quizId = button.getAttribute('data-quiz-id');
+        const correctAnswer = parseInt(button.getAttribute('data-correct-answer') || '0');
+        const selectedOption = document.querySelector(`input[name="${quizId}"]:checked`) as HTMLInputElement;
+        if (!selectedOption) {
+          return; // Button should be disabled, but just in case
+        }
+        
+        const feedbackContainer = document.querySelector(`.feedback-container[data-quiz-id="${quizId}"]`) as HTMLElement;
+        const feedbackText = feedbackContainer?.querySelector('.feedback-text') as HTMLElement;
+        
         const selectedAnswer = parseInt(selectedOption.value);
         const isCorrect = selectedAnswer === correctAnswer;
-        
-        // Show feedback
         if (feedbackContainer && feedbackText) {
           feedbackContainer.classList.remove('hidden');
           
@@ -83,30 +118,50 @@ const quizId = `quiz-${Math.random().toString(36).substr(2, 9)}`;
             feedbackText.classList.remove('text-red-700', 'dark:text-red-300');
             feedbackText.classList.add('text-green-700', 'dark:text-green-300');
             feedbackText.textContent = '✓ Rätt svar!';
+            
+            // Show explanation only on correct answer
+            const explanationText = feedbackContainer.querySelector('.explanation-text') as HTMLElement;
+            if (explanationText) {
+              explanationText.classList.remove('hidden');
+            }
+            
+            // Highlight correct option
+            const labels = document.querySelectorAll(`label[data-quiz-id="${quizId}"]`);
+            labels.forEach((label, index) => {
+              label.classList.remove('bg-green-100', 'dark:bg-green-900/20', 'bg-red-100', 'dark:bg-red-900/20', 'border-green-500', 'border-red-500');
+              if (index === correctAnswer) {
+                label.classList.add('bg-green-100', 'dark:bg-green-900/20', 'border-green-500');
+              }
+            });
+            
+            // Disable button after correct answer
+            button.setAttribute('disabled', 'true');
+            button.classList.add('opacity-50', 'cursor-not-allowed');
           } else {
             feedbackContainer.classList.remove('bg-green-100', 'dark:bg-green-900/20');
             feedbackContainer.classList.add('bg-red-100', 'dark:bg-red-900/20');
             feedbackText.classList.remove('text-green-700', 'dark:text-green-300');
             feedbackText.classList.add('text-red-700', 'dark:text-red-300');
             feedbackText.textContent = '✗ Fel svar. Försök igen!';
+            
+            // Hide explanation on wrong answer
+            const explanationText = feedbackContainer.querySelector('.explanation-text') as HTMLElement;
+            if (explanationText) {
+              explanationText.classList.add('hidden');
+            }
+            
+            // Highlight incorrect option temporarily
+            const labels = document.querySelectorAll(`label[data-quiz-id="${quizId}"]`);
+            labels.forEach((label, index) => {
+              label.classList.remove('bg-red-100', 'dark:bg-red-900/20', 'border-red-500');
+              if (index === selectedAnswer) {
+                label.classList.add('bg-red-100', 'dark:bg-red-900/20', 'border-red-500');
+              }
+            });
+            
+            // Allow trying again - don't disable button
           }
         }
-        
-        // Highlight correct/incorrect options
-        const labels = document.querySelectorAll(`label[data-quiz-id="${quizId}"]`);
-        labels.forEach((label, index) => {
-          label.classList.remove('bg-green-100', 'dark:bg-green-900/20', 'bg-red-100', 'dark:bg-red-900/20', 'border-green-500', 'border-red-500');
-          
-          if (index === correctAnswer) {
-            label.classList.add('bg-green-100', 'dark:bg-green-900/20', 'border-green-500');
-          } else if (index === selectedAnswer && !isCorrect) {
-            label.classList.add('bg-red-100', 'dark:bg-red-900/20', 'border-red-500');
-          }
-        });
-        
-        // Disable button after answer
-        button.setAttribute('disabled', 'true');
-        button.classList.add('opacity-50', 'cursor-not-allowed');
       });
     });
   });

@@ -77,7 +77,7 @@ if (isContentPage) {
 ---
 
 {isContentPage ? (
-    <AIKursLayout frontmatter={props.entry.data} url={`/kurs/${props.entry.slug}`}>
+    <AIKursLayout frontmatter={props.entry.data} url={`/ai-kurs/${props.entry.slug}`}>
         <article class="prose dark:prose-invert max-w-none w-full">
             {Content && <Content />}
         </article>
@@ -88,7 +88,7 @@ if (isContentPage) {
             title: props.folderTitle,
             description: props.indexFile?.data.description
         }} 
-        url={`/kurs/${Astro.params.slug}`}
+        url={`/ai-kurs/${Astro.params.slug}`}
         isFolder={true}
     >
         {props.indexFile && Content && (
@@ -111,7 +111,7 @@ if (isContentPage) {
 
                 return (
                     <a
-                        href={`/kurs/${entry.slug}`}
+                        href={`/ai-kurs/${entry.slug}`}
                         class={`block p-4 bg-card dark:bg-dark-card rounded-lg border-l-4 ${styles[type]} transition-colors`}
                     >
                         <div class="font-medium">{entry.data.title}</div>

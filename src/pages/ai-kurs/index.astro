@@ -33,7 +33,7 @@ const { rootContent, folders } = organizeContent(collection);
               
               return (
                 <a
-                  href={`/kurs/${entry.slug}`}
+                  href={`/ai-kurs/${entry.slug}`}
                   class={`block p-4 bg-background dark:bg-dark-background rounded-lg border-l-4 ${styles[type]} transition-colors`}
                 >
                   <div class="font-medium">{entry.data.title}</div>
@@ -55,7 +55,7 @@ const { rootContent, folders } = organizeContent(collection);
           <div class="grid grid-cols-1 gap-4">
             {folders.map(([folderSlug, folder]) => (
               <a
-                href={`/kurs/${folderSlug}`}
+                href={`/ai-kurs/${folderSlug}`}
                 class="block p-4 bg-background dark:bg-dark-background rounded-lg border-l-4 border-l-purple-500 hover:bg-purple-500/5 dark:hover:bg-purple-500/10 transition-colors group"
               >
                 <div class="font-medium group-hover:text-purple-500 dark:group-hover:text-purple-400">{folder.title}</div>
