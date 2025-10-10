@@ -7,6 +7,7 @@ pubDate: 2025-10-10
 
 import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
 import FillInQuiz from '../../../components/FillInQuiz.astro';
+import Glossary from '../../../components/Glossary.astro';
 import { Image } from 'astro:assets';
 import neuronImage from '../../../assets/images/neuron.png';
 import neuron2Image from '../../../assets/images/neuron2.png';
@@ -195,4 +196,21 @@ Neuronnät tränas genom exempel istället för programmerade regler. Nätverket
 - Artificiella neuroner är förenklade modeller av biologiska neuroner
 - Neuronnät lär sig genom att anpassa sina kopplingar baserat på data
 
-Nästa lektion behandlar hur en artificiell neuron fungerar matematiskt.
+<Glossary 
+  terms={[
+    "Biologisk neuron",
+    "Dendriter",
+    "Cellkropp",
+    "Cellkärna",
+    "Axon",
+    "Terminaler",
+    "Synapser",
+    "Parallell bearbetning",
+    "Sekventiell bearbetning",
+    "Integrerat minne",
+    "Separerat minne",
+    "Artificiell neuron",
+    "Hopfield-nätverk",
+    "Djupinlärning"
+  ]}
+/>

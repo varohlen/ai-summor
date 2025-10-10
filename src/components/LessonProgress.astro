@@ -249,16 +249,36 @@ const { lessonSlug, lessonTitle } = Astro.props;
     completionCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
   
+  // Store glossary terms when loaded
+  let glossaryTerms: string[] = [];
+  window.addEventListener('glossaryLoaded', (e: Event) => {
+    const customEvent = e as CustomEvent;
+    glossaryTerms = customEvent.detail.terms || [];
+  });
+  
   // Copy code to clipboard
   document.getElementById('copy-code-btn')?.addEventListener('click', async () => {
     const codeEl = document.getElementById('completion-code');
+    const lessonTitleEl = document.getElementById('lesson-progress');
     const btn = document.getElementById('copy-code-btn');
     if (!codeEl || !btn) return;
     
     const code = codeEl.textContent || '';
+    const lessonTitle = lessonTitleEl?.getAttribute('data-lesson-title') || 'Lektion';
+    
+    // Build copy text with glossary if available
+    let copyText = `Lektion klar: ${lessonTitle}\nKod: ${code}`;
+    
+    if (glossaryTerms.length > 0) {
+      copyText += '\n\nViktiga begrepp att kunna förklara:\n';
+      copyText += '─────────────────────────────────────\n';
+      glossaryTerms.forEach(term => {
+        copyText += `• ${term}\n`;
+      });
+    }
     
     try {
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(copyText);
       btn.textContent = '✓ Kopierad!';
       setTimeout(() => {
         btn.innerHTML = `
