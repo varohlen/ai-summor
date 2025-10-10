@@ -1,42 +1,43 @@
 ---
 export interface Props {
   question: string;
-  correctAnswer: string | string[]; // Single answer or array of acceptable answers
+  correctAnswer: (string | number)[] | string | number;
+  explanation?: string;
   placeholder?: string;
   caseSensitive?: boolean;
-  explanation?: string;
-  type?: 'text' | 'number'; // Type of input
+  type?: 'text' | 'number';
+  quizId?: string; // Optional stable ID for tracking
 }
 
 const { 
   question, 
   correctAnswer, 
-  placeholder = "Skriv ditt svar här...", 
+  explanation, 
+  placeholder = 'Skriv ditt svar här...', 
   caseSensitive = false,
-  explanation,
-  type = 'text'
+  type = 'text',
+  quizId
 } = Astro.props;
 
-const quizId = `fillin-${Math.random().toString(36).substr(2, 9)}`;
-const correctAnswers = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
+const finalQuizId = quizId || `quiz-${Math.random().toString(36).substr(2, 9)}`;
+const correctAnswersArray = Array.isArray(correctAnswer) ? correctAnswer : [correctAnswer];
 ---
 
 <div class="quiz-container my-6 p-6 rounded-lg border border-border dark:border-dark-border bg-card dark:bg-dark-card">
   <h4 class="text-lg font-semibold mb-4 text-foreground dark:text-dark-foreground">{question}</h4>
-  
   <div class="input-container mb-4">
     <input 
       type={type}
       class="answer-input w-full p-3 rounded-md border border-border dark:border-dark-border bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground focus:ring-2 focus:ring-primary focus:border-primary"
       placeholder={placeholder}
-      data-quiz-id={quizId}
+      data-quiz-id={finalQuizId}
     />
   </div>
 
   <button 
     class="check-answer-btn px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-    data-quiz-id={quizId}
-    data-correct-answers={JSON.stringify(correctAnswers)}
+    data-quiz-id={finalQuizId}
+    data-correct-answers={JSON.stringify(correctAnswersArray)}
     data-case-sensitive={caseSensitive}
     disabled
   >
@@ -45,7 +46,7 @@ const correctAnswers = Array.isArray(correctAnswer) ? correctAnswer : [correctAn
 
   <div 
     class="feedback-container mt-4 p-4 rounded-md hidden"
-    data-quiz-id={quizId}
+    data-quiz-id={finalQuizId}
   >
     <p class="feedback-text font-medium mb-2"></p>
     {explanation && (
@@ -141,6 +142,22 @@ const correctAnswers = Array.isArray(correctAnswer) ? correctAnswer : [correctAn
             
             input.classList.remove('border-red-500');
             input.classList.add('border-green-500');
+            
+            // Save completion to localStorage
+            const pageUrl = window.location.pathname;
+            const completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes') || '{}');
+            if (!completedQuizzes[pageUrl]) {
+              completedQuizzes[pageUrl] = [];
+            }
+            if (!completedQuizzes[pageUrl].includes(quizId)) {
+              completedQuizzes[pageUrl].push(quizId);
+              localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
+              
+              // Dispatch event for progress tracking
+              window.dispatchEvent(new CustomEvent('quizCompleted', { 
+                detail: { quizId, pageUrl } 
+              }));
+            }
             
             // Disable input and button after correct answer
             input.setAttribute('disabled', 'true');

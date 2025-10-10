@@ -4,8 +4,8 @@ import { getCollection } from "astro:content";
 import { organizeContent } from "../utils/OrganizeContent";
 import HamburgerMenu from "../components/HamburgerMenu.astro";
 import SidePanel from "../components/SidePanel.astro";
-import BackToTop from "../components/BackToTop.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import LessonProgress from "../components/LessonProgress.astro";
 
 type RegularCollections = 'ai-kurs';
 
@@ -47,9 +47,8 @@ const fragor = frontmatter?.fragor || [];
 
 <BaseLayout title={frontmatter?.title || defaultTitle}>
   <div class="relative min-h-screen">
-    <div class="absolute -left-14 md:-left-16 top-0 h-full z-[100]">
-      <div class="fixed top-40 flex flex-col gap-4">
-        <BackToTop />
+    <div class="hidden md:block absolute -left-14 md:-left-16 top-0 h-full z-[100]">
+      <div class="fixed top-40">
         <HamburgerMenu
           rootContent={rootContent}
           folders={folders}
@@ -59,7 +58,7 @@ const fragor = frontmatter?.fragor || [];
       </div>
     </div>
     
-    <div class="max-w-3xl mx-auto px-0 md:px-4 relative z-10 flex flex-col items-center">
+    <div class="max-w-3xl mx-auto px-4 relative z-10 flex flex-col items-center pb-24">
       <div class="w-full">
         <div>
           <Breadcrumbs 
@@ -69,6 +68,7 @@ const fragor = frontmatter?.fragor || [];
             pageTitle={frontmatter.title}
           />
         </div>
+        
         <article class="prose dark:prose-invert w-full mb-8">
           {frontmatter?.title && <h1>{frontmatter.title}</h1>}
           {isFolder && frontmatter?.description && (
@@ -80,6 +80,13 @@ const fragor = frontmatter?.fragor || [];
         <slot />
       </div>
     </div>
+    
+    {!isFolder && (
+      <LessonProgress 
+        lessonSlug={currentPath}
+        lessonTitle={frontmatter.title}
+      />
+    )}
 
     {showSidePanel && (begrepp.length > 0 || fragor.length > 0) && (
       <div class="absolute -right-2 md:-right-6 top-0 h-full z-[100]">

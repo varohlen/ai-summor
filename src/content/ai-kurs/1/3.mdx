@@ -5,8 +5,8 @@ order: 3
 pubDate: 2025-10-06
 ---
 
-import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
-import FillInQuiz from '../../components/FillInQuiz.astro';
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
 
 ## Från en neuron till ett nätverk
 
@@ -34,6 +34,7 @@ Men om vi **kopplar ihop många neuroner i lager** kan vi skapa ett neuronnät s
 Perceptroner kan användas som enkla klassificerare med två olika klasser - till exempel "katt eller hund", "spam eller inte spam", "godkänd eller underkänd".
 
 <MultipleChoiceQuiz 
+  quizId="perceptron-def"
   question="Vad är en perceptron?"
   options={[
     "En neuron med sigmoidfunktion",
@@ -55,18 +56,18 @@ Ett klassiskt exempel på AI-hypen är en artikel publicerad i **New York Times 
 
 Låter det bekant? Samma typ av överdrivna förväntningar ser vi även idag när nya AI-genombrott presenteras!
 
-> [!WARNING] AI-vintern
 > Både neuronnätsentusiasmen på 60-talet och entusiasmen kring expertsystem på 80-talet fick ett snöpligt slut när inga genombrott kom och finansieringen för forskning rasade – följden blev så kallade **AI-vintrar**.
 > 
 > Debatten kring neuronnät ledde till att man under två årtionden nästan helt övergav tekniken. Först på 2000-talet, med mer data och bättre datorer, kom neuronnäten tillbaka.
 
 <MultipleChoiceQuiz 
+  quizId="ai-vinter"
   question="Vad är en 'AI-vinter'?"
   options={[
     "När AI-system inte fungerar i kallt väder",
-    "En period då intresset och finansieringen för AI-forskning minskar drastiskt",
-    "När neuronnät tränas på vinterbilder",
-    "En ny typ av aktiveringsfunktion"
+    "En period då AI-forskningen stagnerade på grund av bristande framsteg",
+    "När neuroner slutar fungera",
+    "En ny typ av neuronnät"
   ]}
   correctAnswer={1}
   explanation="En AI-vinter är en period då överdrivna förväntningar inte infrias, vilket leder till minskad finansiering och intresse för AI-forskning. Detta hände både på 1970-talet och 1980-talet."
@@ -93,10 +94,6 @@ Arkitekturen, dvs. strukturen i neuronnätet, är oftast ordnad så att neuroner
 - Producerar utdata från hela nätet
 - Till exempel "katt" eller "hund" i en klassificerare
 
-![Neuronnät med flera lager](../../assets/images/Colored_neural_network.png)
-
-*Illustration av ett neuronnät med indatalager (grönt), dolda lager (blått) och utdatalager (rött). Varje cirkel är en neuron och linjerna visar kopplingar mellan neuroner.*
-
 ### Hierarkisk inlärning
 
 Genom att koppla ihop neuroner i lager kan ett neuronnät lära sig komplexa mönster hierarkiskt:
@@ -112,12 +109,13 @@ Genom att koppla ihop neuroner i lager kan ett neuronnät lära sig komplexa mö
 - Känner igen hela objekt: ansikten, djur, föremål
 
 <MultipleChoiceQuiz 
+  quizId="lager-forsta"
   question="Vad känner neuroner i det första lagret igen i ett bildigenkänningsnätverk?"
   options={[
     "Hela ansikten",
-    "Näsor och ögon",
-    "Enkla kanter och hörn",
-    "Komplexa objekt"
+    "Komplexa objekt",
+    "Enkla kanter och linjer",
+    "Färger"
   ]}
   correctAnswer={2}
   explanation="Första lagret känner igen de enklaste byggstenarna: kanter, hörn och färgfläckar. Senare lager kombinerar dessa till mer komplexa mönster!"
@@ -129,6 +127,7 @@ Genom att koppla ihop neuroner i lager kan ett neuronnät lära sig komplexa mö
 > Djupet gör det svårare för nätet att lära sig och det förutsätter både större mängder data och större beräkningskapacitet. Om dessa förutsättningar finns ger de dock möjligheten för nätet att lära sig mer komplexa fenomen.
 
 <FillInQuiz 
+  quizId="lager-antal"
   question="Om ett neuronnät har 1 indatalager, 5 dolda lager och 1 utdatalager, hur många lager har nätet totalt?"
   correctAnswer={["7", "7 lager", "sju"]}
   type="text"
@@ -156,18 +155,17 @@ Till slut hittade man en lösning: **backpropagation-algoritmen**. Den bidrog ti
 Genom att upprepa detta tusentals gånger lär sig nätet gradvis att göra bättre förutsägelser.
 
 <MultipleChoiceQuiz 
+  quizId="backprop"
   question="Vad gör backpropagation-algoritmen?"
   options={[
     "Skickar data framåt genom nätet",
-    "Skickar fel bakåt genom nätet för att justera vikter",
-    "Tar bort neuroner från nätet",
-    "Lägger till fler lager automatiskt"
+    "Justerar vikterna bakåt genom nätet för att minska felet",
+    "Skapar nya neuroner",
+    "Tar bort onödiga lager"
   ]}
   correctAnswer={1}
   explanation="Backpropagation skickar felet bakåt (därav namnet!) genom nätet och justerar vikterna i varje lager baserat på hur mycket de bidrog till felet. Detta är grunden för hur moderna neuronnät tränas."
 />
-
----
 
 ## Sammanfattning
 

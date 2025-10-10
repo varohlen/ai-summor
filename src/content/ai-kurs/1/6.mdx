@@ -6,8 +6,8 @@ pubDate: 2025-10-06
 draft: true
 ---
 
-import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
-import FillInQuiz from '../../components/FillInQuiz.astro';
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
 
 ## Framväxten av stora språkmodeller
 
@@ -35,6 +35,7 @@ Mekanismen innebär att man **selektivt kan fokusera** modellens uppmärksamhet 
 På så sätt behöver modellen inte vara uppmärksam på all inmatning samtidigt, vilket **förenklar inlärningsuppgiften avsevärt**.
 
 <MultipleChoiceQuiz 
+  quizId="attention-fordel"
   question="Vad är fördelen med uppmärksamhetsmekanismer?"
   options={[
     "De gör datorn snabbare",
@@ -88,6 +89,7 @@ De mest kända tillämpningarna av transformers finns i **stora språkmodeller**
 - Syfte: demokratisera tekniken
 
 <FillInQuiz 
+  quizId="gpt-akronym"
   question="Vad står GPT för?"
   correctAnswer={["Generative Pretrained Transformer", "generative pretrained transformer"]}
   caseSensitive={false}
@@ -137,6 +139,7 @@ Men med lite mer eftertanke blir det uppenbart att förmågan att kunna föruts�
 > Intensiva forsknings- och utvecklingsinsatser riktas mot att bygga djupinlärningsmodeller med mer robusta resonemangsalgoritmer och databaser med verifierade fakta.
 
 <MultipleChoiceQuiz 
+  quizId="llm-funktion"
   question="Hur fungerar en språkmodell i grunden?"
   options={[
     "Den memorerar alla möjliga meningar",
@@ -194,6 +197,7 @@ Det är inte lätt att säga vad som orsakade det massiva mediedrevet och det al
    - (Herr Cave var dock inte imponerad, enligt BBC)
 
 <MultipleChoiceQuiz 
+  quizId="chatgpt-tillvaxt"
   question="Hur snabbt nådde ChatGPT 1 miljon användare?"
   options={[
     "5 år",
@@ -230,6 +234,7 @@ Vi tror att de mest troliga kandidaterna är sådana där:
 > Vi återkommer till de förväntade effekterna av ChatGPT och andra LLM-baserade applikationer i det sista kapitlet av kursen.
 
 <FillInQuiz 
+  quizId="chatgpt-lansering"
   question="Vilket år lanserades ChatGPT?"
   correctAnswer={["2022", "2022-11-30", "november 2022"]}
   caseSensitive={false}

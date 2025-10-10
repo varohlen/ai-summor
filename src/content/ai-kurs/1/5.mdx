@@ -1,0 +1,109 @@
+---
+title: '5. Avancerade neuronnätsmetoder'
+description: 'Upptäck moderna AI-tekniker: faltningsnät för bildbehandling, generativa tävlande nätverk och transformers som driver ChatGPT.'
+order: 5
+pubDate: 2025-10-06
+draft: true
+---
+
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
+
+## Avancerade neuronnätsmetoder
+
+De modeller och metoder vi nämnde tidigare, såsom flerlagers neuronnät, olinjära aktiveringsfunktioner (t.ex. sigmoidfunktion) och backpropagation-algoritmen, formar grunden för moderna, avancerade neuronnätsmetoder.
+
+Dessutom är de principer som har lett till resultatet, och som för bara några år sedan ansågs vara nästan omöjliga, relativt enkla. Utöver dem har det dock även behövts nya, intressanta idéer.
+
+---
+
+## Faltningsnät (Convolutional Neural Networks)
+
+De framsteg som har gjorts inom djupinlärning, speciellt inom bildbehandling, har varit nära nog **svindlande**. 
+
+### Problemet med vanliga neuronnät
+
+Begränsningarna med den enkla neuronnätklassificerare som vi nämnde i förra kapitlet uppnåddes fort – vilket du säkert märkte i smilisuppgiften. 
+
+Att öka antalet neuroner och lager i nätet och tillämpa backpropagation-algoritmen underlättar i princip processen, men i det långa loppet stöter vi på ett annat problem:
+
+> [!WARNING] Exploderande parametrar
+> Antalet vikter i modellen ökar **drastiskt** och mängden data som behövs för träning blir större än vad någon har tillgång till (inte ens Google).
+
+### Lösningen: Faltningslager
+
+Som tur är det här ingen katastrof och det finns en elegant lösning på problemet: en speciell neuronnätmodell, eller rättare sagt ett speciellt format lager, som kan läggas till vilket neuronnät som helst. 
+
+Lagret kallas för ett **faltningslager**. Neuronnät som innehåller faltningslager kallas för **faltningsnät** (eng. convolutional neural network, CNN).
+
+*[PLATSHÅLLARE FÖR BILD: Illustration av faltningslager som känner igen kanter]*
+
+### Vad kan faltningslager göra?
+
+Med hjälp av faltningslager kan man känna igen olika **särdrag i bilderna** (eng. image features), såsom:
+
+**Enkla särdrag:**
+- Klara eller mörka fläckar
+- Färgfläckar
+- Kanter som löper åt olika håll
+- Enkla figurer
+
+**Komplexa särdrag:**
+- Hundens nos
+- Människans öga
+- Den åttakantiga formen på en stoppskylt
+
+<MultipleChoiceQuiz 
+  quizId="cnn-problem"
+  question="Vad är det största problemet med att bara lägga till fler neuroner i ett vanligt neuronnät?"
+  options={[
+    "Datorn blir för långsam",
+    "Antalet parametrar exploderar och nätet blir svårt att träna",
+    "Neuroner slutar fungera",
+    "Det tar för mycket minne"
+  ]}
+  correctAnswer={1}
+  explanation="När vi lägger till fler neuroner ökar antalet vikter dramastiskt. Ett neuronnät med miljontals vikter kräver enorma mängder träningsdata, vilket är opraktiskt. Faltningsnät löser detta genom att återanvända samma vikter på olika delar av bilden!"
+/>
+
+## Generativa Adversariella Nätverk (GAN)
+
+En annan spännande utveckling är **GAN** (Generative Adversarial Networks). Här tävlar två neuronnät mot varandra:
+
+- **Generatorn** försöker skapa falska bilder som ser verkliga ut
+- **Discriminatorn** försöker avgöra om en bild är äkta eller falsk
+
+Genom denna tävling blir båda nätverken bättre och bättre, tills generatorn kan skapa bilder som är nästan omöjliga att skilja från verkliga.
+
+> [!NOTE] GAN-genererade ansikten
+> Bilderna nedan har producerats med ett GAN utvecklat av NVIDIA, under ledning av Jaakko Lehtinen. Hade du själv kunnat märka att personerna i bilderna inte finns på riktigt, alltså att bilderna är helt syntetiska?
+
+*[PLATSHÅLLARE FÖR BILD: Exempel på GAN-genererade ansikten]*
+
+<MultipleChoiceQuiz 
+  quizId="gan-discriminator"
+  question="Vad är syftet med det 'särskiljande nätverket' (discriminator) i ett GAN?"
+  options={[
+    "Att generera nya bilder",
+    "Att avgöra om en bild är äkta eller genererad",
+    "Att komprimera bilder",
+    "Att förbättra bildkvaliteten"
+  ]}
+  correctAnswer={1}
+  explanation="Discriminatorn försöker skilja verkliga bilder från falska (genererade) bilder. Genom denna tävling blir både generatorn och discriminatorn bättre och bättre, tills generatorn kan skapa bilder som ser helt verkliga ut!"
+/>
+
+## Sammanfattning
+
+> [!TIP] Nyckelkoncept
+> - **Faltningsnät (CNN)** = Återanvänder vikter för att känna igen mönster var som helst i bilden
+> - **Särdrag** = Enkla mönster (kanter, färger) som kombineras till komplexa objekt
+> - **GAN** = Två nätverk som tävlar: ett genererar bilder, ett försöker avslöja dem
+> - **Oövervakat lärande** = Träning utan märkt data, används för understa lagren
+> - **Metaforer är farliga** = Neuronnät "drömmer" eller "förstår" inte på riktigt
+
+Du har nu lärt dig om de avancerade tekniker som driver modern bildbehandling och bildgenerering!
+
+---
+
+**Nästa steg:** I nästa lektion ska vi utforska den senaste revolutionen inom AI: stora språkmodeller, transformers och ChatGPT!

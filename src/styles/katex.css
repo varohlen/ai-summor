@@ -1,0 +1,58 @@
+/* KaTeX overflow fixes for mobile */
+
+/* Make display math scrollable on small screens */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding: 0.5rem 0;
+  /* Add scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+}
+
+.katex-display::-webkit-scrollbar {
+  height: 6px;
+}
+
+.katex-display::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.katex-display::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+}
+
+.katex-display::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Scale down formulas slightly on mobile for better fit */
+@media (max-width: 768px) {
+  .katex-display {
+    font-size: 0.95em;
+  }
+  
+  .katex {
+    font-size: 1em;
+  }
+}
+
+/* Ensure inline math doesn't break layout */
+.katex {
+  max-width: 100%;
+  overflow-x: auto;
+  display: inline-block;
+}
+
+/* Better spacing in prose context */
+.prose .katex-display {
+  margin: 1em 0;
+}
+
+/* Prevent KaTeX from causing horizontal scroll */
+.katex-html {
+  overflow-x: auto;
+  overflow-y: hidden;
+}

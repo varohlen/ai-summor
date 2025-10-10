@@ -1,0 +1,284 @@
+---
+export interface Props {
+  lessonSlug: string;
+  lessonTitle: string;
+}
+
+const { lessonSlug, lessonTitle } = Astro.props;
+---
+
+<!-- Progress bar (bottom on all screen sizes) -->
+<div id="lesson-progress" class="fixed bottom-0 left-1/2 -translate-x-1/2 z-40 w-full max-w-3xl transition-transform duration-300" data-lesson-slug={lessonSlug} data-lesson-title={lessonTitle}>
+  <!-- Content matches prose width exactly -->
+  <div class="bg-card dark:bg-dark-card border-t border-border dark:border-dark-border shadow-lg px-4 py-2 md:py-3">
+    <div class="flex items-center justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
+      <div class="flex items-center gap-2 flex-1 min-w-0">
+        <h3 class="text-xs md:text-sm font-semibold text-foreground dark:text-dark-foreground">Framsteg</h3>
+        <span id="progress-count" class="text-xs md:text-sm text-muted-foreground dark:text-dark-muted-foreground whitespace-nowrap">
+          <span id="completed-count">0</span>/<span id="total-count">0</span>
+        </span>
+      </div>
+      
+      <div class="flex items-center gap-1">
+        <!-- Reset button -->
+        <button 
+          id="reset-progress-btn"
+          class="p-1 hover:bg-muted dark:hover:bg-dark-muted rounded transition-colors touch-manipulation flex-shrink-0"
+          title="Återställ lektionen"
+          aria-label="Återställ lektionen"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground dark:text-dark-muted-foreground">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+        </button>
+        
+        <!-- Minimize button -->
+        <button 
+          id="toggle-progress-btn"
+          class="p-1 hover:bg-muted dark:hover:bg-dark-muted rounded transition-colors touch-manipulation flex-shrink-0"
+          title="Minimera framsteg"
+          aria-label="Minimera framsteg"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground dark:text-dark-muted-foreground">
+            <polyline points="4 14 10 14 10 20"></polyline>
+            <polyline points="20 10 14 10 14 4"></polyline>
+            <line x1="14" y1="10" x2="21" y2="3"></line>
+            <line x1="3" y1="21" x2="10" y2="14"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <div class="w-full bg-muted dark:bg-dark-muted h-1.5 md:h-2">
+      <div id="progress-bar" class="bg-primary h-1.5 md:h-2 transition-all duration-300" style="width: 0%"></div>
+    </div>
+  </div>
+  
+  <!-- Completion card (hidden until all quiz completed) -->
+  <div id="completion-card" class="hidden mt-2 md:mt-3 p-3 md:p-4 bg-green-50 dark:bg-green-900/20 border-2 border-green-500 mb-2 md:mb-3">
+      <div class="flex items-start gap-2 md:gap-3">
+        <div class="text-xl md:text-2xl flex-shrink-0">🎉</div>
+        <div class="flex-1 min-w-0">
+          <h4 class="text-sm md:text-base font-bold text-green-700 dark:text-green-300 mb-1">Grattis! Du har klarat lektionen!</h4>
+          <p class="text-xs text-green-600 dark:text-green-400 mb-2">
+            Här är din bekräftelsekod:
+          </p>
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mb-2">
+            <code id="completion-code" class="text-xs md:text-sm font-mono font-bold bg-white dark:bg-gray-800 px-2 py-1.5 rounded border-2 border-green-500 text-green-700 dark:text-green-300 break-all flex-1">
+              Genererar...
+            </code>
+            <button 
+              id="copy-code-btn"
+              class="px-3 py-1.5 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-xs font-medium touch-manipulation flex-shrink-0"
+              title="Kopiera kod"
+              aria-label="Kopiera kod"
+            >
+              📋 Kopiera
+            </button>
+          </div>
+          <p class="text-xs text-green-600 dark:text-green-400">
+            Skicka koden till din lärare.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating show button (only visible when progress bar is hidden) -->
+<div 
+  id="show-progress-btn"
+  class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 z-40 w-full max-w-3xl cursor-pointer"
+>
+  <div class="bg-card dark:bg-dark-card border-t border-border dark:border-dark-border shadow-lg px-4 py-2 hover:bg-muted/50 dark:hover:bg-dark-muted/50 transition-colors">
+    <div class="flex items-center justify-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground dark:text-dark-muted-foreground">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      <span class="text-xs md:text-sm text-muted-foreground dark:text-dark-muted-foreground">Visa framsteg</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle progress bar visibility
+  const toggleBtn = document.getElementById('toggle-progress-btn');
+  const showBtn = document.getElementById('show-progress-btn');
+  const progressBar = document.getElementById('lesson-progress');
+  
+  // Function to get correct hide transform (always hide downwards now)
+  function getHideTransform() {
+    return 'translateY(100%) translateX(-50%)';
+  }
+  
+  function getShowTransform() {
+    return 'translateY(0) translateX(-50%)';
+  }
+  
+  function hideProgressBar() {
+    if (!progressBar || !showBtn) return;
+    progressBar.style.transform = getHideTransform();
+    showBtn.classList.remove('hidden');
+    localStorage.setItem('progressBarHidden', 'true');
+  }
+  
+  function showProgressBar() {
+    if (!progressBar || !showBtn) return;
+    progressBar.style.transform = getShowTransform();
+    showBtn.classList.add('hidden');
+    localStorage.setItem('progressBarHidden', 'false');
+  }
+  
+  // Check if progress bar should be hidden (stored in localStorage)
+  const isHidden = localStorage.getItem('progressBarHidden') === 'true';
+  if (isHidden) {
+    hideProgressBar();
+  }
+  
+  // Minimize button (inside progress bar)
+  toggleBtn?.addEventListener('click', () => {
+    hideProgressBar();
+  });
+  
+  // Show button (floating)
+  showBtn?.addEventListener('click', () => {
+    showProgressBar();
+  });
+  
+  // Update transform on window resize
+  window.addEventListener('resize', () => {
+    if (!progressBar) return;
+    const isCurrentlyHidden = localStorage.getItem('progressBarHidden') === 'true';
+    if (isCurrentlyHidden) {
+      progressBar.style.transform = getHideTransform();
+    }
+  });
+  
+  // Reset progress for this lesson
+  document.getElementById('reset-progress-btn')?.addEventListener('click', () => {
+    if (!confirm('Är du säker på att du vill återställa lektionen? All progress kommer att raderas.')) {
+      return;
+    }
+    
+    const pageUrl = window.location.pathname;
+    const completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes') || '{}');
+    
+    // Remove this page's progress
+    delete completedQuizzes[pageUrl];
+    localStorage.setItem('completedQuizzes', JSON.stringify(completedQuizzes));
+    
+    // Reload page to reset all quiz
+    window.location.reload();
+  });
+  
+  // Generate completion code using HMAC-like approach
+  async function generateCompletionCode(lessonSlug: string, timestamp: string): Promise<string> {
+    const secret = 'summor-ai-2024'; // Simple secret, can be made more complex
+    const message = `${lessonSlug}-${timestamp}`;
+    
+    // Simple hash function (in production, use crypto.subtle.digest)
+    const encoder = new TextEncoder();
+    const data = encoder.encode(secret + message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    // Create readable code format: PREFIX-HASH-DATE
+    const prefix = lessonSlug.split('/').pop()?.split('-')[0]?.toUpperCase().substring(0, 4) || 'QUIZ';
+    const shortHash = hashHex.substring(0, 6).toUpperCase();
+    const dateCode = timestamp.substring(2, 8); // YYMMDD
+    
+    return `${prefix}-${shortHash}-${dateCode}`;
+  }
+
+  function updateProgress() {
+    const progressContainer = document.getElementById('lesson-progress');
+    if (!progressContainer) return;
+    
+    const lessonSlug = progressContainer.getAttribute('data-lesson-slug') || '';
+    const pageUrl = window.location.pathname;
+    
+    // Count total quiz on page
+    const totalQuizzes = document.querySelectorAll('[data-quiz-id]').length / 3; // Each quiz has 3 elements with data-quiz-id
+    const uniqueQuizIds = new Set<string>();
+    document.querySelectorAll('.check-answer-btn[data-quiz-id]').forEach(btn => {
+      const id = btn.getAttribute('data-quiz-id');
+      if (id) uniqueQuizIds.add(id);
+    });
+    const totalCount = uniqueQuizIds.size;
+    
+    // Get completed quiz from localStorage
+    const completedQuizzes = JSON.parse(localStorage.getItem('completedQuizzes') || '{}');
+    const completedForThisPage = completedQuizzes[pageUrl] || [];
+    const completedCount = completedForThisPage.length;
+    
+    // Update UI
+    const completedCountEl = document.getElementById('completed-count');
+    const totalCountEl = document.getElementById('total-count');
+    const progressBar = document.getElementById('progress-bar');
+    
+    if (completedCountEl) completedCountEl.textContent = completedCount.toString();
+    if (totalCountEl) totalCountEl.textContent = totalCount.toString();
+    
+    const percentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+    if (progressBar) progressBar.style.width = `${percentage}%`;
+    
+    // Show completion card if all quiz completed
+    if (completedCount > 0 && completedCount === totalCount) {
+      showCompletionCard(lessonSlug);
+    }
+  }
+  
+  async function showCompletionCard(lessonSlug: string) {
+    const completionCard = document.getElementById('completion-card');
+    const completionCodeEl = document.getElementById('completion-code');
+    
+    if (!completionCard || !completionCodeEl) return;
+    
+    // Generate completion code
+    const now = new Date();
+    const timestamp = now.toISOString().split('T')[0].replace(/-/g, ''); // YYYYMMDD
+    const code = await generateCompletionCode(lessonSlug, timestamp);
+    
+    completionCodeEl.textContent = code;
+    completionCard.classList.remove('hidden');
+    
+    // Scroll to completion card
+    completionCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  
+  // Copy code to clipboard
+  document.getElementById('copy-code-btn')?.addEventListener('click', async () => {
+    const codeEl = document.getElementById('completion-code');
+    const btn = document.getElementById('copy-code-btn');
+    if (!codeEl || !btn) return;
+    
+    const code = codeEl.textContent || '';
+    
+    try {
+      await navigator.clipboard.writeText(code);
+      btn.textContent = '✓ Kopierad!';
+      setTimeout(() => {
+        btn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          Kopiera kod
+        `;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  });
+  
+  // Listen for quiz completion events
+  window.addEventListener('quizCompleted', () => {
+    updateProgress();
+  });
+  
+  // Initial update
+  updateProgress();
+</script>

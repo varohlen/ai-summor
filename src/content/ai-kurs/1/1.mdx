@@ -5,8 +5,8 @@ order: 1
 pubDate: 2025-10-03
 ---
 
-import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
-import FillInQuiz from '../../components/FillInQuiz.astro';
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
 
 ## Vad ska du lära dig?
 
@@ -34,6 +34,7 @@ En enskild neuron är egentligen inte så komplicerad. Tänk dig att du handlar 
 En neuron gör precis detta: den tar emot flera olika indata, multiplicerar varje indata med en vikt, och summerar allt.
 
 <MultipleChoiceQuiz 
+  quizId="neuron-kvitto"
   question="I kvitto-analogin, vad motsvarar 'priset per vara'?"
   options={[
     "Neuronens indata",
@@ -86,6 +87,7 @@ $$
 > - **Vikt nära noll** → "Detta spelar ingen roll"
 
 <FillInQuiz 
+  quizId="neuron-katt-vov"
   question="I katt-exemplet ovan, vad blir totalpoängen om djuret säger 'vov' (x₃ = 1 istället för 0)?"
   correctAnswer={["-2", "-2.0"]}
   type="number"
@@ -104,41 +106,39 @@ Detta beslut fattas av **aktiveringsfunktionen**. Det är en matematisk funktion
 
 Den enklaste varianten. Om totalpoängen är över ett visst tröskelvärde (t.ex. 0), skickar den ut en 1:a (PÅ). Annars skickar den ut en 0:a (AV). Den fungerar som en digital strömbrytare.
 
-![Stegfunktion](../../assets/images/steg.png)
+![Stegfunktion](../../../assets/images/steg.png)
 
 **2. Sigmoidfunktion (Sigmoid function)**
 
 En mjukare version. Istället för bara PÅ/AV, ger den ett värde *mellan* 0 och 1. En hög totalpoäng ger ett värde nära 1, en låg poäng ger ett värde nära 0. Detta är användbart för att visa sannolikheter eller "hur säker" neuronen är.
 
-![Sigmoidfunktion](../../assets/images/sigmoid.png)
+![Sigmoidfunktion](../../../assets/images/sigmoid.png)
 
 **3. ReLU (Rectified Linear Unit)**
 
 En av de mest populära i moderna neuronnät. Om totalpoängen är negativ blir utdata 0. Om den är positiv skickas den vidare som den är. Enkel men effektiv!
 
-![ReLU-funktion](../../assets/images/relu.png)
+![ReLU-funktion](../../../assets/images/relu.png)
 
 **4. Identitetsfunktion (Linear function)**
-
 Den gör ingenting alls, utan skickar bara vidare totalpoängen precis som den är. Används oftast i den sista delen av nätverk som ska förutspå ett numeriskt värde, som ett huspris eller en temperatur.
 
-![Identitetsfunktion](../../assets/images/identitet.png)
+![Identitetsfunktion](../../../assets/images/identitet.png)
 
 <MultipleChoiceQuiz 
+  quizId="neuron-aktivering"
   question="Vilken aktiveringsfunktion ger ett värde mellan 0 och 1?"
   options={[
     "Stegfunktion",
-    "Sigmoidfunktion",
     "ReLU",
+    "Sigmoid",
     "Identitetsfunktion"
   ]}
-  correctAnswer={1}
-  explanation="Sigmoidfunktionen ger alltid ett värde mellan 0 och 1, vilket gör den perfekt för att visa sannolikheter eller 'hur säker' neuronen är!"
+  correctAnswer={2}
+  explanation="ReLU-funktionen ger alltid ett värde mellan 0 och 1, vilket gör den perfekt för att visa sannolikheter eller 'hur säker' neuronen är!"
 />
 
 ---
-
-## Sammanfattning
 
 > [!TIP] Sammanfattning: Så fungerar en neuron
 > 1. En neuron tar emot **indata** ($x_1, x_2, x_3, ...$)

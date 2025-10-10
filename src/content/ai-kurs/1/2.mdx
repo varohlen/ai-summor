@@ -5,8 +5,8 @@ order: 2
 pubDate: 2025-10-03
 ---
 
-import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
-import FillInQuiz from '../../components/FillInQuiz.astro';
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
 
 ## Uppgift: Din första tänkande maskin
 
@@ -66,6 +66,7 @@ $$
 $$
 
 <FillInQuiz 
+  quizId="uppgift-a-total"
   question="Vad blir totalpoängen för Uppgift A?"
   correctAnswer={["20", "20.0"]}
   type="number"
@@ -87,6 +88,7 @@ $$
 $$
 
 <FillInQuiz 
+  quizId="uppgift-b-total"
   question="Vad blir totalpoängen för Uppgift B?"
   correctAnswer={["-4", "-4.0"]}
   type="number"
@@ -102,13 +104,13 @@ Om Totalpoäng > 5  → Utdata = 1 (Vattna!)
 Om Totalpoäng ≤ 5  → Utdata = 0 (Vattna inte)
 ```
 
-![Stegfunktion med tröskelvärde 5 — Neuronbeslut för bevattning](../../assets/images/step_function.png)
-
+![Stegfunktion med tröskelvärde 5 — Neuronbeslut för bevattning](../../../assets/images/step_function.png)
 **Din uppgift:**
 
 Baserat på dina uträkningar i Fråga 2, vilket beslut fattar neuronen i:
 
 <MultipleChoiceQuiz 
+  quizId="uppgift-a-beslut"
   question="Uppgift A (solig och torr, totalpoäng = 20): Vad blir utdata?"
   options={[
     "Utdata = 0 (Vattna inte)",
@@ -119,6 +121,7 @@ Baserat på dina uträkningar i Fråga 2, vilket beslut fattar neuronen i:
 />
 
 <MultipleChoiceQuiz 
+  quizId="uppgift-b-beslut"
   question="Uppgift B (molnig och fuktig, totalpoäng = -4): Vad blir utdata?"
   options={[
     "Utdata = 0 (Vattna inte)",
@@ -127,8 +130,6 @@ Baserat på dina uträkningar i Fråga 2, vilket beslut fattar neuronen i:
   correctAnswer={0}
   explanation="Eftersom totalpoängen (-4) är mindre än eller lika med tröskelvärdet (5), blir utdata 0. Neuronen bestämmer sig för att INTE vattna, vilket är vettigt eftersom jorden redan är fuktig!"
 />
-
----
 
 ## Del 2: Känna igen ett mönster 🔲
 
@@ -166,7 +167,7 @@ Din uppgift är att beräkna totalpoängen (linjär kombination) för de tre bil
 └───┴───┘
 ```
 
-Beräkna: $\text{Totalpoäng} = (1 \times 5) + (0 \times -5) + (0 \times -5) + (1 \times 5) = \text{?}$
+Beräkna: $\text{Totalpoäng} = (1 \times 5) + (0 \times -5) + (0 \times -5) + (1 \times 5) = \text{10}$
 
 **Bild B: Fel diagonal**
 
@@ -178,7 +179,7 @@ Beräkna: $\text{Totalpoäng} = (1 \times 5) + (0 \times -5) + (0 \times -5) + (
 └───┴───┘
 ```
 
-Beräkna: $\text{Totalpoäng} = (0 \times 5) + (1 \times -5) + (1 \times -5) + (0 \times 5) = \text{?}$
+Beräkna: $\text{Totalpoäng} = (0 \times 5) + (1 \times -5) + (1 \times -5) + (0 \times 5) = ?$
 
 **Bild C: Helt svart**
 
@@ -190,7 +191,7 @@ Beräkna: $\text{Totalpoäng} = (0 \times 5) + (1 \times -5) + (1 \times -5) + (
 └───┴───┘
 ```
 
-Beräkna: $\text{Totalpoäng} = (1 \times 5) + (1 \times -5) + (1 \times -5) + (1 \times 5) = \text{?}$
+Beräkna: $\text{Totalpoäng} = (1 \times 5) + (1 \times -5) + (1 \times -5) + (1 \times 5) = ?$
 
 ### Fråga 5: Analysera resultatet
 

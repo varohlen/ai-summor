@@ -1,0 +1,188 @@
+---
+title: '0. Från hjärna till dator'
+description: 'Upptäck hur forskare har inspirerats av hjärnans neuroner för att skapa artificiell intelligens. Lär dig skillnaden mellan biologiska och artificiella neuroner.'
+order: 0
+pubDate: 2025-10-10
+---
+
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
+import { Image } from 'astro:assets';
+import neuronImage from '../../../assets/images/neuron.png';
+import neuron2Image from '../../../assets/images/neuron2.png';
+
+## Vad handlar lektionen om?
+
+För att förstå artificiella neuroner måste vi först förstå vad som inspirerade dem. Forskare ställde sig frågan: Kan vi bygga intelligenta maskiner genom att efterlikna hjärnan?
+
+**Lektionen behandlar:**
+
+- Hur biologiska neuroner fungerar
+- Skillnaden mellan hjärnans och datorns informationsbearbetning
+- Varför artificiella neuroner skapades
+- Nobelpriset i fysik 2024 och dess koppling till AI
+
+---
+
+## Biologiska neuroner
+
+Hjärnan innehåller ungefär 86 miljarder neuroner. Dessa celler kommunicerar genom elektriska signaler. Varje neuron tar emot information, bearbetar den, och skickar vidare ett svar.
+
+<Image src={neuronImage} alt="Biologisk neuron med märkta delar: dendriter, cellkropp, cellkärna, axon och terminaler" class="rounded-lg shadow-md my-6" />
+
+### Neuronens delar:
+
+1. **Dendriter** (indata) - Tar emot signaler från andra neuroner
+2. **Cellkropp** - Bearbetar inkommande signaler
+3. **Cellkärna** - Innehåller neuronens DNA
+4. **Axon** (utdata) - Skickar vidare en signal om cellkroppen aktiveras
+5. **Terminaler** - Ändar på axonet där signaler överförs
+
+En enskild neuron är enkel. Den tar emot signaler och bestämmer om den ska skicka vidare en signal. Men när miljarder neuroner kopplas ihop skapas komplex funktionalitet som medvetande och minne.
+
+### Kommunikation mellan neuroner
+
+<Image src={neuron2Image} alt="Två neuroner kopplade via en synaps" class="rounded-lg shadow-md my-6" />
+
+**Synapser** är kopplingspunkterna mellan neuroner. När en signal når axonets terminal frigörs kemiska signaler som överförs till nästa neurons dendriter. Detta är hur information färdas genom hjärnan.
+
+<MultipleChoiceQuiz 
+  quizId="neuron-delar"
+  question="Vad kallas den del av neuronen som tar emot signaler från andra neuroner?"
+  options={[
+    "Axon",
+    "Dendriter",
+    "Cellkropp",
+    "Synapser"
+  ]}
+  correctAnswer={1}
+  explanation="Dendriterna tar emot signaler från andra neuroner. Axonet skickar signaler vidare."
+/>
+
+---
+
+## Datorer och hjärnan: Två olika system
+
+{/* BILD: Jämförelsediagram mellan dator och hjärna */}
+
+### Traditionella datorer:
+
+- **Sekventiell bearbetning**: Utför en operation i taget
+- **Separerat minne**: Data lagras och bearbetas på olika platser
+- **Exakt**: Följer instruktioner utan avvikelser
+- **Styrkor**: Matematik, logik, repetitiva uppgifter
+
+### Hjärnan:
+
+- **Parallell bearbetning**: Miljarder neuroner arbetar samtidigt
+- **Integrerat minne**: Neuroner både lagrar och bearbetar information
+- **Approximativ**: Hanterar osäkerhet och ofullständig information
+- **Styrkor**: Mönsterigenkänning, anpassning, generalisering
+
+>[!INFO] Kompletterande system
+> Datorer är effektiva för beräkningar och regelbaserade uppgifter. Hjärnan är effektiv för mönsterigenkänning och anpassning. Neuronnät kombinerar båda ansatserna.
+
+<MultipleChoiceQuiz 
+  quizId="dator-minne"
+  question="Hur hanterar traditionella datorer minne och bearbetning?"
+  options={[
+    "Minne och bearbetning sker på samma plats",
+    "Data lagras och bearbetas på separata platser",
+    "Datorer har inget minne",
+    "Minnet bearbetar data automatiskt"
+  ]}
+  correctAnswer={1}
+  explanation="Traditionella datorer har separerat minne (RAM/hårddisk) och processor (CPU). Data hämtas från minnet, bearbetas i processorn, och lagras tillbaka."
+/>
+
+---
+
+## Nobelpriset i fysik 2024
+
+{/* BILD: Porträtt av John Hopfield och Geoffrey Hinton */}
+
+2024 års Nobelpris i fysik tilldelades John Hopfield och Geoffrey Hinton för deras arbete med artificiella neuronnät.
+
+**John Hopfield** (1980-talet):
+- Utvecklade Hopfield-nätverk som kunde lagra och återskapa mönster
+- Visade hur neuroner kan samarbeta för att lagra information
+
+**Geoffrey Hinton** (1980-2010-talet):
+- Utvecklade metoder för att träna djupa neuronnät
+- Möjliggjorde moderna AI-system som språkmodeller och bildgeneratorer
+
+>[!NOTE] Fysik och AI
+> Priset tilldelades inom fysik eftersom forskarna använde principer från statistisk mekanik. De visade hur nätverk av enkla enheter kan skapa komplex funktionalitet, liknande hur atomer bildar komplexa material.
+> För mer information om dessa Nobelpristagare kan ni se [Nobelporträttet 2024](https://www.svtplay.se/video/jn49x4W/nobel-portratten/fysikprisportrattet) på SVT Play.
+
+<MultipleChoiceQuiz 
+  quizId="nobel-2024"
+  question="Vad är Geoffrey Hinton känd för inom AI?"
+  options={[
+    "Han uppfann den första datorn",
+    "Han utvecklade metoder för att träna djupa neuronnät",
+    "Han skapade internet",
+    "Han programmerade den första roboten"
+  ]}
+  correctAnswer={1}
+  explanation="Geoffrey Hinton utvecklade banbrytande metoder för djupinlärning som möjliggjorde moderna AI-system. Han kallas ofta för 'AI:s gudfader'!"
+/>
+
+---
+
+## Artificiella neuroner: En förenklad modell
+
+{/* BILD: Jämförelse mellan biologisk och artificiell neuron */}
+
+På 1950-60-talet insåg forskare att de inte behövde kopiera hjärnan exakt. De skapade en förenklad modell:
+
+### Biologisk neuron:
+- Tusentals komplexa molekyler
+- Kemiska signaler
+- Komplex intern struktur
+
+### Artificiell neuron:
+- Enkla matematiska operationer
+- Numeriska signaler
+- Förenklad struktur
+
+**Analogi:** Flygplan flaxar inte med vingarna som fåglar, men båda kan flyga. Artificiella neuroner behöver inte fungera exakt som biologiska neuroner för att skapa intelligent beteende.
+
+---
+
+## Neuronnätens egenskaper
+
+Neuronnät har två centrala egenskaper:
+
+### 1. Parallell bearbetning
+Tusentals eller miljoner artificiella neuroner kan arbeta samtidigt. Detta möjliggör snabb bearbetning av stora datamängder.
+
+### 2. Inlärning genom anpassning
+Neuronnät tränas genom exempel istället för programmerade regler. Nätverket anpassar sina kopplingar (vikter) baserat på träningsdata.
+
+<MultipleChoiceQuiz 
+  quizId="neuronnat-fordel"
+  question="Vad är den största skillnaden mellan hur neuronnät och traditionella program löser problem?"
+  options={[
+    "Neuronnät är alltid snabbare",
+    "Neuronnät lär sig från exempel istället för att följa programmerade regler",
+    "Neuronnät använder mindre elektricitet",
+    "Neuronnät kan bara användas för bilder"
+  ]}
+  correctAnswer={1}
+  explanation="Neuronnät tränas genom exempel. De hittar mönster i data istället för att följa förprogrammerade regler."
+/>
+
+
+
+---
+
+## Sammanfattning
+
+- Biologiska neuroner är enkla byggstenar som tillsammans skapar komplex funktionalitet
+- Datorer och hjärnan använder olika principer för informationsbearbetning
+- Nobelpriset 2024 tilldelades forskare som utvecklade artificiella neuronnät
+- Artificiella neuroner är förenklade modeller av biologiska neuroner
+- Neuronnät lär sig genom att anpassa sina kopplingar baserat på data
+
+Nästa lektion behandlar hur en artificiell neuron fungerar matematiskt.

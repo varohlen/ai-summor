@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Verifiera Bekräftelsekod - ai.summor.se">
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl md:text-4xl font-bold mb-8">Verifiera Bekräftelsekod</h1>
+    
+    <div class="bg-card dark:bg-dark-card border border-border dark:border-dark-border rounded-lg p-6 mb-6">
+      <p class="text-muted-foreground mb-4">
+        Använd detta verktyg för att verifiera bekräftelsekoder från elever som har klarat lektioner.
+      </p>
+      
+      <div class="space-y-4">
+        <div>
+          <label for="code-input" class="block text-sm font-medium mb-2">
+            Bekräftelsekod
+          </label>
+          <input 
+            type="text" 
+            id="code-input"
+            placeholder="T.ex. ARTI-A3F2B1-241009"
+            class="w-full p-3 rounded-md border border-border dark:border-dark-border bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground focus:ring-2 focus:ring-primary focus:border-primary uppercase"
+          />
+        </div>
+        
+        <button 
+          id="verify-btn"
+          class="w-full px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors font-medium"
+        >
+          Verifiera Kod
+        </button>
+      </div>
+    </div>
+    
+    <!-- Result card -->
+    <div id="result-card" class="hidden">
+      <!-- Valid result -->
+      <div id="valid-result" class="hidden bg-green-50 dark:bg-green-900/20 border-2 border-green-500 rounded-lg p-6">
+        <div class="flex items-start gap-3">
+          <div class="text-3xl">✓</div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-green-700 dark:text-green-300 mb-2">Giltig kod!</h3>
+            <div class="space-y-2 text-sm text-green-600 dark:text-green-400">
+              <p><strong>Lektion:</strong> <span id="lesson-name"></span></p>
+              <p><strong>Datum:</strong> <span id="completion-date"></span></p>
+              <p><strong>Kod:</strong> <code class="font-mono" id="verified-code"></code></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Invalid result -->
+      <div id="invalid-result" class="hidden bg-red-50 dark:bg-red-900/20 border-2 border-red-500 rounded-lg p-6">
+        <div class="flex items-start gap-3">
+          <div class="text-3xl">✗</div>
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-red-700 dark:text-red-300 mb-2">Ogiltig kod</h3>
+            <p class="text-sm text-red-600 dark:text-red-400">
+              Denna kod kunde inte verifieras. Kontrollera att koden är korrekt inmatad.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Info section -->
+    <div class="mt-8 bg-muted/50 dark:bg-dark-muted/50 rounded-lg p-6">
+      <h2 class="text-lg font-semibold mb-3">Om bekräftelsekoder</h2>
+      <div class="text-sm text-muted-foreground space-y-2">
+        <p>
+          <strong>Format:</strong> Koder har formatet PREFIX-HASH-DATUM (t.ex. ARTI-A3F2B1-241009)
+        </p>
+        <p>
+          <strong>Prefix:</strong> De första bokstäverna från lektionens namn
+        </p>
+        <p>
+          <strong>Hash:</strong> En unik signatur baserad på lektion och datum
+        </p>
+        <p>
+          <strong>Datum:</strong> När lektionen slutfördes (ÅÅMMDD)
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Same code generation function as in LessonProgress
+  async function generateCompletionCode(lessonSlug: string, timestamp: string): Promise<string> {
+    const secret = 'summor-ai-2024';
+    const message = `${lessonSlug}-${timestamp}`;
+    
+    const encoder = new TextEncoder();
+    const data = encoder.encode(secret + message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    const prefix = lessonSlug.split('/').pop()?.split('-')[0]?.toUpperCase().substring(0, 4) || 'QUIZ';
+    const shortHash = hashHex.substring(0, 6).toUpperCase();
+    const dateCode = timestamp.substring(2, 8);
+    
+    return `${prefix}-${shortHash}-${dateCode}`;
+  }
+  
+  function parseCode(code: string): { prefix: string; hash: string; date: string } | null {
+    const parts = code.trim().toUpperCase().split('-');
+    if (parts.length !== 3) return null;
+    
+    return {
+      prefix: parts[0],
+      hash: parts[1],
+      date: parts[2]
+    };
+  }
+  
+  function formatDate(dateCode: string): string {
+    // dateCode format: YYMMDD
+    const year = '20' + dateCode.substring(0, 2);
+    const month = dateCode.substring(2, 4);
+    const day = dateCode.substring(4, 6);
+    
+    return `${year}-${month}-${day}`;
+  }
+  
+  // Lesson name mapping (you can expand this)
+  const lessonNames: Record<string, string> = {
+    'ARTI': 'Artificiella neuronnätverk',
+    'VAD': 'Vad är en neuron',
+    'UPPG': 'Uppgift: Neuron',
+    'PERC': 'Perceptron och neuronnät',
+    'ENKE': 'Enkel klassificerare',
+    'AVAN': 'Avancerade metoder',
+    'SPRA': 'Språkmodeller'
+  };
+  
+  async function verifyCode(code: string): Promise<boolean> {
+    const parsed = parseCode(code);
+    if (!parsed) return false;
+    
+    const { prefix, hash, date } = parsed;
+    
+    // Try to reconstruct the code for common lesson slugs
+    const possibleLessons = [
+      '/ai-kurs/artificiella-neuronnat/1-vad-ar-en-neuron',
+      '/ai-kurs/artificiella-neuronnat/2-uppgift-neuron',
+      '/ai-kurs/artificiella-neuronnat/3-perceptron-och-nuronat',
+      '/ai-kurs/artificiella-neuronnat/4-enkel-klassificerare',
+      '/ai-kurs/artificiella-neuronnat/5-avancerade-metoder',
+      '/ai-kurs/artificiella-neuronnat/6-sprakmodeller'
+    ];
+    
+    // Convert date code to timestamp format (YYYYMMDD)
+    const timestamp = '20' + date;
+    
+    for (const lessonSlug of possibleLessons) {
+      const generatedCode = await generateCompletionCode(lessonSlug, timestamp);
+      if (generatedCode === code) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  document.getElementById('verify-btn')?.addEventListener('click', async () => {
+    const input = document.getElementById('code-input') as HTMLInputElement;
+    const code = input.value.trim().toUpperCase();
+    
+    if (!code) {
+      alert('Vänligen ange en kod');
+      return;
+    }
+    
+    const resultCard = document.getElementById('result-card');
+    const validResult = document.getElementById('valid-result');
+    const invalidResult = document.getElementById('invalid-result');
+    
+    if (!resultCard || !validResult || !invalidResult) return;
+    
+    // Show loading state
+    const btn = document.getElementById('verify-btn');
+    if (btn) {
+      btn.textContent = 'Verifierar...';
+      btn.setAttribute('disabled', 'true');
+    }
+    
+    // Verify code
+    const isValid = await verifyCode(code);
+    
+    // Reset button
+    if (btn) {
+      btn.textContent = 'Verifiera Kod';
+      btn.removeAttribute('disabled');
+    }
+    
+    // Show result
+    resultCard.classList.remove('hidden');
+    
+    if (isValid) {
+      const parsed = parseCode(code);
+      if (parsed) {
+        const lessonNameEl = document.getElementById('lesson-name');
+        const dateEl = document.getElementById('completion-date');
+        const codeEl = document.getElementById('verified-code');
+        
+        if (lessonNameEl) lessonNameEl.textContent = lessonNames[parsed.prefix] || 'Okänd lektion';
+        if (dateEl) dateEl.textContent = formatDate(parsed.date);
+        if (codeEl) codeEl.textContent = code;
+      }
+      
+      validResult.classList.remove('hidden');
+      invalidResult.classList.add('hidden');
+    } else {
+      validResult.classList.add('hidden');
+      invalidResult.classList.remove('hidden');
+    }
+  });
+  
+  // Allow Enter key to verify
+  document.getElementById('code-input')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      document.getElementById('verify-btn')?.click();
+    }
+  });
+</script>

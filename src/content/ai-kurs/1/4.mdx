@@ -5,9 +5,9 @@ order: 4
 pubDate: 2025-10-06
 ---
 
-import MultipleChoiceQuiz from '../../components/MultipleChoiceQuiz.astro';
-import FillInQuiz from '../../components/FillInQuiz.astro';
-import SmilisClassifier from '../../components/SmilisClassifier.astro';
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
+import SmilisClassifier from '../../../components/SmilisClassifier.astro';
 
 ## Enkel neuronnätsklassificerare
 
@@ -63,6 +63,7 @@ Hela uppsättningen indata för krysset blir:
 `1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1`
 
 <FillInQuiz 
+  quizId="pixlar-antal"
   question="Hur många indata (pixlar) har vår klassificerare för ett 5×5 rutnät?"
   correctAnswer={["25", "25 pixlar", "tjugofem"]}
   type="text"
@@ -93,107 +94,39 @@ Låt oss testa vad som händer om alla vikter har samma värde, exempelvis **1**
 
 ### Cirkel
 - Bilden innehåller **8 färggranna pixlar**
-- Beräkning: 8 × 1 + 17 × 0 = **8**
 - Resultat: Positivt → Klassificeras som **cirkel** ✓
 
 **Problem:** Båda bilderna får positivt värde! Krysset klassificeras fel. Vi måste justera vikterna.
 
 <MultipleChoiceQuiz 
+  quizId="vikter-problem"
   question="Varför fungerar det inte att sätta alla vikter till 1?"
   options={[
     "Datorn blir för långsam",
-    "Både kryss och cirkel får positivt värde",
-    "Neuronen kan inte räkna till 25",
-    "Stegfunktionen slutar fungera"
+    "Både kryss och cirklar får samma poäng",
+    "Neuronen slutar fungera",
+    "Det tar för lång tid att träna"
   ]}
   correctAnswer={1}
   explanation="När alla vikter är 1 räknar neuronen bara antalet färggranna pixlar. Både kryss (9 pixlar) och cirkel (8 pixlar) får positivt värde, så båda klassificeras som cirkel!"
 />
 
----
+### Prova själv: Smilis-klassificerare
 
-## En fungerande lösning
+*[Här kommer en interaktiv komponent där du kan justera vikter och se hur klassificeringen ändras]*
 
-För att förbättra resultatet måste vi justera vikterna. Man kan uppnå det rätta svaret med ett flertal olika lösningar. Här är en:
-
-**Vikter:**
-- Pixeln i **mitten** (pixel 13): vikt = **-1**
-- Alla pixlar i **mitten på kanterna** (pixel 8, 12, 14, 18): vikt = **1**
-- Resten av pixlarna: vikt = **0**
-
-**Viktrutnät (siffror = vikter):**
-
-```
-┌────┬────┬────┬────┬────┐
-│  0 │  0 │  0 │  0 │  0 │  Rad 1
-├────┼────┼────┼────┼────┤
-│  0 │  0 │ +1 │  0 │  0 │  Rad 2
-├────┼────┼────┼────┼────┤
-│  0 │ +1 │ -1 │ +1 │  0 │  Rad 3 (mitten)
-├────┼────┼────┼────┼────┤
-│  0 │  0 │ +1 │  0 │  0 │  Rad 4
-├────┼────┼────┼────┼────┤
-│  0 │  0 │  0 │  0 │  0 │  Rad 5
-└────┴────┴────┴────┴────┘
-
-+1 = Belönar färggranna pixlar på kanterna
--1 = Straffar färggrann pixel i mitten
- 0 = Ignorerar dessa pixlar
-```
-
-### Testa med kryss
-
-Färggranna pixlar i krysset:
-- Pixel i mitten: 1 × (-1) = -1
-- Alla andra färggranna pixlar har vikt 0
-
-**Totalpoäng:** -1  
-**Aktiveringen:** 0 → **Kryss** ✓
-
-### Testa med cirkel
-
-Färggranna pixlar i cirkeln:
-- Fyra pixlar i mitten på kanterna: 4 × 1 = 4
-- Alla andra färggranna pixlar har vikt 0
-
-**Totalpoäng:** 4  
-**Aktiveringen:** 1 → **Cirkel** ✓
-
-**Båda rätt!** 🎉
-
-<FillInQuiz 
-  question="Om ett kryss har pixeln i mitten (vikt -1) och 8 andra färggranna pixlar (alla vikt 0), vad blir totalpoängen?"
-  correctAnswer={["-1", "-1.0"]}
-  type="number"
-  explanation="Endast pixeln i mitten bidrar: 1 × (-1) = -1. Alla andra färggranna pixlar har vikt 0, så de bidrar inte till summan."
-/>
-
----
-
-## Utmaning: Klassificera smilisar! 😊😢
-
-Nu ska vi använda samma teknik och bygga en klassificerare för smilisar. Uppgiften är att skilja mellan:
-- **Leende smilisar** 😊 (aktiveringen = 1)
-- **Ledsna smilisar** 😢 (aktiveringen = -1)
-
-<SmilisClassifier />
-
-> [!WARNING] En viktig lärdom
-> Du kommer förmodligen märka att det är **omöjligt** att klassificera alla smilisar rätt med denna enkla klassificerare!
-> 
-> Detta är en viktig insikt: ibland kan vi inte uppnå perfekt klassificeringsexakthet om klassificeraren är för enkel. I det här fallet består klassificeraren av en enstaka neuron baserad på linjärkombination.
-> 
 > Du kan få klassificeraren att fungera med vissa indata, så länge du accepterar att en del andra smilisar klassificeras felaktigt.
 
 **Utmaning:** Klarar du av att klassificera 6 rätt av både de leende och de ledsna smilisarna?
 
 <MultipleChoiceQuiz 
+  quizId="smilis-begransning"
   question="Varför kan en enskild neuron inte klassificera alla smilisar perfekt?"
   options={[
     "Smilisar är för komplexa för en enkel linjär klassificerare",
-    "Datorn har inte tillräckligt med minne",
-    "Stegfunktionen är fel aktiveringsfunktion",
-    "Vi behöver fler pixlar i rutnätet"
+    "Neuronen är för långsam",
+    "Det finns för många pixlar",
+    "Vikterna är fel"
   ]}
   correctAnswer={0}
   explanation="En enskild neuron med linjärkombination är för enkel för att fånga alla variationer av smilisar. För komplexa mönster behöver vi flera neuroner i ett neuronnät!"

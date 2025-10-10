@@ -1,9 +1,9 @@
 ---
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
-import BackToTop from '../components/BackToTop.astro';
 import Logo from '../components/Logo.astro';
 import '../styles/callouts.css';
 import '../styles/fonts.css';
+import '../styles/katex.css';
 
 export interface Props {
   title: string;
@@ -151,10 +151,9 @@ const { title, description = "AI-utbildning för lärare och elever" } = Astro.p
         
         <div class="border-t border-border dark:border-dark-border mt-8 pt-8 text-center text-sm text-muted-foreground dark:text-dark-muted-foreground font-sans">
           <p>&copy; 2024 summor.se. Alla rättigheter förbehållna.</p>
+          <p class="mt-2 text-xs">Vi använder lokal lagring för att spara din progress i lektionerna.</p>
         </div>
       </div>
     </footer>
-
-    <BackToTop />
   </body>
 </html>
