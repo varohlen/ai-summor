@@ -7,6 +7,7 @@ pubDate: 2025-10-03
 
 import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
 import FillInQuiz from '../../../components/FillInQuiz.astro';
+import Glossary from '../../../components/Glossary.astro';
 
 ## Uppgift: Din första tänkande maskin
 
@@ -181,6 +182,14 @@ Beräkna: $\text{Totalpoäng} = (1 \times 5) + (0 \times -5) + (0 \times -5) + (
 
 Beräkna: $\text{Totalpoäng} = (0 \times 5) + (1 \times -5) + (1 \times -5) + (0 \times 5) = ?$
 
+<FillInQuiz 
+  quizId="bild-b-poang"
+  question="Vad blir totalpoängen för Bild B (fel diagonal)?"
+  correctAnswers={["-10", "−10", "minus 10"]}
+  type="text"
+  explanation="Rätt! (0 × 5) + (1 × -5) + (1 × -5) + (0 × 5) = 0 - 5 - 5 + 0 = -10. Neuronen straffar detta mönster hårt eftersom pixlarna är på fel diagonal!"
+/>
+
 **Bild C: Helt svart**
 
 ```
@@ -193,21 +202,67 @@ Beräkna: $\text{Totalpoäng} = (0 \times 5) + (1 \times -5) + (1 \times -5) + (
 
 Beräkna: $\text{Totalpoäng} = (1 \times 5) + (1 \times -5) + (1 \times -5) + (1 \times 5) = ?$
 
+<FillInQuiz 
+  quizId="bild-c-poang"
+  question="Vad blir totalpoängen för Bild C (helt svart)?"
+  correctAnswers={["0", "noll"]}
+  type="text"
+  explanation="Rätt! (1 × 5) + (1 × -5) + (1 × -5) + (1 × 5) = 5 - 5 - 5 + 5 = 0. De positiva och negativa vikterna tar ut varandra!"
+/>
+
 ### Fråga 5: Analysera resultatet
 
-**Reflektera över dina beräkningar:**
+<FillInQuiz 
+  quizId="analys-hogst"
+  question="Vilken bild fick högst poäng? Varför var det väntat, med tanke på neuronens vikter?"
+  freeResponse={true}
+  explanation="Bild A fick högst poäng (10). Detta var väntat eftersom neuronen är tränad att känna igen diagonalen från övre vänster till nedre höger. Bild A har exakt detta mönster, och de positiva vikterna (+5) belönar de svarta pixlarna i diagonalen."
+  hint="Tänk på vilka pixlar som har positiva vikter."
+/>
 
-1. Vilken bild fick **högst** poäng? Varför var det väntat, med tanke på neuronens vikter?
+<FillInQuiz 
+  quizId="analys-lagst"
+  question="Vilken bild fick lägst poäng? Förklara varför neuronens vikter 'straffade' just det mönstret så hårt."
+  freeResponse={true}
+  explanation="Bild B fick lägst poäng (-10). Neuronen straffade detta mönster hårt eftersom det har fel diagonal (övre höger till nedre vänster). De svarta pixlarna hamnar på positioner med negativa vikter (-5), vilket ger en mycket låg totalpoäng."
+  hint="Vilken bild har svarta pixlar på positioner med negativa vikter?"
+/>
 
-2. Vilken bild fick **lägst** poäng? Förklara varför neuronens vikter "straffade" just det mönstret så hårt.
+<FillInQuiz 
+  quizId="vit-bild-poang"
+  question="Vad blir totalpoängen för en helt vit bild (x₁=0, x₂=0, x₃=0, x₄=0)?"
+  correctAnswers={["0", "noll"]}
+  type="text"
+  explanation="Rätt! En helt vit bild ger totalpoäng 0, eftersom alla indata är 0. Detta visar neuronens 'grundinställning' - utan någon information fattar den inget beslut åt något håll."
+/>
 
-3. Vad blir totalpoängen för en **helt vit bild** ($x_1=0, x_2=0, x_3=0, x_4=0$)? Vad säger det om neuronens grundinställning?
-
-4. Om du skulle använda en **stegfunktion** med tröskelvärde 5 som aktiveringsfunktion, vilka bilder skulle ge utdata 1 ("Detta är en diagonal!")?
+<MultipleChoiceQuiz 
+  quizId="stegfunktion-diagonal"
+  question="Om du använder en stegfunktion med tröskelvärde 5, vilka bilder skulle ge utdata 1 ('Detta är en diagonal!')?"
+  options={[
+    "Endast Bild A",
+    "Bild A och Bild C",
+    "Alla tre bilderna",
+    "Ingen av bilderna"
+  ]}
+  correctAnswer={0}
+  explanation="Endast Bild A (poäng = 10) är större än tröskelvärdet 5, så bara den ger utdata 1. Bild B har -10 och Bild C har 0, båda ≤ 5, så de ger utdata 0."
+/>
 
 ---
 
 > [!TIP] Grattis!
 > Genom att slutföra denna uppgift har du nu en djupare förståelse för hur även en enda, enkel neuron kan lära sig att känna igen mönster och fatta beslut baserat på indata och vikter.
-> 
-> **Nästa steg:** I nästa lektion ska vi se hur man kopplar ihop många sådana neuroner till ett neuronnät som kan lösa mycket mer komplexa problem!
+
+<Glossary 
+  terms={[
+    "Indata (pixlar)",
+    "Vikter",
+    "Linjär kombination",
+    "Bias",
+    "Aktiveringsfunktion",
+    "Stegfunktion",
+    "Tröskelvärde",
+    "Mönsterigenkanning"
+  ]}
+/>
