@@ -103,19 +103,19 @@ const renderFolderContent = (folder: FolderEntry, level: number = 0) => {
 <div class="relative z-[100]" id="hamburger-container">
   <button
     id="hamburger-button"
-    class="flex items-center justify-center w-12 h-12 bg-white dark:bg-dark-card rounded-lg border-2 border-border dark:border-dark-border shadow-md dark:shadow-dark-md hover:bg-accent dark:hover:bg-dark-accent transition-all"
+    class="flex items-center justify-center w-12 h-12 bg-white dark:bg-box-dark-surface rounded-base border-2 border-box-light-border dark:border-box-dark-border shadow-light dark:shadow-dark hover:bg-muted dark:hover:bg-muted hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none dark:hover:shadow-none transition-all"
     aria-label="Toggle menu"
   >
-    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="w-6 h-6 text-foreground dark:text-foreground" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
 
   <div
     id="hamburger-menu"
-    class="fixed top-0 left-0 w-72 h-screen bg-background dark:bg-dark-background border-r-2 border-border dark:border-dark-border transform -translate-x-full transition-transform duration-300 ease-in-out"
+    class="fixed top-0 left-0 w-72 h-screen bg-white dark:bg-box-dark-surface border-r-2 border-box-light-border dark:border-box-dark-border transform -translate-x-full transition-transform duration-300 ease-in-out"
   >
-    <div class="flex justify-between items-center p-4 border-b-2 border-border dark:border-dark-border bg-muted/30 dark:bg-dark-muted/30">
+    <div class="flex justify-between items-center p-4 border-b-2 border-box-light-border dark:border-box-dark-border bg-gray-50 dark:bg-gray-800">
       <h2 class="text-lg font-semibold">{courseName}</h2>
       <button
         id="close-menu"

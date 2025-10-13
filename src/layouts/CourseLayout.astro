@@ -47,16 +47,19 @@ const fragor = frontmatter?.fragor || [];
 
 <BaseLayout title={frontmatter?.title || defaultTitle}>
   <div class="relative min-h-screen">
-    <div class="hidden md:block absolute -left-14 md:-left-16 top-0 h-full z-[100]">
-      <div class="fixed top-40">
-        <HamburgerMenu
-          rootContent={rootContent}
-          folders={folders}
-          collection={collection}
-          currentPath={currentPath}
-        />
+    {/* HamburgerMenu - Hidden for now, keeping component for future use */}
+    {false && (
+      <div class="hidden md:block absolute -left-14 md:-left-16 top-0 h-full z-[100]">
+        <div class="fixed top-40">
+          <HamburgerMenu
+            rootContent={rootContent}
+            folders={folders}
+            collection={collection}
+            currentPath={currentPath}
+          />
+        </div>
       </div>
-    </div>
+    )}
     
     <div class="max-w-3xl mx-auto px-4 relative z-10 flex flex-col items-center pb-24">
       <div class="w-full">

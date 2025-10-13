@@ -42,6 +42,19 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        // Hybrid box colors
+        box: {
+          light: {
+            bg: '#F5F7FA',        // Mycket ljusare grå-blå (subtilare än E0E7F1)
+            surface: '#FFFFFF',    // Vit box
+            border: '#E5E7EB',     // Mjuk grå border
+          },
+          dark: {
+            bg: '#1A1D1F',        // Mjukare mörk (inte grön-ton)
+            surface: '#27292D',    // Lite ljusare än summor.se's #212121
+            border: '#3F3F46',     // Synlig men inte hård border
+          }
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -50,8 +63,18 @@ export default {
         base: '8px'
       },
       boxShadow: {
-        light: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        dark: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+        // Mjuka men synliga shadows
+        light: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+        dark: '0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2)',
+        // Subtil hover-effekt
+        'light-hover': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+        'dark-hover': '0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3)',
+      },
+      translate: {
+        boxShadowX: '4px',
+        boxShadowY: '4px',
+        reverseBoxShadowX: '-4px',
+        reverseBoxShadowY: '-4px',
       },
       fontWeight: {
         base: '500',

@@ -7,6 +7,7 @@ pubDate: 2025-10-06
 
 import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
 import FillInQuiz from '../../../components/FillInQuiz.astro';
+import Glossary from '../../../components/Glossary.astro';
 
 ## Från en neuron till ett nätverk
 
@@ -31,7 +32,7 @@ Men om vi **kopplar ihop många neuroner i lager** kan vi skapa ett neuronnät s
 3. Om den är fel, justera vikterna
 4. Upprepa tills neuronen klassificerar rätt
 
-Perceptroner kan användas som enkla klassificerare med två olika klasser - till exempel "katt eller hund", "spam eller inte spam", "godkänd eller underkänd".
+Perceptroner kan användas som enkla klassificerare med två olika klasser - till exempel "katt eller hund", "spam eller inte spam", "godkänd eller underkänd". I föregående lektion använde vi oss av perceptron för att veta om en robot ska vattna eller inte och att känna igen bilder.
 
 <MultipleChoiceQuiz 
   quizId="perceptron-def"
@@ -177,6 +178,19 @@ Genom att upprepa detta tusentals gånger lär sig nätet gradvis att göra bät
 > - **Backpropagation** = Algoritm som tränar neuronnät genom att skicka fel bakåt
 
 Du har nu lärt dig historien bakom neuronnät och hur man bygger dem genom att koppla ihop neuroner i lager!
+
+<Glossary 
+  terms={[
+    "Perceptron",
+    "AI-vinter",
+    "Neuronnät",
+    "Indatalager",
+    "Dolt lager",
+    "Utdatalager",
+    "Djupinlärning",
+    "Backpropagation"
+  ]}
+/>
 
 ---
 

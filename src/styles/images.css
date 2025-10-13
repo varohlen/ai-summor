@@ -1,0 +1,109 @@
+/* Base styles for all markdown content images */
+.prose img {
+    /* Mobile: phone-friendly bounds */
+    max-width: 300px;
+    max-height: 400px;
+    width: auto;          /* Let it scale naturally */
+    height: auto;
+    margin: 1rem auto;
+    display: block;
+    object-fit: contain;  /* Maintain aspect ratio */
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+/* Small tablet: slightly larger */
+@media (min-width: 640px) {
+    .prose img {
+        max-width: 500px;
+        max-height: 550px;
+    }
+}
+
+/* Tablet: medium bounds */
+@media (min-width: 768px) {
+    .prose img {
+        max-width: 640px;
+        max-height: 600px;
+    }
+}
+
+/* Desktop: larger bounds */
+@media (min-width: 1024px) {
+    .prose img {
+        max-width: 768px;
+        max-height: 700px;
+    }
+}
+
+.prose img:hover {
+    transform: scale(1.05);
+}
+
+/* White background for PNG images (better visibility in dark mode) */
+/* Target all possible PNG image selectors, but exclude logo */
+.prose img[src$=".png"]:not(.logo-image),
+.prose img[src*=".png?"]:not(.logo-image),
+.prose img[src*=".png"]:not(.logo-image),
+.prose picture img:not(.logo-image),
+article img[src$=".png"]:not(.logo-image),
+article img[src*=".png"]:not(.logo-image) {
+    background-color: white !important;
+    padding: 1rem !important;
+    border-radius: 0.5rem !important;
+    box-sizing: border-box !important;
+}
+
+/* Also target webp versions if Astro optimizes them, but exclude logo */
+.prose img[src$=".webp"]:not(.logo-image),
+.prose img[src*=".webp"]:not(.logo-image),
+article img[src$=".webp"]:not(.logo-image),
+article img[src*=".webp"]:not(.logo-image) {
+    background-color: white !important;
+    padding: 1rem !important;
+    border-radius: 0.5rem !important;
+    box-sizing: border-box !important;
+}
+
+/* Ensure logo never gets white background */
+.logo-image,
+img.logo-image {
+    background: none !important;
+    padding: 0 !important;
+}
+
+/* Lightbox styles */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    max-width: 90%;
+    max-height: 90vh;
+}
+
+.lightbox img {
+    max-width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+    cursor: default;
+    display: block;
+}

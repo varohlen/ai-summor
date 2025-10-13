@@ -1,45 +1,62 @@
 ---
-import ThemeSwitcher from '../components/ThemeSwitcher.astro';
-import Logo from '../components/Logo.astro';
-import '../styles/callouts.css';
-import '../styles/fonts.css';
-import '../styles/katex.css';
+import ThemeSwitcher from "../components/ThemeSwitcher.astro";
+import Logo from "../components/Logo.astro";
+import "../styles/callouts.css";
+import "../styles/fonts.css";
+import "../styles/katex.css";
+import "../styles/images.css";
 
 export interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "AI-utbildning för lärare och elever" } = Astro.props;
+const { title, description = "AI-utbildning för lärare och elever" } =
+  Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sv" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <script is:inline>
       const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
         }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
         }
-        return 'light';
+        return "light";
       })();
 
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
+      if (theme === "light") {
+        document.documentElement.classList.remove("dark");
       } else {
-        document.documentElement.classList.add('dark');
+        document.documentElement.classList.add("dark");
       }
     </script>
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{`${title} | ai.summor.se`}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+      integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+      crossorigin="anonymous"
+    />
+    <script src="../scripts/lightbox.js"></script>
     <style>
       :root {
         --background: 0 0% 98%;
@@ -63,7 +80,7 @@ const { title, description = "AI-utbildning för lärare och elever" } = Astro.p
         --ring: 142 76% 36%;
         --radius: 0.5rem;
       }
- 
+
       .dark {
         --background: 240 6% 10%;
         --foreground: 0 0% 98%;
@@ -86,25 +103,52 @@ const { title, description = "AI-utbildning för lärare och elever" } = Astro.p
       }
     </style>
   </head>
-  <body class="bg-background dark:bg-dark-background text-foreground dark:text-dark-foreground font-sans transition-colors duration-300 antialiased">
-    <header class="sticky top-0 z-40 w-full border-b border-border dark:border-dark-border bg-background/95 dark:bg-dark-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-dark-background/60">
+  <body class="min-h-screen flex flex-col bg-box-light-bg dark:bg-box-dark-bg text-foreground dark:text-foreground transition-colors duration-300 antialiased">
+    <!-- Main container box -->
+    <div class="flex flex-col flex-grow relative w-full max-w-6xl min-h-screen bg-box-light-surface dark:bg-box-dark-surface border-x border-box-light-border dark:border-box-dark-border shadow-light dark:shadow-dark mx-auto">
+      
+      <!-- Sticky header inside box -->
+      <header class="sticky top-0 z-40 w-full border-b border-box-light-border dark:border-box-dark-border bg-box-light-surface/95 dark:bg-box-dark-surface/95 backdrop-blur supports-[backdrop-filter]:bg-box-light-surface/80 dark:supports-[backdrop-filter]:bg-box-dark-surface/80"
+    >
       <div class="max-w-6xl mx-auto px-4 py-4 grid grid-cols-3 items-center">
         <!-- Left: Logo -->
         <div class="justify-self-start">
-          <div class="flex items-center gap-3 rounded-lg border bg-card px-3 py-2">
+          <div
+            class="flex items-center gap-3 rounded-lg border bg-card px-3 py-2"
+          >
             <Logo />
             <div class="hidden md:flex items-baseline">
-              <a href="/" class="font-excalifont text-xl text-primary hover:underline">ai.</a>
-              <a href="https://summor.se" class="font-excalifont text-xl text-foreground hover:underline">summor.se</a>
+              <a
+                href="/"
+                class="font-excalifont text-xl text-primary hover:underline"
+                >ai.</a
+              >
+              <a
+                href="https://summor.se"
+                class="font-excalifont text-xl text-foreground hover:underline"
+                >summor.se</a
+              >
             </div>
           </div>
         </div>
-        
+
         <!-- Center: Navigation -->
         <nav class="hidden md:flex items-center space-x-6 justify-self-center">
-          <a href="/" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Hem</a>
-          <a href="/ai-kurs" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Kurs</a>
-          <a href="/verktyg" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Verktyg</a>
+          <a
+            href="/"
+            class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            >Hem</a
+          >
+          <a
+            href="/ai-kurs"
+            class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            >Kurs</a
+          >
+          <a
+            href="/verktyg"
+            class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+            >Verktyg</a
+          >
           <!-- <a href="/blogg" class="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Blogg</a> -->
         </nav>
 
@@ -115,45 +159,81 @@ const { title, description = "AI-utbildning för lärare och elever" } = Astro.p
       </div>
     </header>
 
-    <main class="min-h-screen">
-      <slot />
-    </main>
+      <!-- Main content -->
+      <main class="flex-grow px-4 py-8">
+        <slot />
+      </main>
 
-    <footer class="border-t border-border dark:border-dark-border bg-muted/50 dark:bg-dark-muted/50 mt-12">
+      <!-- Footer -->
+      <footer class="border-t border-box-light-border dark:border-box-dark-border bg-muted/30 dark:bg-muted/10 mt-auto py-8"
+    >
       <div class="max-w-6xl mx-auto px-4 py-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="flex items-start gap-3">
             <Logo />
             <div>
-              <h3 class="text-lg font-excalifont mb-2 text-foreground dark:text-dark-foreground">ai.summor.se</h3>
-              <p class="text-sm text-muted-foreground dark:text-dark-muted-foreground font-sans">
-                Artificiell intelligens för gymnasiet. Tillgängligt både för elever och lärare.
+              <h3
+                class="text-lg font-excalifont mb-2 text-foreground dark:text-dark-foreground"
+              >
+                ai.summor.se
+              </h3>
+              <p
+                class="text-sm text-muted-foreground dark:text-dark-muted-foreground font-sans"
+              >
+                Artificiell intelligens för gymnasiet. Tillgängligt både för
+                elever och lärare.
               </p>
             </div>
           </div>
-          
+
           <div>
             <h4 class="font-medium mb-4">Snabblänkar</h4>
             <ul class="space-y-2 text-sm">
-              <li><a href="/" class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Hem</a></li>
-              <li><a href="/ai-kurs" class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Kurs</a></li>
-              <li><a href="/verktyg" class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors">Verktyg</a></li>
+              <li>
+                <a
+                  href="/"
+                  class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors"
+                  >Hem</a>
+              </li>
+              <li>
+                <a
+                  href="/ai-kurs"
+                  class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors"
+                  >Kurs</a>
+              </li>
+              <li>
+                <a
+                  href="/verktyg"
+                  class="text-muted-foreground dark:text-dark-muted-foreground hover:text-primary transition-colors"
+                  >Verktyg</a>
+              </li>
             </ul>
           </div>
-          
+
           <div>
             <h4 class="font-medium mb-4">Kontakt</h4>
-            <p class="text-sm text-muted-foreground dark:text-dark-muted-foreground">
-              Del av <a href="https://summor.se" class="text-primary hover:text-accent transition-colors">Summor.se</a>
+            <p
+              class="text-sm text-muted-foreground dark:text-dark-muted-foreground"
+            >
+              Del av <a
+                href="https://summor.se"
+                class="text-primary hover:text-accent transition-colors"
+                >Summor.se</a
+              >
             </p>
           </div>
         </div>
-        
-        <div class="border-t border-border dark:border-dark-border mt-8 pt-8 text-center text-sm text-muted-foreground dark:text-dark-muted-foreground font-sans">
+
+        <div
+          class="border-t border-border dark:border-dark-border mt-8 pt-8 text-center text-sm text-muted-foreground dark:text-dark-muted-foreground font-sans"
+        >
           <p>&copy; 2024 summor.se. Alla rättigheter förbehållna.</p>
-          <p class="mt-2 text-xs">Vi använder lokal lagring för att spara din progress i lektionerna.</p>
+          <p class="mt-2 text-xs">
+            Vi använder lokal lagring för att spara din progress i lektionerna.
+          </p>
         </div>
       </div>
     </footer>
+    </div>
   </body>
 </html>
