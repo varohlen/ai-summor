@@ -1,0 +1,160 @@
+---
+title: '1. Laboration: Rengör data och bygg regression'
+description: 'Identifiera dataproblem, fatta välmotiverade beslut om städning och skapa din första prediktionsmodell.'
+order: 1
+pubDate: 2025-11-08
+---
+
+import Glossary from '../../../components/Glossary.astro';
+
+## Labböversikt
+
+Målet med labben är att skapa en första version av en regressionsmodell för att förutse energiförbrukning baserat på temperatur. Du ska visa att du kan:
+
+1. Diagnostisera problem i det scenario du väljer (länkar nedan).
+2. Fatta motiverade beslut om hur du rengör varje problem.
+3. Träna en enkel linjär regression och dokumentera resultatet (t.ex. trendlinje i Sheets eller `scikit-learn`).
+
+## Välj scenario och ladda ner data
+
+> [!IMPORTANT] Så laddar du ner
+> Högerklicka på länken → **Öppna länk i ny flik** → **Filen → Ladda ned** (eller `Ctrl/Cmd + S`). Filen ligger i `/public/data/ai-course/` så den fungerar i produktion.
+
+| Scenario | Fil (CSV) | Användning | Extra kolumner | Anteckningar |
+| --- | --- | --- | --- | --- |
+| **Temperatur & ventilation** | [`regression-school.csv`](/data/ai-course/regression-school.csv) | Prognos för klassrumsuppvärmning utifrån temperatur, luftfuktighet och nederbörd. | `humidity_percent`, `rain_mm` | Vaktmästaren har markerat testkörning och sensorfel. |
+| **Solpanel + elförbrukning** | [`regression-solar.csv`](/data/ai-course/regression-solar.csv) | Koppla solinstrålning (solindex) och molnighet mot elbehov. | `solar_index`, `cloud_cover` | Fel enhet (`4C`), sensorbrott (`?`), snö på paneler. |
+| **Beläggning & CO₂** | [`regression-occupancy.csv`](/data/ai-course/regression-occupancy.csv) | Undersök hur antal personer och luftkvalitet påverkar energibehovet. | `occupancy_count`, `co2_ppm` | Hög CO₂ vid full beläggning, saknade värden, testdagar. |
+
+> [!TIP] Börja gärna med att kopiera filen till Drive och döp den till `scenario-namn-rådata`. Gör sedan en kopia `scenario-namn-städad` där du arbetar.
+
+## Scenario: Energioptimering på Årtalsskolan
+
+- **Rollspel:** Du är dataanalytiker inhyrd av kommunens energiteam. Rektorn vill minska elförbrukningen utan att klassrummen blir kalla.
+- **Datakälla:** Sensorer i en av skolans byggnader loggar temperatur, luftfuktighet, nederbörd och uppskattad energiförbrukning per dygn. Anteckningar (`notes`) kommer från vaktmästaren som dokumenterar avvikelser.
+- **Uppdrag:** Gör datan användbar så att energiteamet kan bygga en prognosmodell och sätta smartare värmescheman inför vintern.
+- **Leverabel:** En städad dataset + regression som visar hur temperaturen påverkar kWh, inklusive tydliga kommentarer om osäkra punkter.
+
+## Förberedelser på Chromebook (Google Sheets)
+
+1. Ladda ner det scenario du valt och ladda upp i Google Drive.
+2. Öppna Google Drive → klicka på **Ny** → **Google Kalkylark**.
+3. Välj **Arkiv → Importera → Ladda upp** och dra in filen.
+4. Välj "Infoga nytt kalkylark" så du behåller originalet orört.
+5. Sätt kolumnformat:
+   - Markera alla numeriska kolumner (t.ex. `temp_c`, `humidity_percent`, `rain_mm`, `solar_index`, `occupancy_count`, `co2_ppm`, `energy_kwh`) → **Format → Tal → Numeriskt**.
+   - Markera `date` → **Format → Tal → Datum**.
+6. Döp fliken till `rådata` och gör en kopia `städad` där du utför alla ändringar.
+
+> [!TIP] Använd filter (Data → Skapa ett filter) för att snabbt hitta frågetecken, NA eller dubbletter.
+
+## Datasetet i korthet
+
+| Kolumn | Beskrivning | Möjliga problem |
+| --- | --- | --- |
+| `date` | Datum för mätningen | Dubbletter, saknade dagar |
+| `temp_c` | Temperatur i °C | Raden med `4C` (fel typ), extrema låg/hög |
+| `energy_kwh` | Energiförbrukning | `?`, `NA`, testkörning |
+| `notes` | Kontext | Hjälper att motivera beslut |
+| Scenario-kolumner | Se tabellen ovan | Kontrollera rimliga intervall |
+
+## Steg 1 – Datadiagnos
+
+- Lista alla fel du hittar (saknade värden, avvikande enheter, text, dubletter, extrema värden).
+- Notera hur ofta varje problem förekommer.
+- Fundera på om du behöver samla in mer metadata innan du kan fatta beslut.
+
+**Logguppgift:** skriv en punktlista i din laborationslogg där varje problemtyp beskrivs med ett exempel från datasetet och hur du upptäckte det.
+
+## Loggmall – kopiera till ditt dokument
+
+<textarea id="log-template" hidden>
+## Laborationslogg – Energioptimering
+### Scenario
+- Fil: ________
+- Kort beskrivning: ________
+- Datum: ________
+
+### Datadiagnos
+| Problem | Rad/kolumn | Förklaring | Beslut | Motivering |
+| --- | --- | --- | --- | --- |
+| | | | | |
+| | | | | |
+
+### Datastädning
+- Åtgärdade saknade värden: ________
+- Enhetskonverteringar: ________
+- Dubbletter/avvikare: ________
+- Frågor till uppdragsgivaren: ________
+
+### Modellresultat
+- Lutning (°C → kWh): ________
+- Skärning (intercept): ________
+- R² / Egen bedömning: ________
+- Kommentar om kvalitet: ________
+
+### Nästa steg
+- Vad behöver förbättras?
+- Ytterligare data eller features?
+</textarea>
+
+<button
+  id="copy-log-template"
+  data-default-text="Kopiera loggmall"
+  class="inline-flex items-center gap-2 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary"
+  type="button"
+  onclick="(async(btn)=>{const label=document.getElementById('copy-log-template-label');const defaultText=btn.dataset.defaultText||'Kopiera loggmall';const source=document.getElementById('log-template');if(!source||!navigator.clipboard)return;try{await navigator.clipboard.writeText((source.value||'').trim());if(label){label.textContent='Mall kopierad!';setTimeout(()=>{label.textContent=defaultText;},2000);}}catch(error){console.error('Kopiering misslyckades',error);if(label){label.textContent='Kunde inte kopiera';setTimeout(()=>{label.textContent=defaultText;},2000);}}})(this)"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+  </svg>
+  <span id="copy-log-template-label">Kopiera loggmall</span>
+</button>
+
+
+
+## Steg 2 – Datastädning
+
+| Problem | Möjlig åtgärd | Motiv |
+| --- | --- | --- |
+| Saknade värden | Ta bort raden eller ersätt med rimligt värde (medel, median, interpolation) | Undvik att modellparametrar förstörs |
+| Blandade enheter | Konvertera Fahrenheit till Celsius | Säkerställ samma skala |
+| Text i numeriska fält | Översätt manuellt eller markera som saknat | Förhindra krascher i regressionen |
+| Extrem avvikare | Behåll men märk upp, eller ta bort om den inte är representativ | Påverkar lutningen kraftigt |
+| Dubbletter (`10 okt` vs `10 okt dublett`) | Välj en version eller medelvärde | Undvik dubbel vikt |
+| Notes-markerade specialfall (`värmepump test`, `snö på paneler`, etc.) | Dokumentera separat | Transparens i presentationen |
+
+> [!NOTE] Tips
+> Skriv ned både vad du gjorde och vad du valde att inte göra samt varför. Det gör det lättare att motivera dina beslut vid redovisningen.
+
+## Steg 3 – Bygg regression
+
+- Skapa ett spridningsdiagram i `städad`-arket: markera `temp_c` (x-axel) och `energy_kwh` (y-axel) → **Infoga → Diagram** → välj "Spridningsdiagram". Lägg till färg/kategori om du vill segmentera scenario-data.
+- Lägg till en trendlinje: **Diagramredigerare → Anpassa → Serie → Trendlinje (linjär)** och visa ekvation + R².
+- Alternativt (om du vill använda Python) exporterar du den städade datan via **Arkiv → Ladda ned → Kommaavgränsade värden (.csv)** och tränar med `LinearRegression`.
+- Spara modellparametrar (lutning, intercept) och residualerna. I Sheets: använd `FORECAST` eller `SLOPE`/`INTERCEPT` för att kontrollera värdena.
+
+**Logguppgift:** skriv in modellparametrar och en kort tolkning (exempel: "När temperaturen ökar med 1 °C ökar förbrukningen med X kWh").
+
+## Redovisning – Laborationslogg
+
+Din logg ska innehålla:
+
+- Problemlista + beslutstabell (före/efter).
+- Skärmbild/diagram med regressionslinje.
+- Kort text om modellens kvalitet (residualer, R² eller egen bedömning).
+- Frågor eller antaganden du behöver klargöra innan nästa steg.
+- Exportera din städade datafil (CSV) och länka eller dela den i klassens mappar.
+
+> [!TIP] Reflektion
+> Avsluta loggen med en mening om vad du skulle behöva för att förbättra modellen (fler features, säsongsdata, bättre sensorer?).
+
+<Glossary 
+  terms={[
+    'Regression',
+    'Residual',
+    'Korrelation',
+    'Feature engineering'
+  ]}
+/>

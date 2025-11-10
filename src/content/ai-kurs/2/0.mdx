@@ -1,0 +1,237 @@
+---
+title: '0. Varför data betyder allt'
+description: 'Utforska varför datakvalitet är avgörande för maskininlärning och hur dåliga data kan sabotera även den bästa modellen.'
+order: 0
+pubDate: 2025-11-08
+---
+
+import Glossary from '../../../components/Glossary.astro';
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+
+## Vad ska du få syn på?
+
+Innan vi börjar träna modeller behöver vi förstå att data aldrig är perfekta. Smutsiga dataset innehåller saknade värden, felaktiga enheter, dubletter och extrema avvikare som måste hanteras med omtanke.
+
+> [!INFO] Koppling till föregående modul
+> I modul 1 arbetade vi med idealiserade neuronnät. Nu växlar vi fokus till verkligheten där **datakvalitet avgör hur väl modellen kan lära sig**.
+
+## Data 101 – grunderna
+
+- **Vad är data?** Rå observationer som beskriver världen: temperatur, antal besökare, text, bilder etc. 
+- **Data vs information:** data blir information först när vi bearbetar den och förstår vad den betyder i sitt sammanhang.
+- **Features och mål:** i ML delar vi upp indata (features) och det vi vill förutsäga (target). I energiexemplet är temperaturen en feature och energiförbrukningen en target.
+
+### Datatyper
+
+| Typ | Exempel | Vanliga utmaningar |
+| --- | --- | --- |
+| Numerisk (kontinuerlig) | Temperatur, vikt | mätfel, extrema avvikare |
+| Numerisk (diskret) | Antal elever, klick | felaktig avrundning |
+| Kategoriell | Vädertyp (sol, regn) | stavfel, olika språk |
+| Tidsserier | Elförbrukning varje timme | saknade tidssteg, oregelbundenhet |
+| Text & bilder | Recensioner, foton | kräver förbearbetning, etik |
+
+### Datapipelinen (förenklad)
+
+<div class="overflow-x-auto">
+  <table>
+    <thead>
+      <tr>
+        <th>Steg</th>
+        <th>Syfte</th>
+        <th>Nyckelfråga</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1. Insamling</td>
+        <td>Hämta rådata från sensorer, loggar eller formulär.</td>
+        <td>"Var kommer datan ifrån och hur ofta uppdateras den?"</td>
+      </tr>
+      <tr>
+        <td>2. Validering</td>
+        <td>Snabb kontroll att format och intervall är rimliga.</td>
+        <td>"Ser värdena rimliga ut jämfört med verkligheten?"</td>
+      </tr>
+      <tr>
+        <td>3. Rengöring</td>
+        <td>Åtgärda saknade värden, enhetsfel, dubletter och avvikare.</td>
+        <td>"Vilka rader kräver beslut innan vi kan gå vidare?"</td>
+      </tr>
+      <tr>
+        <td>4. Feature engineering</td>
+        <td>Skapa nya variabler eller skala om data.</td>
+        <td>"Behöver vi fler signaler eller transformationer?"</td>
+      </tr>
+      <tr>
+        <td>5. Träning/Test</td>
+        <td>Bygga och utvärdera modell på tränings- och testdata.</td>
+        <td>"Presterar modellen bra även på ny data?"</td>
+      </tr>
+      <tr>
+        <td>6. Deploy/Uppföljning</td>
+        <td>Använd modellen i det dagliga systemet och övervaka resultat.</td>
+        <td>"Fortsätter modellen ge bra beslut över tid?"</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<MultipleChoiceQuiz
+  quizId="pipeline-tid"
+  question="Vilket steg i datapipelinen brukar ta mest tid i verkliga projekt?"
+  options={[
+    'Insamling – att installera sensorer tar längst tid',
+    'Rengöring – det kräver många beslut och manuellt arbete',
+    'Träning/test – modellerna måste köras i flera timmar',
+    'Deploy – eftersom allt måste godkännas av IT'
+  ]}
+  correctAnswer={1}
+  explanation="Datastädning och förberedelser är ofta mest tidskrävande eftersom varje dataset har unika fel och kräver manuella beslut."
+/>
+
+<MultipleChoiceQuiz
+  quizId="pipeline-miss"
+  question="Vilket steg glöms lättast bort i skoluppgifter och leder till problem i modellen?"
+  options={[
+    'Validering',
+    'Feature engineering',
+    'Träning/test',
+    'Deploy'
+  ]}
+  correctAnswer={0}
+  explanation="Validering missas ofta: utan grundläggande rimlighetskontroll kan fel data smyga sig in och sprida sig genom hela pipelinen."
+/>
+
+## Varför dåliga data kostar
+
+<div class="rounded-lg border border-primary/30 bg-primary/5 p-4 text-sm leading-6">
+  <strong>Sensor (°C)</strong> → <strong>ML-system</strong> → <strong>Beslut (på/av värme)</strong><br />
+  • Normal dag: 20 °C → systemet håller temperaturen stabil.<br />
+  • Felrapport: <code>68F</code> (egentligen 20 °C) → systemet tror att det är varmt och stänger av värmen.<br />
+  • Resultat: Klassrummen blir kalla och energibesparingen uteblir.
+</div>
+
+<MultipleChoiceQuiz
+  quizId="scenario-upptack"
+  question="Vad skulle hjälpt mest för att upptäcka Fahrenheit-felet innan modellen gick i drift?"
+  options={[
+    'Köra modellen längre tid',
+    'Logga en testkörning med kända temperaturer',
+    'Byta ut alla sensorer mot dyrare modeller',
+    'Öka klassrumstemperaturen manuellt'
+  ]}
+  correctAnswer={1}
+  explanation="En testkörning med kända värden (validering) hade avslöjat att vissa sensorvärden var i fel enhet."
+/>
+
+<MultipleChoiceQuiz
+  quizId="scenario-konsekvens"
+  question="Vilka drabbas mest direkt när värmesystemet stänger av på grund av fel enhet?"
+  options={[
+    'Utvecklingsteamet',
+    'Elever och lärare i klassrummen',
+    'Skolans ekonomiavdelning',
+    'Leverantören av sensorerna'
+  ]}
+  correctAnswer={1}
+  explanation="Elever och lärare märker av kalla klassrum direkt – därför är konsekvenserna både praktiska och pedagogiska."
+/>
+
+<MultipleChoiceQuiz
+  quizId="scenario-kommunikation"
+  question="Hur förklarar du problemet enklast för en rektor utan teknisk bakgrund?"
+  options={[
+    '"Systemet använder Fahrenheit istället för Celsius, vilket triggar convolverade fel i ML-pipelinen"',
+    '"Våra sensorer anger ibland fel enhet, så systemet tror att det är varmare än det är och stänger av värmen"',
+    '"Neuronnätets vikter har divergerat, så vi behöver rekursa beta-kalibreringen"',
+    '"Vi behöver mer GPU-kraft för att beräkna riktiga temperaturer"'
+  ]}
+  correctAnswer={1}
+  explanation="En enkel förklaring med fokus på enhetsfelet gör det tydligt varför beslutet blev fel utan tekniskt språk."
+/>
+
+> [!NOTE] Lärdom
+> Dålig data kan leda till felaktiga beslut, förlorad tillit och ökade kostnader. Därför lägger vi tid på att förstå datans kvalitet innan vi tränar modeller.
+
+### Smutsigt dataset
+
+Starta med att ladda ner testfilen: [`diagnos-smutsigt.csv`](/data/ai-course/diagnos-smutsigt.csv). Den innehåller avsiktliga fel:
+
+- Saknade värden och okända symboler
+- Blandade enheter (°C och °F)
+- Text där siffror borde finnas
+- Extrem avvikelse (testkörning av värmepump)
+- Dubletter och motstridiga observationer
+
+Använd datasetet för att **träna ditt öga**: öppna filen, markera avvikelser och fundera över vilka frågor du skulle ställa innan någon bygger en modell på materialet.
+
+<MultipleChoiceQuiz
+  quizId="dirty-data-risker"
+  question="Vilken risk är störst om vi tränar en modell direkt på smutsig data?"
+  options={[
+    'Modellen blir mer kreativ',
+    'Modellen lär sig felaktiga mönster som inte stämmer i verkligheten',
+    'Det blir enklare att tolka resultaten',
+    'Ingenting – modeller gillar när data är oredigt'
+  ]}
+  correctAnswer={1}
+  explanation="Smutsig data gör att modellen hittar mönster som bara beror på fel i datan. Resultatet blir att modellen fungerar dåligt utanför träningsmaterialet."
+/>
+
+## Utforska datasetet
+
+1. Läs in filen i valfritt verktyg (Sheets, Excel eller Python) och markera varje rad som kräver särskild hantering.
+2. Beskriv i dina anteckningar **varför** varje problem uppstår och vilken följd det skulle få om du ignorerade det.
+3. Notera vilka extra data eller instruktioner du skulle behöva från uppdragsgivaren (t.ex. "ska 900 kWh behållas?" eller "hur konverteras Fahrenheit?").
+
+<MultipleChoiceQuiz
+  quizId="dataset-losa"
+  question="Vilket av följande problem kan du lösa direkt utan extra information?"
+  options={[
+    'Konvertera 68F till Celsius',
+    'Bestämma om 900 kWh är giltigt',
+    'Avgöra om dubletterna är fel',
+    'Förstå varför det saknas mätning 2025-09-10'
+  ]}
+  correctAnswer={0}
+  explanation="Enhetskonvertering kan göras direkt. De andra kräver mer kontext från uppdragsgivaren."
+/>
+
+<MultipleChoiceQuiz
+  quizId="dataset-sensor"
+  question="Vad antyder datasetet om sensorerna/processen?"
+  options={[
+    'Alla sensorer fungerar perfekt och stabilt',
+    'Det finns både enhetsfel och bortfall, vilket tyder på inkonsekvent datainsamling',
+    'Systemet är optimerat för maskininlärning',
+    'Processen är helt automatiserad utan mänskliga fel'
+  ]}
+  correctAnswer={1}
+  explanation="Blandningen av enheter, saknade värden och dubletter visar att processen behöver förbättras."
+/>
+
+<MultipleChoiceQuiz
+  quizId="dataset-prioritet"
+  question="Om du bara hade 30 minuter för att förbättra datan, vad är smartast att prioritera?"
+  options={[
+    'Skapa en komplex modell direkt',
+    'Konvertera enheter och markera extrema värden så inget kraschar',
+    'Bygga en dashboard för rektorn',
+    'Ta bort alla rader som inte är perfekta'
+  ]}
+  correctAnswer={1}
+  explanation="Snabba vinster: fixa enheter och markera avvikare så modellen åtminstone inte går sönder."
+/>
+
+> [!TIP] Dokumentera allt
+> De första intrycken av data är guld värda när du senare ska motivera varför du valde en viss städstrategi.
+
+<Glossary
+  terms={[
+    'Datapipeline',
+    'Validering',
+    'Sensorfel',
+    'Dataannotering'
+  ]}
+/>

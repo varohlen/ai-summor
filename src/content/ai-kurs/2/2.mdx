@@ -1,0 +1,76 @@
+---
+title: '2. Beslutsträd och regelbaserade modeller'
+description: 'Lär dig hur beslutsträd fattar beslut, vilka styrkor och svagheter de har och jämför med neuronnät.'
+order: 2
+pubDate: 2025-11-08
+draft: true
+---
+
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
+import Glossary from '../../../components/Glossary.astro';
+
+## Varför beslutsträd?
+
+Beslutsträd är en av de enklaste formerna av maskininlärning. De efterliknar mänskligt resonemang genom att ställa frågor steg för steg: "Om temperaturen är högre än 18 °C, gör X, annars gör Y".
+
+> [!INFO] Kontrast mot neuronnät
+> - **Fördel**: Beslutsträd är lättare att tolka.
+> - **Nackdel**: De kan bli instabila och överanpassa om trädet blir för djupt.
+> - **Gemensamt**: Båda kräver bra data, men tolkningsbarheten skiljer sig.
+
+## Aktivitet: Bygg ett träd
+
+1. Välj ett litet dataset (t.ex. energidata från regressionen eller eget case).
+2. Identifiera två till tre features att använda.
+3. Rita först ett träd för hand (papper eller digitalt).
+4. Implementera trädet i verktyg (t.ex. `scikit-learn DecisionTreeClassifier` eller online-visualiserare).
+
+<MultipleChoiceQuiz
+  quizId="beslutstrad-overanpassning"
+  question="Vad händer oftast om ett beslutsträd blir väldigt djupt?"
+  options={[
+    'Det blir snabbare att beräkna',
+    'Det överanpassar till träningsdatan och presterar sämre på ny data',
+    'Det blir enklare att tolka',
+    'Det kräver mindre data'
+  ]}
+  correctAnswer={1}
+  explanation="Djupa träd lär sig detaljer och brus i träningsdatan och fungerar därför ofta sämre på nya observationer."
+/>
+
+## Jämförelseuppgift
+
+Fyll i tabellen nedan baserat på dina observationer:
+
+| Aspekt | Beslutsträd | Neuronnät |
+| --- | --- | --- |
+| Tolkningsbarhet | | |
+| Träningsdata som krävs | | |
+| Risk för överanpassning | | |
+| Beräkningskostnad | | |
+
+<FillInQuiz
+  quizId="tolkningsbarhet"
+  question="Vilket modellval föredrar du om du måste kunna visa exakt hur beslutet fattades och varför?"
+  freeResponse={true}
+  explanation="Bra resonemang! Beslutsträd är oftast enklare att förklara steg för steg. Motivera ditt val i loggen."
+/>
+
+## Reflektionsfrågor
+
+- Vilka typer av problem passar beslutsträd bäst för?
+- När skulle du kombinera flera träd (random forest, gradient boosting)?
+- Vilka begränsningar märkte du när du testade ditt träd?
+
+> [!TIP] Dokumentera
+> Fota/rita trädstrukturen och klistra in i din logg tillsammans med en kort text som jämför resultat mot din neuronnätsmodell från modul 1.
+
+<Glossary
+  terms={[
+    'Beslutsträd',
+    'Överanpassning',
+    'Pruning',
+    'Tolkningsbarhet'
+  ]}
+/>

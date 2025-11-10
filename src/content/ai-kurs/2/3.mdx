@@ -1,0 +1,75 @@
+---
+title: '3. Sökalgoritmer och agenter'
+description: 'Upptäck hur AI kan lösa problem genom målstyrd sökning utan att träna neurala modeller.'
+order: 3
+pubDate: 2025-11-08
+draft: true
+---
+
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
+import Glossary from '../../../components/Glossary.astro';
+
+## Från modell till strategi
+
+Alla AI-problem kräver inte maskininlärning. Sökalgoritmer låter oss utforska möjliga tillstånd steg för steg tills vi hittar en lösning. I den här lektionen jämför vi **bredden-först-sökning (BFS)**, **djupet-först-sökning (DFS)** och heuristiska varianter som **Aa**.
+
+> [!INFO] När är sök bättre?
+> - Problemet kan beskrivas som tillstånd och handlingar (spel, pussel, rutter).
+> - Det finns tydligt mål och vi kan utvärdera hur nära målet vi är.
+> - Vi behöver lösning nu, inte en modell för framtida data.
+
+## Aktivitet: Maze-agent
+
+1. Testa sökvisualiseraren (maze/spel) som finns länkad i kursmaterialet.
+2. Kör samma problem med BFS, DFS och Aa (med heuristik "Manhattan-distans").
+3. Notera antal besökta noder, tid och om lösningen är optimal.
+
+| Algoritm | Besökta noder | Optimal? | Kommentar |
+| --- | --- | --- | --- |
+| BFS | | | |
+| DFS | | | |
+| Aa | | | |
+
+<MultipleChoiceQuiz
+  quizId="bfs-vs-dfs"
+  question="Vilken egenskap har BFS men inte DFS om alla bågar har samma kostnad?"
+  options={[
+    'BFS hittar alltid kortaste vägen till målet',
+    'BFS kräver mindre minne än DFS',
+    'BFS fastnar lätt i loopar',
+    'BFS fungerar bara för labyrinter'
+  ]}
+  correctAnswer={0}
+  explanation="BFS utforskar alla noder på ett djup innan det går vidare, vilket garanterar kortaste väg när alla steg kostar lika mycket."
+/>
+
+## Heuristik och Aa
+
+- **Heuristik** uppskattar avståndet till målet.
+- En bra heuristik gör sökningen snabbare utan att förlora kvalitet.
+- Testa att ändra heuristiken (t.ex. Diagonal, Noll) och jämför resultat.
+
+<FillInQuiz
+  quizId="heuristik-effekt"
+  question="Vilken heuristik gav bäst balans mellan snabbhet och kvalitet i din maze? Förklara varför."
+  freeResponse={true}
+  explanation="Bra analys! Skriv ner hur heuristiken påverkade antalet besökta noder och om lösningen fortfarande var optimal."
+/>
+
+## Jämförelse mot ML
+
+Reflektera i loggen:
+- Vilka problem löser sökalgoritmer bättre än ML?
+- När är ML överlägset?
+- Hur skulle du kombinera sök och ML (t.ex. spel-AI med heuristisk beräkning)?
+
+<Glossary
+  terms={[
+    'Tillståndsrum',
+    'BFS',
+    'DFS',
+    'A*',
+    'Heuristik'
+  ]}
+/>
