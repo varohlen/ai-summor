@@ -5,8 +5,6 @@ order: 1
 pubDate: 2025-11-08
 ---
 
-import Glossary from '../../../components/Glossary.astro';
-
 ## Labböversikt
 
 Målet med labben är att skapa en första version av en regressionsmodell för att förutse energiförbrukning baserat på temperatur. Du ska visa att du kan:
@@ -69,33 +67,36 @@ Målet med labben är att skapa en första version av en regressionsmodell för 
 ## Loggmall – kopiera till ditt dokument
 
 <textarea id="log-template" hidden>
-## Laborationslogg – Energioptimering
-### Scenario
-- Fil: ________
-- Kort beskrivning: ________
-- Datum: ________
+LABORATIONSLOGG – ENERGI optimering
 
-### Datadiagnos
-| Problem | Rad/kolumn | Förklaring | Beslut | Motivering |
-| --- | --- | --- | --- | --- |
-| | | | | |
-| | | | | |
+SCENARIO
+- Fil och datum:
+- Kort beskrivning av scenariot:
 
-### Datastädning
-- Åtgärdade saknade värden: ________
-- Enhetskonverteringar: ________
-- Dubbletter/avvikare: ________
-- Frågor till uppdragsgivaren: ________
+DATADIAGNOS
+- Problem 1:
+  • Rad/kolumn:
+  • Beslut och motivering:
+- Problem 2:
+  • Rad/kolumn:
+  • Beslut och motivering:
+- osv ...
 
-### Modellresultat
-- Lutning (°C → kWh): ________
-- Skärning (intercept): ________
-- R² / Egen bedömning: ________
-- Kommentar om kvalitet: ________
+DATASTÄDNING
+- Åtgärdade saknade värden:
+- Enhetskonverteringar:
+- Hantering av dubbletter/avvikare:
+- Frågor till uppdragsgivaren:
 
-### Nästa steg
+MODELLRESULTAT
+- Lutning (°C → kWh):
+- Skärning (intercept):
+- R² / Egen bedömning:
+- Kommentar om kvalitet:
+
+NÄSTA STEG
 - Vad behöver förbättras?
-- Ytterligare data eller features?
+- Vilka extra data/features behövs?
 </textarea>
 
 <button
@@ -132,7 +133,6 @@ Målet med labben är att skapa en första version av en regressionsmodell för 
 
 - Skapa ett spridningsdiagram i `städad`-arket: markera `temp_c` (x-axel) och `energy_kwh` (y-axel) → **Infoga → Diagram** → välj "Spridningsdiagram". Lägg till färg/kategori om du vill segmentera scenario-data.
 - Lägg till en trendlinje: **Diagramredigerare → Anpassa → Serie → Trendlinje (linjär)** och visa ekvation + R².
-- Alternativt (om du vill använda Python) exporterar du den städade datan via **Arkiv → Ladda ned → Kommaavgränsade värden (.csv)** och tränar med `LinearRegression`.
 - Spara modellparametrar (lutning, intercept) och residualerna. I Sheets: använd `FORECAST` eller `SLOPE`/`INTERCEPT` för att kontrollera värdena.
 
 **Logguppgift:** skriv in modellparametrar och en kort tolkning (exempel: "När temperaturen ökar med 1 °C ökar förbrukningen med X kWh").
@@ -150,11 +150,3 @@ Din logg ska innehålla:
 > [!TIP] Reflektion
 > Avsluta loggen med en mening om vad du skulle behöva för att förbättra modellen (fler features, säsongsdata, bättre sensorer?).
 
-<Glossary 
-  terms={[
-    'Regression',
-    'Residual',
-    'Korrelation',
-    'Feature engineering'
-  ]}
-/>
