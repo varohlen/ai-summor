@@ -1,0 +1,32 @@
+---
+interface Props {
+    diagram: string;
+}
+
+const { diagram } = Astro.props;
+---
+
+<div class="mermaid">
+    {diagram}
+</div>
+
+<script>
+    import mermaid from "mermaid";
+
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: "neutral",
+        securityLevel: "loose",
+        fontFamily: "inherit",
+    });
+</script>
+
+<style>
+    .mermaid {
+        @apply flex justify-center py-4;
+    }
+
+    :global(.dark) .mermaid {
+        filter: invert(1) hue-rotate(180deg);
+    }
+</style>

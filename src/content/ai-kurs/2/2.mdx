@@ -2,13 +2,12 @@
 title: '2. Beslutsträd och regelbaserade modeller'
 description: 'Lär dig hur beslutsträd fattar beslut, vilka styrkor och svagheter de har och jämför med neuronnät.'
 order: 2
-pubDate: 2025-11-08
-draft: true
 ---
 
 import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
 import FillInQuiz from '../../../components/FillInQuiz.astro';
 import Glossary from '../../../components/Glossary.astro';
+import Mermaid from '../../../components/Mermaid.astro';
 
 ## Varför beslutsträd?
 
@@ -19,12 +18,27 @@ Beslutsträd är en av de enklaste formerna av maskininlärning. De efterliknar 
 > - **Nackdel**: De kan bli instabila och överanpassa om trädet blir för djupt.
 > - **Gemensamt**: Båda kräver bra data, men tolkningsbarheten skiljer sig.
 
-## Aktivitet: Bygg ett träd
+## Så byggs ett beslutsträd
 
-1. Välj ett litet dataset (t.ex. energidata från regressionen eller eget case).
-2. Identifiera två till tre features att använda.
-3. Rita först ett träd för hand (papper eller digitalt).
-4. Implementera trädet i verktyg (t.ex. `scikit-learn DecisionTreeClassifier` eller online-visualiserare).
+Ett träd delas upp i **noder** (frågor) och **blad** (svar). Varje fråga försöker splittra datan så att liknande exempel hamnar på samma sida.
+
+<Mermaid diagram={`
+graph TD
+    A[Start: Alla mätningar] -->|Temp > 18 °C?| B{Har ventilationen felkod?}
+    B -->|Ja| C[Larm: Kyl av klassrum]
+    B -->|Nej| D[Kontrollera övriga sensorer]
+    A -->|Temp ≤ 18 °C| E{Är lokalen tom?}
+    E -->|Ja| F[Sänk värmen ett steg]
+    E -->|Nej| G[Behåll värmekurva]
+`} />
+
+Diagrammet visar hur varje beslut baseras på ett enkelt ja/nej-test. I verkliga dataset kan ett träd få fler nivåer, men principen är densamma.
+
+## Hur väljer trädet frågor?
+
+- **Kriterier**: Algoritmen testar olika frågor och väljer den som gör grupperna så "rena" som möjligt (t.ex. Gini-index eller informationsvinst). Du behöver inte kunna formlerna – det viktiga är att förstå att trädet söker frågor som skiljer grupper åt.
+- **Djup**: Ju fler frågor, desto djupare träd. Djup påverkar både noggrannhet och risken att lära sig brus.
+- **Pruning**: Efter träningen kan man klippa bort grenar som inte tillför mycket information för att göra modellen stabilare.
 
 <MultipleChoiceQuiz
   quizId="beslutstrad-overanpassning"
@@ -39,37 +53,35 @@ Beslutsträd är en av de enklaste formerna av maskininlärning. De efterliknar 
   explanation="Djupa träd lär sig detaljer och brus i träningsdatan och fungerar därför ofta sämre på nya observationer."
 />
 
-## Jämförelseuppgift
-
-Fyll i tabellen nedan baserat på dina observationer:
+## Jämförelse mot neuronnät
 
 | Aspekt | Beslutsträd | Neuronnät |
 | --- | --- | --- |
-| Tolkningsbarhet | | |
-| Träningsdata som krävs | | |
-| Risk för överanpassning | | |
-| Beräkningskostnad | | |
+| Tolkningsbarhet | Kan följas steg för steg. | Svårt att se varje beslut, bygger på många vikter. |
+| Träningsdata | Klarar små dataset, men behöver bra features. | Behöver ofta mycket data för att fungera. |
+| Risk för överanpassning | Hög vid djupa träd, kan motverkas med pruning. | Kan överanpassa men regularisering hjälper. |
+| Beräkningskostnad | Låg vid träning och prediktion. | Högre, särskilt för stora nätverk. |
 
 <FillInQuiz
   quizId="tolkningsbarhet"
-  question="Vilket modellval föredrar du om du måste kunna visa exakt hur beslutet fattades och varför?"
+  question="Förklara med egna ord vad tolkningsbarhet betyder i samband med beslutsträd."
   freeResponse={true}
-  explanation="Bra resonemang! Beslutsträd är oftast enklare att förklara steg för steg. Motivera ditt val i loggen."
+  explanation="En modell är tolkningsbar om du kan följa resonemanget. Beslutsträd kan ofta beskrivas med enkla meningar: om något händer → gör detta."
 />
 
 ## Reflektionsfrågor
 
 - Vilka typer av problem passar beslutsträd bäst för?
 - När skulle du kombinera flera träd (random forest, gradient boosting)?
-- Vilka begränsningar märkte du när du testade ditt träd?
+- Hur kan du förklara begränsningar som uppstår när trädet blir för djupt?
 
-> [!TIP] Dokumentera
-> Fota/rita trädstrukturen och klistra in i din logg tillsammans med en kort text som jämför resultat mot din neuronnätsmodell från modul 1.
 
 <Glossary
   terms={[
     'Beslutsträd',
     'Överanpassning',
+    'Kriterier',
+    'Djup',
     'Pruning',
     'Tolkningsbarhet'
   ]}

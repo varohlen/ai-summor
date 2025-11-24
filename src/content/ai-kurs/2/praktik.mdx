@@ -1,0 +1,59 @@
+---
+title: Praktiska övningar – beslutsträd och sök
+description: Kompletterande aktiviteter för lektion 2 och 3 i modul 2.
+order: 2.5
+draft: true
+---
+
+## Övning A – Bygg ett beslutsträd
+
+1. Välj ett litet dataset (t.ex. energidata från regressionen eller ett eget case).
+2. Identifiera två till tre features som känns relevanta.
+3. Rita ett träd för hand (papper, whiteboard eller digital skiss). Fokusera på tydliga ja/nej-frågor.
+4. Implementera samma träd i valfritt verktyg (t.ex. `scikit-learn DecisionTreeClassifier`, Teachable Machine eller en online-visualiserare).
+
+| Checklista | Anteckningar |
+| --- | --- |
+| Valda features | |
+| Frågorna i varje nod | |
+| Hur djupt blev trädet? | |
+| Upplevda styrkor | |
+| Upplevda svagheter | |
+
+> [!TIP] Dokumentera
+> Fota/rita trädstrukturen och klistra in i loggen. Skriv en kort text som jämför resultatet mot din neuronnätsmodell från modul 1.
+
+## Övning B – Beslutsträd vs. neuronnät
+
+Använd samma case som i Övning A och fyll i tabellen.
+
+| Aspekt | Beslutsträd | Neuronnät |
+| --- | --- | --- |
+| Tolkningsbarhet | | |
+| Träningsdata som krävs | | |
+| Risk för överanpassning | | |
+| Beräkningskostnad | | |
+
+> [!QUESTION] Reflektion
+> Vad händer när du gör trädet djupare? Anteckna en konkret för- och nackdel.
+
+## Övning C – Maze-agent
+
+1. Öppna sökvisualiseraren (maze/spel) som finns länkad i kursmaterialet.
+2. Kör samma problem med BFS, DFS och A* (använd heuristiken "Manhattan-distans").
+3. Notera antal besökta noder, tid och om lösningen är optimal.
+
+| Algoritm | Besökta noder | Optimal? | Kommentar |
+| --- | --- | --- | --- |
+| BFS | | | |
+| DFS | | | |
+| A* | | | |
+
+## Övning D – Heuristiker i praktiken
+
+- Testa att ändra heuristiken (t.ex. Diagonal, Noll, "väg genom korridor").
+- Dokumentera hur heuristiken påverkade antalet besökta noder och om lösningen fortfarande var optimal.
+- Försök beskriva heuristiken med ord: Vilken tumregel använder du? När fungerar den dåligt?
+
+> [!TIP] Kombinera
+> Skriv ett kort resonemang om hur sökalgoritmer kan samarbeta med ML i samma problem (t.ex. spel-AI eller en robot som planerar rutter).

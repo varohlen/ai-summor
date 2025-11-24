@@ -12,24 +12,29 @@ import Glossary from '../../../components/Glossary.astro';
 
 ## Från modell till strategi
 
-Alla AI-problem kräver inte maskininlärning. Sökalgoritmer låter oss utforska möjliga tillstånd steg för steg tills vi hittar en lösning. I den här lektionen jämför vi **bredden-först-sökning (BFS)**, **djupet-först-sökning (DFS)** och heuristiska varianter som **Aa**.
+Alla AI-problem kräver inte maskininlärning. Sökalgoritmer låter oss utforska möjliga tillstånd steg för steg tills vi hittar en lösning. I den här lektionen jämför vi **bredden-först-sökning (BFS)**, **djupet-först-sökning (DFS)** och heuristiska varianter som **A* (A-stjärna)**.
 
 > [!INFO] När är sök bättre?
 > - Problemet kan beskrivas som tillstånd och handlingar (spel, pussel, rutter).
 > - Det finns tydligt mål och vi kan utvärdera hur nära målet vi är.
 > - Vi behöver lösning nu, inte en modell för framtida data.
 
-## Aktivitet: Maze-agent
+## Så arbetar BFS och DFS
 
-1. Testa sökvisualiseraren (maze/spel) som finns länkad i kursmaterialet.
-2. Kör samma problem med BFS, DFS och Aa (med heuristik "Manhattan-distans").
-3. Notera antal besökta noder, tid och om lösningen är optimal.
+```mermaid
+graph TD
+    S([Start]) --> A1[Steg 1]
+    S --> B1[Steg 2]
+    A1 --> A2[Steg 1a]
+    A1 --> A3[Steg 1b]
+    B1 --> B2[Steg 2a]
+    B1 --> B3[Steg 2b]
+```
 
-| Algoritm | Besökta noder | Optimal? | Kommentar |
-| --- | --- | --- | --- |
-| BFS | | | |
-| DFS | | | |
-| Aa | | | |
+- **BFS** utforskar nivå för nivå (radvis). Alla steg som ligger lika långt bort besöks innan vi går vidare. Resultat: hittar kortaste väg när varje steg kostar lika mycket men kräver mer minne.
+- **DFS** följer en gren tills den tar slut. Resultat: kräver lite minne men riskerar att fastna långt bort innan den hittar målet.
+
+Tänk på BFS som att läsa sida för sida i en bok, medan DFS är att följa en berättelsegren hela vägen till slutet innan du går tillbaka och testar nästa.
 
 <MultipleChoiceQuiz
   quizId="bfs-vs-dfs"
@@ -44,17 +49,17 @@ Alla AI-problem kräver inte maskininlärning. Sökalgoritmer låter oss utforsk
   explanation="BFS utforskar alla noder på ett djup innan det går vidare, vilket garanterar kortaste väg när alla steg kostar lika mycket."
 />
 
-## Heuristik och Aa
+## Heuristik och A*
 
-- **Heuristik** uppskattar avståndet till målet.
-- En bra heuristik gör sökningen snabbare utan att förlora kvalitet.
-- Testa att ändra heuristiken (t.ex. Diagonal, Noll) och jämför resultat.
+- **Heuristik** är en snabb tumregel som uppskattar hur långt det är kvar till målet. Exempel: i en stad kan fågelvägen ge en grov uppskattning av gångavståndet.
+- A* kombinerar faktiska kostnader (hur långt vi gått hittills) med heuristiken (hur långt vi tror det är kvar). Summan styr vilken nod som utforskas först.
+- Om heuristiken aldrig överskattar (är **admissibel**) garanterar A* fortfarande den kortaste vägen, men använder mindre tid än BFS.
 
 <FillInQuiz
   quizId="heuristik-effekt"
-  question="Vilken heuristik gav bäst balans mellan snabbhet och kvalitet i din maze? Förklara varför."
+  question="Ge ett exempel på en enkel heuristik för att hitta rätt rum i en skola och förklara varför den kan vara hjälpsam."
   freeResponse={true}
-  explanation="Bra analys! Skriv ner hur heuristiken påverkade antalet besökta noder och om lösningen fortfarande var optimal."
+  explanation="Heuristiken ska guida sökningen mot målet utan att lura algoritmen bort från en kort väg. Beskriv din tumregel och hur den hjälper."
 />
 
 ## Jämförelse mot ML
@@ -63,6 +68,9 @@ Reflektera i loggen:
 - Vilka problem löser sökalgoritmer bättre än ML?
 - När är ML överlägset?
 - Hur skulle du kombinera sök och ML (t.ex. spel-AI med heuristisk beräkning)?
+
+> [!NOTE] Exempel
+> Ett spel som schack använder ofta sökträd (för att utforska drag) men kompletterar med ML för att bedöma ställningar snabbare.
 
 <Glossary
   terms={[
