@@ -3,16 +3,18 @@ title: '3. Sökalgoritmer och agenter'
 description: 'Upptäck hur AI kan lösa problem genom målstyrd sökning utan att träna neurala modeller.'
 order: 3
 pubDate: 2025-11-08
-draft: true
 ---
 
 import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
 import FillInQuiz from '../../../components/FillInQuiz.astro';
 import Glossary from '../../../components/Glossary.astro';
+import Mermaid from '../../../components/Mermaid.astro';
 
 ## Från modell till strategi
 
 Alla AI-problem kräver inte maskininlärning. Sökalgoritmer låter oss utforska möjliga tillstånd steg för steg tills vi hittar en lösning. I den här lektionen jämför vi **bredden-först-sökning (BFS)**, **djupet-först-sökning (DFS)** och heuristiska varianter som **A* (A-stjärna)**.
+
+**Tillstånd** kan du tänka på som "var du står just nu" – ett rum i skolan, en ruta i ett spel eller en plats på kartan. **Handling** är dörren du går genom eller draget du gör som tar dig till nästa läge. När vi beskriver ett problem som tillstånd och handlingar kan algoritmen testa ett steg i taget utan att behöva förstå hela världen på en gång.
 
 > [!INFO] När är sök bättre?
 > - Problemet kan beskrivas som tillstånd och handlingar (spel, pussel, rutter).
@@ -21,15 +23,44 @@ Alla AI-problem kräver inte maskininlärning. Sökalgoritmer låter oss utforsk
 
 ## Så arbetar BFS och DFS
 
-```mermaid
-graph TD
+Tänk att du letar efter sal F3 i skolans huvudbyggnad:
+
+1. Entrén (Start) har två korridorer: vänster mot A-klassrum och höger mot B-klassrum.
+2. Varje korridor delar sig vidare i mindre gångar (A1, A2 … resp. B1, B2 …).
+
+### BFS i samma scenario
+- Du besöker först båda huvudkorridorerna för att se vad de leder till.
+- Därefter går du ett steg längre ned i varje korridor och kartlägger alla rum på nästa nivå innan du går vidare.
+- Fördel: du hittar den kortaste vägen till F3 om alla korridorer är lika långa.
+
+### DFS i samma scenario
+- Du väljer en korridor (säg A) och följer den hela vägen tills det tar stopp eller du hittar F3.
+- Om du misslyckas går du tillbaka till senaste vägskäl och provar nästa gren.
+- Fördel: du behöver bara hålla koll på den aktuella vägen (lite minne), men riskerar att lägga lång tid på fel gren.
+
+<MultipleChoiceQuiz
+  quizId="sal-f3-strategi"
+  question="Vilken beskrivning stämmer bäst in på hur DFS söker efter sal F3 i exemplet?"
+  options={[
+    'Den kartlägger alla korridorer på samma djup innan den går vidare.',
+    'Den följer en vald korridor så långt som möjligt och backar sedan.',
+    'Den kombinerar kostnad och heuristik för att prioritera korridorer.',
+    'Den hoppar slumpmässigt mellan korridorer för att spara tid.'
+  ]}
+  correctAnswer={1}
+  explanation="DFS går så långt den kan nedför en gren och backar först när grenen tar slut, vilket gör att den behöver lite minne men kan fastna på fel väg."
+/>
+
+<Mermaid
+  diagram={`graph TD
     S([Start]) --> A1[Steg 1]
     S --> B1[Steg 2]
     A1 --> A2[Steg 1a]
     A1 --> A3[Steg 1b]
     B1 --> B2[Steg 2a]
     B1 --> B3[Steg 2b]
-```
+  `}
+/>
 
 - **BFS** utforskar nivå för nivå (radvis). Alla steg som ligger lika långt bort besöks innan vi går vidare. Resultat: hittar kortaste väg när varje steg kostar lika mycket men kräver mer minne.
 - **DFS** följer en gren tills den tar slut. Resultat: kräver lite minne men riskerar att fastna långt bort innan den hittar målet.
@@ -54,6 +85,31 @@ Tänk på BFS som att läsa sida för sida i en bok, medan DFS är att följa en
 - **Heuristik** är en snabb tumregel som uppskattar hur långt det är kvar till målet. Exempel: i en stad kan fågelvägen ge en grov uppskattning av gångavståndet.
 - A* kombinerar faktiska kostnader (hur långt vi gått hittills) med heuristiken (hur långt vi tror det är kvar). Summan styr vilken nod som utforskas först.
 - Om heuristiken aldrig överskattar (är **admissibel**) garanterar A* fortfarande den kortaste vägen, men använder mindre tid än BFS.
+
+### Mini-exempel: kostnader i A*
+
+Föreställ dig tre rum på rad: Start → Bibliotek → Laboratorium (målet). Varje gång har en faktisk kostnad (hur långt vi redan gått) och en heuristik (uppskattning av avståndet till labbet):
+
+| Nod | Faktisk kostnad `g(n)` | Heuristik `h(n)` | Summa `f(n) = g+h` |
+| --- | ---------------------- | ---------------- | ------------------ |
+| Start | 0 | 6 | 6 |
+| Bibliotek | 4 | 2 | 6 |
+| Laboratorium | 6 | 0 | 6 |
+
+A* väljer alltid den nod med lägst `f`. Start och Bibliotek är lika lovande (6), men när vi expanderar Bibliotek ser vi att Laboratorium också har `f = 6` och är målet. Heuristiken guidar oss genom att säga "det är bara två minuter kvar" så vi prioriterar rätt korridor utan att prova alla andra rum först.
+
+<MultipleChoiceQuiz
+  quizId="heuristik-egenskap"
+  question="Vad innebär det att heuristiken i A* är admissibel?"
+  options={[
+    'Att den alltid underskattar hur långt det är kvar till målet.',
+    'Att den aldrig överskattar avståndet till målet.',
+    'Att den ger exakt samma kostnad som verkligheten.',
+    'Att den minskar både g(n) och h(n) med samma faktor.'
+  ]}
+  correctAnswer={1}
+  explanation="En admissibel heuristik får inte överskatta målkostnaden. Då garanterar A* fortfarande kortaste vägen, även om heuristiken bara är en uppskattning."
+/>
 
 <FillInQuiz
   quizId="heuristik-effekt"
