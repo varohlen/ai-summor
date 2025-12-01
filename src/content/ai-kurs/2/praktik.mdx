@@ -57,3 +57,95 @@ Använd samma case som i Övning A och fyll i tabellen.
 
 > [!TIP] Kombinera
 > Skriv ett kort resonemang om hur sökalgoritmer kan samarbeta med ML i samma problem (t.ex. spel-AI eller en robot som planerar rutter).
+
+
+
+## Uppgift C: Sökalgoritmer och heuristiker (nivå 3)
+
+Ni tränar nu på att välja rätt sökstrategi utan dator. Syftet är att förstå **när BFS, DFS och heuristiker hjälper eller stjälper**.
+
+### 1. Maze utan dator
+
+Ni får ett utskrivet rutnät (maze). Använd pennor eller post-its för att simulera algoritmerna.
+
+Besvara följande efter att ni har kört båda algoritmerna:
+
+- Hur många steg tog BFS respektive DFS tills ni hittade målet?
+- Vilka noder behövde ni hålla i minnet? Beskriv hur ni organiserade dem.
+- Vilken algoritm gav mest kontroll? När skulle ni välja den om ni vore en robot?
+
+### 2. Heuristiskt resonemang
+
+Välj minst två heuristiker (t.ex. "gå alltid mot sydost" eller "följ vägg till vänster").
+
+Skriv löpande text eller punktlista där ni besvarar:
+
+1. Varför kan heuristiken vara smart i just det här mazet?
+2. När leder den er fel eller fastnar?
+3. Hur skulle ni justera heuristiken för att bli mer träffsäker?
+
+### 3. Sammanfatta i en tabell
+
+Dokumentera resultaten från simuleringen i en tabell eller tydlig lista.
+
+> [!TIP] Mall – Observationslogg
+> | Algoritm | Steg | Minnesnotering | Optimal? | Kommentar |
+> | --- | --- | --- | --- | --- |
+
+**Avsluta med en reflektion:** Hur kan en heuristisk strategi samarbeta med en ML-modell? (Ex: spel-AI som växlar mellan heuristisk värdering och ett tränat nät.)
+
+---
+
+## Uppgift D: Mini-case och risker (nivå 4)
+
+Här kopplar ni ihop verktygsstrategi med riskmedvetenhet. Ni arbetar med två case (ex: förutse kölängd, hitta bästa skolrutt, planera butikens bemanning).
+
+### 1. Metod-valskort
+
+För varje case, fyll i ett metodkort där ni tydligt motiverar era val.
+
+**Att beskriva:**
+
+1. Vilket verktyg väljer ni först – och varför är det rimligt?
+2. Vilket backup-verktyg tar ni till om det första inte räcker?
+3. Vilken data (eller uppskattning) behöver ni för att köra respektive verktyg?
+
+> [!NOTE] Mall – Metodkort
+> | Case | Förstaval | Varför | Backup | Data som krävs |
+> | --- | --- | --- | --- | --- |
+
+### 2. Risk- och etikstrimma
+
+Identifiera minst en risk per case. Det kan handla om felaktiga data, bias eller integritetsproblem.
+
+Svara kort på följande:
+
+- Hur märker ni att risken håller på att inträffa?
+- Vilken åtgärd kan minska/hantera risken?
+- Behöver ni kommunicera något till användare eller beslutsfattare?
+
+> [!TIP] Påminnelse
+> Koppla alltid riskerna till ert valda verktyg. En regressionsmodell och ett besluts-träd kan t.ex. kräva helt olika sätt att upptäcka bias.
+
+---
+
+## Leverabler
+
+1. **Strategiloggen** (kan vara papper eller delad fil):
+   - Tabell för vardagsscenarierna
+   - Beslutsträdsskiss och jämförelsetabell
+   - BFS/DFS-observationer och heuristiklista
+   - Metod-valskort + risklistan
+2. **Exit-ticket (muntlig)** hos läraren: 
+   Välj ett case och redogör på max två minuter hur ni skulle angripa det och varför.
+
+---
+
+## Bedömning
+
+- Fokus på resonemang och motiverade verktygsval.
+- Ni ska kunna beskriva begränsningar: data, tolkningsbarhet, tidsåtgång.
+- Använd enkla termer – inga avancerade kalkylblad eller kod behövs.
+
+> [!TIP] Lärarstöd
+> Lämna in loggen efter lektion 2 för snabb feedback. Uppdatera den inför exit-ticketen.

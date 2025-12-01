@@ -42,8 +42,8 @@
 /* Ensure inline math doesn't break layout */
 .katex {
   max-width: 100%;
-  overflow-x: auto;
   display: inline-block;
+  vertical-align: baseline;
 }
 
 /* Better spacing in prose context */
