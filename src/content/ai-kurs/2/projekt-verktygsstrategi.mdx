@@ -105,3 +105,146 @@ Avsluta med en kort tabell eller punktlista där du jämför regressionen mot de
 - Beskriv ett scenario där du först skulle använda statistiska mått och ett annat scenario där du skulle använda regression. Motivera.
 
 ---
+
+## Uppgift C: Sökalgoritmer med visualiserare
+
+Nu tränar ni på att välja sökstrategi med hjälp av en färdig visualiserare (ingen kod behövs). Ni använder samma maze i verktyget och jämför hur **BFS**, **DFS** och **A\*** beter sig.
+
+[Öppna visualiseraren](https://elysian01.github.io/Algorithms-Visualization/templates/pathfinding.html#)
+
+> [!INFO] Mål
+> - Testa tre sökalgoritmer på samma problem.
+> - Jämföra hur många rutor som besöks och om vägen verkar kort.
+> - Öva på att förklara *varför* en algoritm passar bättre i ett visst läge.
+
+### 1. Skapa ett gemensamt maze
+
+1. Välj en gruppmedlem som delar skärm eller använd varsin dator.
+2. Använd visualiseraren för att:
+   - Generera ett maze med verktygets knapp (Built Maze eller Random Wall Maze)
+   - Markera start och mål.
+3. Skriv kort med ord hur mazet ser ut (t.ex. "en lång korridor med en återvändsgränd").
+
+> [!TIP] Håll det enkelt
+> **Håll det enkelt**
+> Ett för krångligt maze gör det svårt att jämföra. 2–3 ”korridorer” räcker.
+
+### 2. Kör BFS, DFS och A*
+
+Kör nu samma maze tre gånger – en gång per algoritm.
+
+>[!INFO] Instruktioner
+> **Instruktioner**
+> För att köra visualiseraren gör följande:
+> 1. Välj algoritm
+> 2. Tryck på "Visualize"
+> 3. Tryck sedan på **Clear Path** för att ta bort din sökning. (Inte "Reset" - det tar bort labyrinten!)
+> 4. Välj ny algoritm
+
+
+Fyll i tabellen:
+
+| Algoritm | Besökta rutor | Verkar vägen kort? (Ja/Nej) | Kommentar |
+| --- | --- | --- | --- |
+| BFS | | | |
+| DFS | | | |
+| A* | | | |
+
+Skriv kort (på papper eller i ert dokument):
+- Vilken algoritm verkade leta “bredare” (många rutor på samma avstånd)?
+- Vilken verkade gå “djupt” i en riktning först?
+- När kändes A* smartare än BFS/DFS?
+
+### 3. Koppla till verkliga exempel
+
+Välj två situationer och koppla dem till en algoritm:
+
+- En där du vill vara **säker på kortaste väg** (t.ex. räddningsrobot, GPS).
+- En där det viktigaste är att **hitta någon väg snabbt** även om den inte är bäst (t.ex. spelkaraktär som måste fly).
+
+För varje exempel: skriv 2–3 meningar där du namnger algoritmen (BFS, DFS eller A\*) och motiverar varför den passar bättre än de andra.
+
+### 4. Sökning utanför labyrinter
+
+Sökalgoritmer används också i helt andra problem än vägar i rutnät. Välj minst ett av exemplen nedan och beskriv kort:
+
+- Hur kan problemet ses som en sökning genom tillstånd?
+- Vilken av BFS, DFS eller A\* skulle du testa först? Varför?
+
+Exempel att välja bland:
+- Planera en rutt för att leverera paket till flera adresser i stan.
+- Hitta en bra ordning att göra läxor/prov på en vecka så att det inte blir för stressigt.
+- Låta en spel-AI välja drag i ett turordningsspel.
+
+---
+
+## Uppgift D: När passar LLM – och när inte?
+
+I den här uppgiften tränar ni på att välja **om** en LLM (t.ex. ChatGPT) ska användas eller inte. Målet är att ni ska kunna säga:
+
+- när LLM är ett bra stödverktyg
+- när andra verktyg (t.ex. miniräknare, kalkylark, egen hjärna) passar bättre
+- när det är olämpligt eller riskabelt att använda LLM.
+
+### 1. Vardagsscenarier – välj verktyg
+
+Fyll i tabellen nedan. Skriv kort i varje ruta.
+
+| Situation | Skulle du använda LLM? (Ja/Nej) | Annat verktyg? (om Nej) | Risk / kommentar |
+| --- | --- | --- | --- |
+| Räkna ut 15 % rabatt på en tröja | | | |
+| Kolla stavning i en kort text på svenska | | | |
+| Få förslag på rubrik till en labbrapport | | | |
+| Få ett färdigt svar på en inlämningsuppgift | | | |
+
+Besvara sedan:
+
+- I vilken situation är LLM mest rimligt att använda? Varför?
+- I vilken situation tycker du att LLM **inte** ska användas alls? Varför?
+
+### 2. Data och integritet
+
+Läs igenom scenarierna. Svara kort på frågorna efteråt.
+
+1. Du ska skriva ett mejl om en elev som mår dåligt.
+2. Du har en tabell med namn, personnummer och frånvaro för klassen.
+3. Du har ett anonymiserat dataset över energiförbrukning utan namn eller personnummer.
+
+Besvara:
+
+- Vilken/vilka av dessa får du **inte** klistra in i en LLM-chatt? Motivera.
+- Hur kan du göra informationen säkrare om du ändå vill ha hjälp (t.ex. byta namn mot A, B, C eller ta bort personnummer)?
+
+### 3. LLM vs specialiserade verktyg
+
+Nu jämför ni LLM med andra verktyg ni redan kan, t.ex. miniräknare eller kalkylark (Sheets/Excel).
+
+| Uppgift | LLM – bra/dåligt? | Annat verktyg (vilket?) | Vad väljer du? Varför? |
+| --- | --- | --- | --- |
+| Beräkna medelvärde för 200 tal | | | |
+| Förklara med enkla ord vad "median" betyder | | | |
+| Rita ett spridningsdiagram av dina data | | | |
+| Brainstorma 5 möjliga orsaker till ökad energiförbrukning en vecka | | | |
+
+### 4. Hur använde vi LLM i det här projektet?
+
+Nu tittar ni tillbaka på hela den här uppgiften (A–D) och granskar **ert eget** användande av LLM.
+
+1. Fyll i tabellen:
+
+| Del i projektet | Använde vi LLM? (Ja/Nej) | Vad hjälpte LLM oss med? | Var det ett bra val? Varför / varför inte? |
+| --- | --- | --- | --- |
+| Uppgift A – Matteval i vardagen | | | |
+| Uppgift B – Analysera information | | | |
+| Uppgift C – Sökalgoritmer | | | |
+| Uppgift D – LLM-resonemang | | | |
+
+2. Besvara sedan kort:
+- Ge ett exempel där LLM verkligen hjälpte er på ett bra sätt.
+- Ge ett exempel där det egentligen hade varit bättre att **inte** använda LLM (eller använda ett annat verktyg).
+- Vad vill ni ändra till nästa gång ni jobbar med en liknande uppgift?
+
+> [!NOTE] Leverans
+> Uppgift D redovisas i samma dokument/papper som resten av projektet. Markera tydligt under tabellen att ni följt kravet från början av projektet: att kort beskriva **när** och **varför** ni använde LLM.
+
+---
