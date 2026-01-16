@@ -1,0 +1,228 @@
+---
+title: 'Jämför AI-modeller i praktiken'
+description: 'Testa samma uppgifter med olika AI-modeller och analysera resultaten. Utforska styrkor, svagheter och användningsområden för chatbots, bildgeneratorer och dokumentanalys.'
+order: 0
+pubDate: 2026-01-16
+tags:
+  - praktik
+  - jämförelse
+  - kritiskt tänkande
+---
+
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import FillInQuiz from '../../../components/FillInQuiz.astro';
+
+## Vad går uppgiften ut på?
+
+Under de kommande veckorna ska ni arbeta med att **jämföra och utvärdera olika AI-modeller** genom praktiska experiment. Ni kommer att genomföra samma uppgifter med olika verktyg och kritiskt granska resultaten. Målet är inte att lära er alla verktyg i detalj, utan att utveckla förmågan att välja rätt verktyg för rätt situation och förstå begränsningar.
+
+> [!INFO] Fokus
+> - Jämföra olika AI-verktyg på identiska uppgifter
+> - Analysera styrkor och svagheter hos olika modeller
+> - Bygga kritiskt tänkande kring AI-resultat
+> - Förstå när olika verktyg passar bäst
+
+> [!WARNING] Arbetsform
+> - Ni arbetar **parvis** för att kunna diskutera och jämföra observationer
+> - **Dokumentera allt** – varje test, varje resultat, varje reflektion
+> - Ni får använda AI-verktygen för att **lösa uppgifterna**, men era **analyser och reflektioner ska vara era egna**
+> - Redovisa i ett delat Google Dokument med tydlig struktur
+
+---
+
+## AI-modeller ni ska testa
+
+Ni ska arbeta med minst **fem olika AI-modeller** som är tillgängliga gratis:
+
+### 1. ChatGPT (OpenAI)
+- **Tillgång:** [chat.openai.com](https://chat.openai.com)
+
+### 2. Gemini (Google)
+- **Tillgång:** [gemini.google.com](https://gemini.google.com)
+
+### 3. Claude (Anthropic)
+- **Tillgång:** [claude.ai](https://claude.ai)
+
+### 4. Grok (xAI)
+- **Tillgång:** [grok.com](https://grok.com)
+
+### 5. DeepSeek
+- **Tillgång:** [chat.deepseek.com](https://chat.deepseek.com)
+
+> [!TIP] Anpassa efter tillgänglighet
+> Om något verktyg inte är tillgängligt, ersätt med ett annat LLM-verktyg, exempelvis:
+> - **Perplexity AI** 
+> - **Microsoft Copilot** 
+
+---
+
+## Uppgifternas struktur
+
+Uppgiften är uppdelad i **sex olika testområden** där ni genomför identiska uppgifter med alla modeller och sedan jämför resultaten.
+
+För varje testområde ska ni:
+1. **Utföra uppgiften** med varje modell
+2. **Dokumentera resultaten** (kopiera svar, spara bilder, skapa skärmdumpar)
+3. **Jämföra** utfallen i en tabell
+4. **Reflektera** över styrkor, svagheter och användningsområden
+
+---
+
+## Del A: Besvara faktafrågor
+
+**Syfte:** Testa modellernas kunskaper och hur de hanterar faktainformation.
+
+### Uppgift
+Ställ samma tre frågor till alla modeller:
+
+1. **Enkel faktafråga:** "Vad är huvudstaden i Australien?"
+2. **Komplex faktafråga:** "Vilka länder delar gräns med Schweiz och vad är deras huvudstäder?"
+3. **Aktuell händelse:** "Vad hände vid senaste OS och var hölls det?"
+
+### Dokumentera
+Skapa en tabell:
+
+| Fråga | ChatGPT | Gemini | Claude | Grok | DeepSeek |
+| --- | --- | --- | --- | --- | --- |
+| Australiens huvudstad | | | | | |
+| Schweiz grannar | | | | | |
+| Senaste OS | | | | | |
+
+### Reflektera
+- Vilken modell gav mest korrekta svar?
+- Fanns det skillnader i hur detaljerade svaren var?
+- Hur hanterade modellerna osäkerhet eller felaktig information?
+- Vilken modell hade mest uppdaterad information?
+
+---
+
+## Del B: Research och sammanfattning
+
+**Syfte:** Testa modellernas förmåga att samla information och presentera den på ett strukturerat sätt.
+
+### Uppgift
+Be alla modeller om samma research-uppgift:
+
+**Prompt:** "Ge mig en kort översikt (max 200 ord) över artificiella neuronnätverk: vad de är, hur de fungerar och ett praktiskt användningsområde. Skriv för en person som går i gymnasiet."
+
+### Dokumentera
+- Kopiera hela svaret från varje modell
+- Räkna ord (ungefär)
+- Bedöm läsbarhet (1-5, där 5 är mycket lättläst)
+
+### Reflektera
+- Vilken modell gav mest lättförståeligt svar?
+- Vilken modell följde instruktionen om ordgräns bäst?
+- Fanns det faktafel i något svar?
+- Vilken ton/stil hade respektive modell (formell, vardaglig, akademisk)?
+
+---
+
+## Del C: Bildgenerering (om tillgängligt)
+
+**Syfte:** Testa bildgenererande förmågor hos modeller som stödjer det.
+
+> [!NOTE] Anpassning
+> Alla modeller stödjer inte bildgenerering. Testa de som kan. Om ni inte har tillgång kan ni hoppa över denna del.
+
+### Uppgift
+Använd samma prompt för alla verktyg som stödjer bildgenerering:
+
+**Prompt:** "Skapa en bild på en futuristisk skola där elever arbetar tillsammans med AI-robotar. Stilen ska vara ljus och optimistisk."
+
+### Dokumentera
+- Spara bilderna
+- Beskriv skillnader i stil, kvalitet och tolkning
+- Tidsmätning: hur lång tid tog det?
+
+### Reflektera
+- Vilken bild matchade din vision bäst?
+- Fanns det betydande skillnader i hur prompten tolkades?
+- Vilka detaljer hanterades bra/dåligt?
+- Hur skulle du förbättra prompten för att få bättre resultat?
+
+---
+
+## Del D: Dokumentanalys (PDF)
+
+**Syfte:** Testa hur väl modeller kan läsa och analysera PDF-dokument.
+
+### Uppgift
+1. **Ladda ner testdokumentet:** [Partille-gymnasium_2025.pdf](/Partille-gymnasium_2025.pdf)
+2. **Ladda upp till modellerna:** Ge PDF-filen till alla modeller som stödjer dokumentuppladdning.
+3. **Samma fråga till alla:** "Sammanfatta texten i tre punkter och föreslå en passande rubrik."
+
+> [!NOTE] Vilka modeller stödjer PDF?
+> Inte alla modeller kan läsa PDF-filer. Testa de som kan. För modeller som inte stödjer uppladdning kan ni kopiera och klistra in textinnehållet istället.
+
+### Dokumentera
+- Sammanfattningar från varje modell
+- Föreslagna rubriker
+- Hur väl stämde sammanfattningen överens med dokumentets innehåll?
+
+### Reflektera
+- Vilken modell fångade huvudbudskapet bäst?
+- Fanns det några som missade viktiga detaljer?
+- Hur kreativa var rubrikerna?
+- Vilken modell skulle du lita på för att sammanfatta ett längre dokument?
+
+---
+
+## Del E: Hämta information från webben
+
+**Syfte:** Testa modellers förmåga att söka och hämta aktuell information.
+
+### Uppgift
+Be modellerna om aktuell information som inte fanns i deras träningsdata:
+
+**Prompt:** "Vad är dagens datum och vilka stora nyhetshändelser har hänt den senaste veckan i Sverige?"
+
+> [!INFO] Förväntningar
+> Modeller som **inte kan söka på webben** (t.ex. grundversionen av vissa LLM:er) kommer inte kunna svara korrekt. Detta är viktigt att notera!
+
+### Dokumentera
+| Modell | Kan söka webben? | Dagens datum (korrekt?) | Nämnda händelser |
+| --- | --- | --- | --- |
+| ChatGPT | | | |
+| Gemini | | | |
+| Claude | | | |
+| Grok | | | |
+| DeepSeek | | | |
+
+### Reflektera
+- Vilka modeller kunde hämta aktuell information?
+- Hur hanterade modeller utan webbtillgång frågan?
+- När är webbtillgång avgörande för en uppgift?
+
+---
+
+## Slutanalys: Jämför och välj
+
+När ni har genomfört alla tester ska ni skapa en **sammanfattande analys**.
+
+### 1. Skapa en helhetstabell
+
+| Modell | Styrkor | Svagheter | Bäst för... | Betyg (1-5) |
+| --- | --- | --- | --- | --- |
+| ChatGPT | | | | |
+| Gemini | | | | |
+| Claude | | | | |
+| Grok | | | | |
+| DeepSeek | | | | |
+
+### 2. Besvara reflektionsfrågorna
+
+1. **Vilken modell var bäst overall och varför?**
+   - Tänk på: tillförlitlighet, mångsidighet, användarvänlighet.
+
+2. **Fanns det uppgifter där en "sämre" modell presterade bättre?**
+   - Ge konkreta exempel från era tester.
+
+3. **Hur påverkar modellvalet vilken typ av svar du får?**
+   - Reflektera över skillnader i ton, stil och detaljeringsgrad.
+
+4. **När skulle du välja olika modeller i praktiken?**
+   - T.ex. "Jag skulle använda Gemini för ... men Claude för ..."
+
+5. **Vilka risker såg ni med att använda AI för dessa uppgifter?**
+   - Tänk på: faktafel, bias, integritet, etik.
