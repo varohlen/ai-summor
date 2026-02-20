@@ -1,7 +1,7 @@
 ---
 title: 'AI och klimat - Case-diskussion'
 description: 'Diskutera AI:s klimatpåverkan genom tre case: techbolagens löften, AI som klimatverktyg, och ditt eget ansvar som användare.'
-order: 1
+order: 3
 tags:
   - klimat
   - konsekvenser

@@ -1,7 +1,7 @@
 ---
 title: 'AI och klimat'
 description: 'Lektionsplanering: AI:s klimatpåverkan ur tre perspektiv - energi, vatten och material. 60 minuters engagerande lektion med case-diskussioner.'
-order: 0
+order: 2
 tags:
   - klimat
   - konsekvenser

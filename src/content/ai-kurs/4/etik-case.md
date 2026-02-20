@@ -1,7 +1,7 @@
 ---
 title: 'AI och etik - Case-diskussion'
 description: 'Tre case om ansvar, rättvisa och mänsklig påverkan i AI-system.'
-order: 3
+order: 5
 tags:
   - etik
   - konsekvenser

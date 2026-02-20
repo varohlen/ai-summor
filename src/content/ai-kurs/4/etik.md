@@ -1,7 +1,7 @@
 ---
 title: 'AI och etik'
 description: 'Vad är etik i AI, varför spelar det roll, och vilka verkliga exempel visar hur svårt ansvar kan vara?'
-order: 2
+order: 4
 tags:
   - etik
   - konsekvenser
