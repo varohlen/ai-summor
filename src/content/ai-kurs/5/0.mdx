@@ -1,0 +1,244 @@
+---
+title: '0. Introduktion och GDPR'
+description: 'Första juridiklektionen: varför regelverk behövs och vilka GDPR-artiklar som är viktigast för AI i skolan.'
+order: 0
+pubDate: 2026-03-06
+tags:
+  - sammanfattning
+---
+
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+import CookieConsentSimulator from '../../../components/CookieConsentSimulator.astro';
+
+När det kommer till juridik och lagar för artificiell intelligens får vi i Sverige i första hand titta på europeisk lagstiftning.
+Vi kan använda svensk lagstiftning också, men den handlar mer om *hur* vi använder tekniken i olika sammanhang.
+
+**Europeisk lagstiftning**
+- GDPR (General Data Protection Regulation, *Dataskyddsförordningen* på svenska)
+- Artificial Intelligence Act
+
+**Svensk lagstiftning**
+- Dataskyddslagen
+- Diskrimineringslagen
+- Brottsbalken
+  - Dataintrång
+  - Olovlig identitetsanvändning
+  - Olaga integritetsintrång
+- Upphovsrättslagen
+- Kamerabevakningslagen
+
+Den svenska lagstiftningen nämns i specifika fall där den är direkt relevant. I den här lektionen fokuserar vi på GDPR.
+
+---
+
+## Varför finns det två regelverk i EU?
+
+När det talas om AI och juridik är det ofta två regelverk som dyker upp: GDPR och AI Act.
+De har olika syften och kompletterar varandra.
+
+### GDPR (Regulation (EU) 2016/679)
+
+Fokuserar på **personuppgifter**.
+Frågan är: "Får vi behandla den här datan, och hur måste det ske?"
+
+### AI Act (Regulation (EU) 2024/1689)
+
+Fokuserar på **AI-systemens risknivå och användning**.
+Frågan är: "Får vi använda den här AI-lösningen, och vilka krav gäller?"
+
+Kort sagt:
+
+- **GDPR** skyddar människors data och rättigheter.
+- **AI Act** styr hur AI får utvecklas och användas beroende på risk.
+
+<MultipleChoiceQuiz
+  quizId="juridik-ramverk-skillnad"
+  question="Vilken formulering beskriver skillnaden bäst?"
+  options={[
+    'GDPR gäller bara företag, AI Act gäller bara skolor',
+    'GDPR handlar om persondata, AI Act handlar om AI-system och risknivåer',
+    'AI Act ersätter GDPR helt för AI-tjänster',
+    'GDPR gäller endast inom sjukvård'
+  ]}
+  correctAnswer={1}
+  explanation="Regelverken kompletterar varandra. Ofta måste båda beaktas samtidigt."
+/>
+
+---
+
+## GDPR - General Data Protection Regulation
+
+GDPR antogs 2016 i EU och började tillämpas fullt ut 2018.
+Den reglerar hur personuppgifter får användas och lagras.
+
+>[!INFO] Fullständig lagstiftning
+> EU:s lagstiftning är tillgänglig fritt. Vill du läsa in dig på GDPR i detalj, hittar du den fullständiga lagtexten här:
+> - [EUR-Lex](https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng)
+> - [Svensk översättning](https://eur-lex.europa.eu/legal-content/SV/TXT/PDF/?uri=CELEX:32016R0679&rid=1)
+>
+> För information på svenska kan du läsa:
+> - [Integritetsskyddsmyndighetens vägledning](https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/)
+
+---
+
+### Artikel 5 - Principer
+
+Den första artikeln vi fokuserar på är den femte, som definierar lagstiftningens **principer**.
+I korthet finns det **7 principer**:
+
+*Personlig information ska* ...
+- ... hanteras med laglighet, korrekthet och öppenhet.
+- ... samlas in enbart med tydligt syfte och ändamål.
+- ... användas i så liten utsträckning som möjligt (*"dataminimering"*).
+- ... alltid hållas korrekt (felaktig information ska tas bort så snart som möjligt).
+- ... lagras i så liten utsträckning som möjligt (*"lagringsminimering"*).
+- ... förvaras och användas på ett säkert sätt.
+
+Den sjunde principen syftar på **ansvarsskyldighet**: den som lagrar och använder personuppgifter ansvarar för att övriga principer följs.
+
+>[!TIP] Artikel 5 och AI
+> Redan i principerna ser vi tydligt att GDPR och AI har mindre att göra med personlig användning och mer med hur AI-system tränas och används i organisationer.
+
+<MultipleChoiceQuiz
+  quizId="gdpr-art5-dataminimering"
+  question="Vilket exempel följer dataminimering bäst (artikel 5)?"
+  options={[
+    'Samla in så mycket data som möjligt utifall att den behövs senare',
+    'Samla in den data som är nödvändig för syftet och inget mer',
+    'Spara all data för alltid så att modellen kan förbättras',
+    'Samla in extra data men göm det i villkoren'
+  ]}
+  correctAnswer={1}
+  explanation="Dataminimering betyder att man bara behandlar personuppgifter som faktiskt behövs för ett tydligt syfte."
+/>
+
+---
+
+### Artikel 6 - Rättslig grund
+
+<CookieConsentSimulator />
+
+Personuppgiftsbehandling kräver rättslig grund. Det innebär att inte vem som helst kan samla in personuppgifter, utan det måste
+finnas rättsliga skäl, exempelvis:
+- rättslig förpliktelse (lagar och regler kräver personuppgifter)
+- avtal
+- myndighetsuppgifter eller om uppgifterna är av allmänt intresse
+- personen har lämnat samtycke (fungerar, men det måste vara frivilligt, tydligt och möjligt att ångra)
+
+I korta drag måste det alltså finnas en *tydlig* och *rättslig* anledning till att använda sig av personuppgifter.
+
+<MultipleChoiceQuiz
+  quizId="gdpr-art6-rattslig-grund"
+  question="Vad betyder 'rättslig grund' enklast i GDPR artikel 6?"
+  options={[
+    'Att användaren gillar tjänsten',
+    'Att det finns ett lagligt skäl att behandla personuppgifter',
+    'Att datan lagras inom EU',
+    'Att AI-modellen är tekniskt avancerad'
+  ]}
+  correctAnswer={1}
+  explanation="Rättslig grund innebär att behandlingen måste ha ett lagligt stöd, till exempel avtal, rättslig förpliktelse eller samtycke."
+/>
+
+---
+
+### Artikel 9 - Särskilda kategorier av personuppgifter
+
+Vissa kategorier av personuppgifter klassificeras som *extra känsliga* och de har därför ett extra starkt skydd i lagstiftningen.
+Det handlar om uppgifter som exempelvis berör:
+- Etniskt ursprung
+- Politiska åsikter
+- Religiös övertygelse
+- Genetiska eller biometriska uppgifter
+- Hälsouppgifter
+- Uppgifter som sexuell läggning eller sexualliv
+
+Det här får tydliga konsekvenser inom exempelvis **skola** och **vård** som hanteras exempelvis hälsouppgifter. Det är därför områden där AI-tekniken
+är ännu känsligare att använda sig av.
+
+<MultipleChoiceQuiz
+  quizId="gdpr-art9-kansliga-uppgifter"
+  question="Vilken uppgift räknas som särskilt känslig enligt artikel 9?"
+  options={[
+    'Favoritfärg',
+    'Skostorlek',
+    'Hälsouppgift',
+    'Inloggningstid'
+  ]}
+  correctAnswer={2}
+  explanation="Hälsouppgifter är särskilda kategorier av personuppgifter och har starkare skydd."
+/>
+
+---
+
+### Artikel 13 & 14 - Rätten till information
+
+Artikel 13 tydliggör att den som har lämnat in personuppgifter tydligt ska informeras om vad dessa uppgifter används till och vilken rättslig grund som finns.
+De ska också få information om exakt vad som samlas in och hur länge dessa uppgifter kommer lagras. Vidare ska de också veta vem som *dataskyddsombud*, och vem de kan kontakta.
+
+Artikel 14 är en påbyggnad och handlar om samma sak, med skillnaden om *personen inte har lämnat uppgifterna själv*. Det spelar således ingen roll
+om du lämnat uppgifterna frivilligt eller om de samlats in utan din kunskap, du har samma rätt till information.
+
+>[!TIP] Rätten till information och AI
+> Den här punkten blir extra känslig när vi funderar kring hur AI-modeller tränas på insamlad information. Om dina personuppgifter skulle finnas i träningsdatan har du troligtvis inte fått information om det.
+>
+> Alternativt har de funnits gömt i någon av alla de *villkor* du accepterar när vi använder olika **gratistjänster** som Google, Facebook, TikTok etc.
+
+<MultipleChoiceQuiz
+  quizId="gdpr-art13-14-information"
+  question="Vad ska en person få tydlig information om enligt artikel 13/14?"
+  options={[
+    'Bara vilket företag som äger tjänsten',
+    'Syfte, vilken data som samlas in, lagringstid och kontaktväg',
+    'Endast att AI används',
+    'Endast priset för tjänsten'
+  ]}
+  correctAnswer={1}
+  explanation="Informationsplikten handlar om tydlighet kring syfte, datatyper, lagringstid och vart man vänder sig."
+/>
+
+---
+
+### Artikel 22 - Automatiserat beslutsfattande
+
+Den sista artikeln vi tittar på i detalj är Artikel 22, och som också är den som tydligast har en koppling till AI-tekniken.
+
+I korta drag syftar den till att varje medborgare **har rätt** att **inte** bli föremål för *automatiserade beslut* utifrån de personuppgifter de har lämnat ifrån sig.
+Det betyder att en **människa** måste vara delaktig i beslutet för att det ska följa lagstiftningen.
+
+>[!TIP] Artikel 22 och AI
+> Denna artikel är skriven före den snabba utvecklingen av AI (skriven 2016), men har lyckats ge europeiska medborgare ett starkt skydd kring hur deras personuppgifter får användas i AI-system.
+>
+> Huvudregeln är att viktiga beslut om en person inte ska tas helt automatiskt. En människa ska kunna granska beslutet och den som berörs ska kunna säga emot.
+>
+> Det här ger faktiskt ett starkt skydd för europeiska medborgare!
+
+---
+
+### Fler artiklar
+
+Hela lagstiftningen innehåller **99 artiklar**, många av dessa är dock ren formalia eller handlar om giltighet osv. Lagstiftningen har dock varit en av de mest framträdande europeiska lagstiftningarna under nästan 10 års tid, även före det att AI-tekniken tog sina stora kliv framåt.
+Det kan därför vara av eget intresse att faktiskt läsa in sig på lagstiftningen och vilka rättigheter du faktiskt har som europeisk medborgare.
+
+>[!INFO] Rätten till radering
+> En av de absolut vanligaste användningsområden för enskilda medborgare är artikel 17 och **rätten till radering**.
+> Exempelvis när en person avslutat ett konto hos ett amerikanskt företag så kommer de ofta fortfarande behålla dina uppgifter. Med hjälp av GDPR har du som europeisk medborgare alltid rätten att få dina uppgifter raderade.
+>
+> Det har vanligtvis använts vid avslutande av konton hos ex. Facebook eller Discord som allmänt känt lagrar stora mängder personuppgifter (inklusive alla meddelanden någon har skickat).
+
+---
+
+<MultipleChoiceQuiz
+  quizId="gdpr-artikel-matchning"
+  question="Vilken GDPR-artikel är mest central när frågan gäller rent automatiserade beslut med stor effekt?"
+  options={[
+    'Artikel 5',
+    'Artikel 13',
+    'Artikel 22',
+    'Artikel 32'
+  ]}
+  correctAnswer={2}
+  explanation="Artikel 22 är nyckelartikeln för automatiserat individuellt beslutsfattande."
+/>
+
+---

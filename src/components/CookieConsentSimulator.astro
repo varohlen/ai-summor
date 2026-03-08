@@ -1,0 +1,228 @@
+---
+const triggerId = `cookie-trigger-${Math.random().toString(36).slice(2, 9)}`;
+const bannerId = `cookie-banner-${Math.random().toString(36).slice(2, 9)}`;
+const infoId = `cookie-info-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div id={triggerId} aria-hidden="true" class="h-px w-full"></div>
+
+<div
+    id={bannerId}
+    class="cookie-banner"
+    role="dialog"
+    aria-live="polite"
+    aria-label="Cookie-banner demo"
+>
+    <p class="cookie-heading">Känner du igen den här?</p>
+    <p class="cookie-text">
+        Vi använder cookies för att förbättra tjänsten, analysera trafik och
+        visa relevant innehåll.
+    </p>
+    <div class="cookie-actions">
+        <button class="cookie-btn cookie-btn-primary" data-action="accept"
+            >Acceptera alla</button
+        >
+        <button class="cookie-btn" data-action="necessary"
+            >Endast nödvändiga</button
+        >
+        <button class="cookie-btn" data-action="settings">Inställningar</button>
+    </div>
+</div>
+
+<div id={infoId} class="cookie-info" role="status" aria-live="polite">
+    <button
+        class="cookie-info-close"
+        type="button"
+        aria-label="Stäng informationsruta">×</button
+    >
+    <p class="cookie-info-title">Cookie-banners och GDPR</p>
+    <p class="cookie-info-text">
+        En cookie-banner används ofta för att skapa en rättslig grund enligt
+        GDPR artikel 6, vanligtvis samtycke.<br />
+        För att samtycke ska vara giltigt måste det vara frivilligt, tydligt, informerat
+        och möjligt att återkalla.
+    </p>
+</div>
+
+<script define:vars={{ triggerId, bannerId, infoId }}>
+    document.addEventListener("DOMContentLoaded", () => {
+        const trigger = document.getElementById(triggerId);
+        const banner = document.getElementById(bannerId);
+        const info = document.getElementById(infoId);
+        const infoCloseBtn = info?.querySelector(".cookie-info-close");
+        if (!trigger || !banner || !info) return;
+
+        let dismissed = false;
+
+        const showBanner = () => {
+            if (dismissed) return;
+            banner.classList.add("cookie-open", "cookie-visible");
+        };
+
+        const hideBanner = () => {
+            dismissed = true;
+            banner.classList.remove("cookie-open", "cookie-visible");
+        };
+
+        const showInfo = () => {
+            info.classList.add("cookie-info-open", "cookie-visible");
+        };
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        showBanner();
+                    }
+                });
+            },
+            { threshold: 0.1, rootMargin: "0px 0px -35% 0px" },
+        );
+
+        observer.observe(trigger);
+
+        banner.querySelectorAll("[data-action]").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                hideBanner();
+                showInfo();
+            });
+        });
+
+        infoCloseBtn?.addEventListener("click", () => {
+            info.classList.remove("cookie-info-open", "cookie-visible");
+        });
+    });
+</script>
+
+<style>
+    .cookie-banner {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        bottom: 5.25rem;
+        z-index: 60;
+        border: 1px solid hsl(var(--border));
+        background: hsl(var(--card));
+        color: hsl(var(--foreground));
+        border-radius: 1rem;
+        padding: 1.25rem 1.25rem 1.15rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        display: none;
+        gap: 0.9rem;
+        max-width: 1040px;
+        margin-inline: auto;
+    }
+
+    .cookie-banner.cookie-open {
+        display: grid;
+    }
+
+    .cookie-heading {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .cookie-text {
+        margin: 0;
+        font-size: 1.08rem;
+        line-height: 1.35;
+    }
+
+    .cookie-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+    }
+
+    .cookie-btn {
+        border: 1px solid hsl(var(--border));
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+        border-radius: 0.5rem;
+        padding: 0.72rem 1rem;
+        font-size: 1rem;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .cookie-btn-primary {
+        background: hsl(var(--primary));
+        color: hsl(var(--primary-foreground));
+        border-color: hsl(var(--primary));
+    }
+
+    .cookie-info {
+        position: fixed;
+        left: 1rem;
+        right: 1rem;
+        bottom: 5.25rem;
+        z-index: 60;
+        border: 1px solid hsl(var(--border));
+        background: hsl(var(--card));
+        color: hsl(var(--foreground));
+        border-radius: 1rem;
+        padding: 1.1rem 1.25rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        display: none;
+        max-width: 1040px;
+        margin-inline: auto;
+    }
+
+    .cookie-info.cookie-info-open {
+        display: block;
+    }
+
+    .cookie-info-title {
+        margin: 0 0 0.35rem;
+        font-size: 1.15rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .cookie-info-text {
+        margin: 0;
+        font-size: 1.02rem;
+        line-height: 1.45;
+    }
+
+    .cookie-info-close {
+        position: absolute;
+        top: 0.45rem;
+        right: 0.55rem;
+        border: 1px solid hsl(var(--border));
+        background: hsl(var(--background));
+        color: hsl(var(--foreground));
+        border-radius: 0.45rem;
+        width: 1.75rem;
+        height: 1.75rem;
+        line-height: 1;
+        font-size: 1.15rem;
+        cursor: pointer;
+    }
+
+    .cookie-visible {
+        animation: cookie-fade-in 180ms ease-out;
+    }
+
+    @keyframes cookie-fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .cookie-banner,
+        .cookie-info {
+            left: 50%;
+            right: auto;
+            transform: translateX(-50%);
+            bottom: 5.75rem;
+            width: min(1040px, calc(100vw - 2rem));
+        }
+    }
+</style>
