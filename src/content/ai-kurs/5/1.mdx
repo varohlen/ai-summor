@@ -4,57 +4,256 @@ description: 'Andra juridiklektionen: AI Act steg för steg med fokus på förbj
 order: 1
 pubDate: 2026-03-06
 tags:
-- sammanfattning
-draft: true
+  - sammanfattning
 ---
 
 import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
 
-I den här lektionen fokuserar vi på AI Act.
+I den här lektionen fokuserar vi på **AI Act**.
 Målet är att förstå hur EU:s riskbaserade modell fungerar och varför den är central för AI i skola och samhälle.
 
 >[!INFO] Fullständig lagstiftning
 > - [AI Act - Regulation (EU) 2024/1689 (digital-strategy)](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai)
+> - [Tidslinje för AI Act (AI Act Service Desk)](https://ai-act-service-desk.ec.europa.eu/en/ai-act/eu-ai-act-implementation-timeline)
 
 ---
 
-## AI Act - artikelvis grund
+## Varför behövdes AI Act?
 
-### Artikel 5 - Förbjudna AI-praktiker
+GDPR fanns redan, men GDPR svarar framför allt på frågan:
+**hur får personuppgifter behandlas?**
 
-Vissa användningar är förbjudna (oacceptabel risk), exempelvis vissa manipulerande eller exploaterande tillämpningar.
+AI Act svarar på en annan fråga:
+**hur får AI-system användas, beroende på hur stora risker de skapar?**
 
-### Artikel 6 + Annex III - Vad räknas som högrisk?
+Det betyder att AI Act inte ersätter GDPR.
+I stället kompletterar de varandra:
 
-AI-system kan klassas som högrisk beroende på användning. Vissa användningar i utbildningssammanhang kan omfattas.
-
-### Artikel 9 - Riskhanteringssystem (högrisk)
-
-Högrisk-system kräver strukturerad riskhantering genom hela livscykeln.
-
-### Artikel 10 - Data och datastyrning (högrisk)
-
-Krav på datakvalitet och styrning för att minska fel och snedvridning.
-
-### Artikel 14 - Mänsklig översyn (högrisk)
-
-System ska kunna övervakas av människor så att risker kan upptäckas och stoppas.
-
-### Artikel 50 - Transparenskrav
-
-Användare ska i relevanta fall informeras om att de interagerar med AI eller att innehåll är AI-genererat/manipulerat.
+- **GDPR** handlar om data och rättigheter.
+- **AI Act** handlar om AI-system, risknivåer och krav.
 
 <MultipleChoiceQuiz
-  quizId="aiact-artikel-karnan"
-  question="Vilken AI Act-artikel är central när frågan gäller förbjudna AI-användningar?"
+  quizId="aiact-kompletterar-gdpr"
+  question="Vilket påstående beskriver AI Act bäst?"
   options={[
-    'Artikel 5',
-    'Artikel 10',
-    'Artikel 14',
-    'Artikel 50'
+    'AI Act ersätter GDPR helt',
+    'AI Act handlar om risker, användning och krav för AI-system',
+    'AI Act gäller bara teknikföretag i USA',
+    'AI Act handlar bara om upphovsrätt'
+  ]}
+  correctAnswer={1}
+  explanation="AI Act fokuserar på hur AI-system får användas och vilka krav som följer beroende på risk."
+/>
+
+---
+
+## Grundidén: olika risknivåer
+
+AI Act bygger på tanken att inte all AI är lika farlig.
+Ju större risk för skada, desto hårdare regler.
+
+För att förenkla kan man tänka i fyra nivåer:
+
+1. **Oacceptabel risk** - vissa användningar är förbjudna.
+2. **Högrisk** - tillåtet, men bara med tydliga krav.
+3. **Begränsad risk** - framför allt krav på transparens.
+4. **Liten eller minimal risk** - få eller inga extra krav.
+
+>[!TIP] Ett enkelt tankesätt
+> Fråga inte bara "är det AI?" utan också:
+> "Vad kan gå fel, vem kan drabbas och hur allvarligt blir det?"
+
+<MultipleChoiceQuiz
+  quizId="aiact-risklogik"
+  question="Vad är grundidén i AI Act?"
+  options={[
+    'All AI behandlas på exakt samma sätt',
+    'Ju större risk ett AI-system skapar, desto fler krav kan gälla',
+    'AI är alltid förbjudet i utbildning',
+    'Endast generativ AI regleras'
+  ]}
+  correctAnswer={1}
+  explanation="AI Act är riskbaserad. Olika användningar bedöms olika beroende på hur stor risken är."
+/>
+
+---
+
+## Artikel 5 - Förbjudna AI-praktiker
+
+Artikel 5 handlar om AI-användningar som EU bedömer som så problematiska att de inte ska vara tillåtna alls.
+
+Det handlar bland annat om system som:
+
+- manipulerar människor på ett skadligt sätt,
+- utnyttjar särskilt sårbara grupper,
+- används på sätt som skapar mycket stora risker för rättigheter och frihet.
+
+Det viktiga för eleverna är inte att kunna varje juridisk detalj utantill, utan att förstå principen:
+
+**vissa AI-lösningar är inte bara "olämpliga" utan faktiskt förbjudna.**
+
+<MultipleChoiceQuiz
+  quizId="aiact-art5-forbjudet"
+  question="Vad är huvudidén i artikel 5?"
+  options={[
+    'Alla AI-system måste registreras av användaren',
+    'Vissa AI-användningar är förbjudna eftersom risken är för hög',
+    'AI får bara användas i forskning',
+    'Alla chatbotar är förbjudna'
+  ]}
+  correctAnswer={1}
+  explanation="Artikel 5 handlar om AI-praktiker som anses så riskfyllda att de inte får användas."
+/>
+
+---
+
+## Artikel 6 + Annex III - Vad räknas som högrisk?
+
+Alla AI-system är inte förbjudna, men vissa räknas som **högrisk**.
+Då får de användas bara om tydliga krav uppfylls.
+
+Det handlar om situationer där AI kan påverka människor mycket, till exempel:
+
+- utbildning,
+- arbetsliv,
+- krediter och ekonomiska beslut,
+- vissa myndighets- och samhällsfunktioner.
+
+I utbildning blir detta extra viktigt om AI-system påverkar tillgång till utbildning, bedömningar eller viktiga beslut om individer.
+
+>[!WARNING] Det viktiga är användningen
+> Samma teknik kan vara ganska ofarlig i ett sammanhang men högrisk i ett annat.
+> Det är därför användningen - inte bara tekniken i sig - som blir avgörande.
+
+<MultipleChoiceQuiz
+  quizId="aiact-hogrisk-utbildning"
+  question="När ligger ett AI-system närmast högrisk enligt AI Act?"
+  options={[
+    'När det sorterar semesterbilder',
+    'När det hjälper dig välja musik',
+    'När det påverkar viktiga beslut om utbildning eller framtida möjligheter',
+    'När det skriver skämt'
+  ]}
+  correctAnswer={2}
+  explanation="Högrisk blir aktuellt när AI kan påverka människor mycket i viktiga sammanhang, till exempel utbildning."
+/>
+
+---
+
+## Artikel 9 - Riskhanteringssystem
+
+Om ett AI-system är högrisk räcker det inte att "det verkar fungera".
+Det måste finnas en tydlig plan för att upptäcka, bedöma och minska risker.
+
+Det betyder i praktiken att den som utvecklar eller använder systemet måste fråga:
+
+- Vilka fel kan uppstå?
+- Vem kan drabbas?
+- Hur upptäcker vi problem i tid?
+- Vad gör vi om systemet ger fel resultat?
+
+Den här artikeln är viktig eftersom den visar att AI-säkerhet inte är något man lägger till i efterhand.
+Det måste finnas med från början.
+
+<MultipleChoiceQuiz
+  quizId="aiact-art9-riskhantering"
+  question="Vad är poängen med artikel 9 om riskhantering?"
+  options={[
+    'Att AI-system aldrig får ha några fel',
+    'Att risker ska upptäckas och hanteras systematiskt under hela livscykeln',
+    'Att användaren alltid ska godkänna alla resultat manuellt',
+    'Att bara företag i EU får använda AI'
+  ]}
+  correctAnswer={1}
+  explanation="Riskhantering betyder att man arbetar strukturerat med att hitta och minska risker över tid."
+/>
+
+---
+
+## Artikel 10 - Data och datastyrning
+
+AI-system blir inte bättre än datan de bygger på.
+Därför ställer AI Act krav på kvalitet och kontroll över den data som används i högrisk-system.
+
+Det handlar till exempel om att:
+
+- datan ska vara relevant,
+- fel och snedvridningar ska minska,
+- det ska finnas ordning på hur data samlas in och används.
+
+Det här knyter tydligt an till det ni redan jobbat med i kursen:
+**dålig data ger dåliga resultat.**
+
+<MultipleChoiceQuiz
+  quizId="aiact-art10-data"
+  question="Varför är artikel 10 viktig i AI Act?"
+  options={[
+    'För att AI alltid måste ha så mycket data som möjligt',
+    'För att datan måste vara rimlig och styras på ett sätt som minskar fel och snedvridning',
+    'För att bara bilder får användas vid träning',
+    'För att all data måste vara offentlig'
+  ]}
+  correctAnswer={1}
+  explanation="Artikel 10 handlar om att datan i högrisk-system måste hanteras på ett sätt som minskar fel och orättvisor."
+/>
+
+---
+
+## Artikel 14 - Mänsklig översyn
+
+En central tanke i AI Act är att människor ska kunna övervaka AI-system, särskilt när riskerna är stora.
+
+Det betyder inte bara att en människa "finns i närheten".
+Det betyder att en människa faktiskt ska kunna:
+
+- förstå vad systemet gör,
+- upptäcka när något verkar fel,
+- stoppa, ändra eller ifrågasätta resultatet.
+
+Det är alltså stor skillnad mellan:
+
+- en människa som bara klickar "godkänn", och
+- en människa som verkligen kan granska systemet.
+
+<MultipleChoiceQuiz
+  quizId="aiact-art14-oversyn"
+  question="Vad är ett exempel på verklig mänsklig översyn?"
+  options={[
+    'Att en person automatiskt klickar vidare utan att kunna bedöma resultatet',
+    'Att en person kan granska, stoppa eller ändra ett AI-stött beslut',
+    'Att systemet är snabbt',
+    'Att modellen är dyr att utveckla'
+  ]}
+  correctAnswer={1}
+  explanation="Mänsklig översyn betyder att en människa verkligen kan ingripa, inte bara formellt finnas med."
+/>
+
+---
+
+## Artikel 50 - Transparenskrav
+
+I vissa situationer ska användare få veta att de har att göra med AI.
+
+Det kan till exempel handla om att:
+
+- du interagerar med ett AI-system,
+- innehåll är AI-genererat,
+- bild, ljud eller video har manipulerats.
+
+Poängen är enkel:
+**det ska inte vara onödigt svårt att förstå när AI är inblandat.**
+
+<MultipleChoiceQuiz
+  quizId="aiact-art50-transparens"
+  question="Vad är huvudidén i artikel 50?"
+  options={[
+    'Användaren ska i vissa fall informeras om att AI används eller att innehåll är AI-genererat',
+    'Alla AI-modeller måste vara gratis',
+    'All AI måste förklaras med kod',
+    'Endast myndigheter får använda AI-genererat innehåll'
   ]}
   correctAnswer={0}
-  explanation="Artikel 5 i AI Act samlar de förbjudna AI-praktikerna."
+  explanation="Artikel 50 handlar om transparens: användaren ska kunna få veta när AI är inblandat."
 />
 
 ---
@@ -62,13 +261,13 @@ Användare ska i relevanta fall informeras om att de interagerar med AI eller at
 ## Tidslinje att kunna (med datum)
 
 - **1 augusti 2024:** AI Act trädde i kraft.
-- **2 februari 2025:** första regler började tillämpas (bl.a. förbjudna praktiker).
-- **2 augusti 2025:** regler för GPAI och delar av styrning började tillämpas.
+- **2 februari 2025:** de första reglerna började tillämpas, bland annat om förbjudna praktiker.
+- **2 augusti 2025:** regler för GPAI och delar av styrningen började tillämpas.
 - **2 augusti 2026:** AI Act blir i huvudsak tillämplig.
-- **2 augusti 2027:** vissa regler för hög-risk-system i reglerade produkter får senare tillämpning.
+- **2 augusti 2027:** vissa regler för högrisk-system i reglerade produkter får senare tillämpning.
 
-> [!NOTE] Tumregel för kursen
-> Om ett AI-system i skolan både använder personuppgifter och påverkar människor, utgå från att både GDPR och AI Act kan vara relevanta.
+>[!NOTE] Tumregel för kursen
+> Om ett AI-system både använder personuppgifter och påverkar människor mycket, är det vanligt att både GDPR och AI Act blir relevanta.
 
 ---
 
@@ -76,22 +275,23 @@ Användare ska i relevanta fall informeras om att de interagerar med AI eller at
 
 Koppla scenario till artikel:
 
-1. "Skolan vill samla in mer data än nödvändigt 'för säkerhets skull'."
-2. "Ett AI-system föreslår elevinsatser som ingen kan förklara."
-3. "En tjänst använder AI-manipulerat innehåll utan att informera användaren."
+1. "Ett system försöker styra användare på ett skadligt sätt."
+2. "Ett AI-system föreslår viktiga beslut men ingen kan stoppa eller granska resultatet."
+3. "En tjänst visar AI-genererat innehåll utan att säga det."
+4. "Ett system används i ett känsligt område där fel kan få stora konsekvenser."
 
 Skriv för varje scenario:
 
 - ett AI Act-stöd (artikelnummer),
-- ett GDPR-stöd (artikelnummer),
-- en mening om varför.
+- en mening om varför,
+- och om du tror att också GDPR kan bli relevant.
 
 ---
 
 ## Exit ticket (individuellt)
 
-1. Vilken AI Act-artikel tycker du är viktigast i skolsammanhang och varför?
-2. Ge ett exempel där AI Act kräver mänsklig översyn även om systemet verkar fungera tekniskt.
+1. Vilken AI Act-artikel tycker du är viktigast och varför?
+2. Ge ett exempel där AI Act-krav på transparens eller mänsklig översyn verkligen spelar roll.
 
 ---
 
