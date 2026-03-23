@@ -1,0 +1,252 @@
+---
+title: '4. Säkerhet och AI vs människa'
+description: 'En avslutande teorilektion om säkerhetsrisker, överdriven tillit till AI och när mänskligt omdöme måste väga tyngre.'
+order: 4
+pubDate: 2026-03-23
+tags:
+  - sammanfattning
+  - säkerhet
+  - AI vs människa
+---
+
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+
+I de tidigare lektionerna har ni arbetat med:
+
+- lagar,
+- risknivåer,
+- normer,
+- och juridisk analys.
+
+Den här lektionen knyter ihop allt detta med två avslutande frågor:
+
+1. **Vilka säkerhetsrisker skapar AI?**
+2. **När bör vi lita på AI, och när måste människan väga tyngre?**
+
+---
+
+## Varför hör säkerhet och AI vs människa ihop?
+
+Det finns ett tydligt samband mellan de här två perspektiven.
+
+Om ett AI-system:
+
+- kan luras,
+- kan missbrukas,
+- kan ge fel svar med hög säkerhet,
+- eller kan påverka människor utan att de märker det,
+
+då blir frågan om **mänsklig kontroll** mycket viktigare.
+
+Det är därför säkerhet inte bara handlar om teknik.
+Det handlar också om **ansvar, tillit och omdöme**.
+
+>[!INFO] Koppling till tidigare lektioner
+> I juridiklektionerna såg ni att mänsklig översyn och transparens återkommer flera gånger.
+> I normlektionen såg ni att AI kan förstärka gamla mönster.
+> I den här lektionen tittar vi på vad det betyder i praktiken när system faktiskt används.
+
+---
+
+## Fyra vanliga säkerhetsrisker med AI
+
+### 1. Deepfakes och manipulerat innehåll
+
+AI kan användas för att skapa:
+
+- falska bilder,
+- falska röster,
+- falska videor,
+- och trovärdiga men vilseledande texter.
+
+Det här gör det lättare att:
+
+- lura människor,
+- sprida rykten,
+- påverka opinion,
+- och imitera riktiga personer.
+
+### 2. Bedrägerier och social engineering
+
+AI gör det enklare att skriva trovärdiga bluffmeddelanden.
+Det kan handla om mejl, sms eller chattar som låter professionella och övertygande.
+
+När språk, ton och form känns "rätt" blir det lättare att lita på fel sak.
+
+### 3. Dataläckor och känslig information
+
+Om användare matar in känslig information i AI-tjänster kan data hamna fel.
+Det gäller särskilt när användaren inte förstår:
+
+- vad som sparas,
+- vad som delas,
+- eller hur tjänsten tränas och förbättras.
+
+### 4. Överdriven tillit till AI
+
+En av de största riskerna är inte alltid att AI är "ond", utan att människor börjar lita för mycket på den.
+
+Till exempel när:
+
+- ett AI-svar låter säkert men är fel,
+- ett AI-system verkar objektivt men bygger på dålig data,
+- användaren slutar dubbelkolla eftersom systemet känns smart.
+
+<MultipleChoiceQuiz
+  quizId="sakerhet-risker"
+  question="Vilken av följande risker är mest kopplad till att AI verkar mer pålitlig än den faktiskt är?"
+  options={[
+    'Överdriven tillit till AI',
+    'Låg internetuppkoppling',
+    'Att modellen använder elektricitet',
+    'Att skärmen är för liten'
+  ]}
+  correctAnswer={0}
+  explanation="När människor litar för mycket på AI kan felaktiga resultat få större konsekvenser än de annars skulle ha fått."
+/>
+
+---
+
+## AI är snabb - men det betyder inte alltid att den är bättre
+
+AI är ofta bra på att:
+
+- känna igen mönster i stora datamängder,
+- arbeta snabbt,
+- föreslå alternativ,
+- sammanfatta stora mängder information.
+
+Men människor är ofta bättre på:
+
+- att förstå sammanhang,
+- att upptäcka när något känns orimligt,
+- att väga in etik, relationer och ansvar,
+- att ta ansvar för svåra beslut.
+
+Det betyder att frågan inte är:
+**AI eller människa?**
+
+Ofta är den bättre frågan:
+**Vilken roll ska AI ha, och vilken roll måste människan ha?**
+
+<MultipleChoiceQuiz
+  quizId="aivsman-snabbbra"
+  question="Vad är den viktigaste slutsatsen i det här avsnittet?"
+  options={[
+    'Det som går snabbast är alltid bäst',
+    'AI bör alltid ersätta mänskliga beslut',
+    'Frågan handlar ofta om rätt rollfördelning mellan AI och människa',
+    'Människor ska aldrig använda AI'
+  ]}
+  correctAnswer={2}
+  explanation="Poängen är inte att välja en vinnare, utan att avgöra när AI ska stödja och när människan måste ha större kontroll."
+/>
+
+---
+
+## När bör människan väga tyngre?
+
+Det finns situationer där mänskligt omdöme blir extra viktigt.
+
+Till exempel när:
+
+- beslutet får stora konsekvenser för en person,
+- systemet är svårt att förstå eller förklara,
+- datan är osäker,
+- säkerhetsrisken är hög,
+- människor kan skadas eller behandlas orättvist.
+
+I sådana lägen räcker det ofta inte att säga:
+"AI föreslog detta."
+
+Någon människa måste kunna:
+
+- förstå beslutet,
+- ta ansvar för det,
+- och säga stopp om något verkar fel.
+
+>[!TIP] En enkel tumregel
+> Ju större risk, desto svagare blir argumentet för att bara "låta AI avgöra".
+
+---
+
+## När kan AI vara bättre som stöd?
+
+Det betyder inte att AI är dåligt.
+Tvärtom kan AI vara mycket användbart när det används som stöd.
+
+Exempel:
+
+- sortera stora informationsmängder,
+- hitta mönster som en människa annars hade missat,
+- ge första utkast,
+- varna för avvikande mönster,
+- hjälpa till att prioritera vad som behöver granskas närmare.
+
+Här blir AI ofta starkt just för att det kombineras med mänsklig kontroll.
+
+---
+
+## Tre frågor att ställa om AI vs människa
+
+När ni möter ett AI-system kan ni fråga:
+
+1. Vad är AI bra på här?
+2. Vad är människan bättre på här?
+3. Vad kan gå fel om människor litar för mycket på systemet?
+
+Om ni kan svara tydligt på de frågorna är det lättare att avgöra om AI ska:
+
+- fatta beslut,
+- ge underlag,
+- varna,
+- eller bara användas mycket försiktigt.
+
+---
+
+## Kort analysövning
+
+Välj ett av följande områden:
+
+- AI i sjukvård,
+- AI i skolan,
+- AI i rekrytering,
+- AI i kundservice,
+- AI i sociala medier.
+
+Skriv kort:
+
+1. Vilken säkerhetsrisk är störst här?
+2. Vad är AI bra på i just detta sammanhang?
+3. Vad måste en människa fortfarande göra?
+4. Vad skulle kunna gå fel om människor litar för mycket på AI?
+
+---
+
+## Avslutande resonemang
+
+Ett vanligt misstag är att tro att AI-frågan handlar om att välja sida:
+
+- teknikoptimism,
+- eller teknikrädsla.
+
+Men i praktiken handlar det ofta om något mer nyanserat:
+
+- när AI kan hjälpa,
+- när AI måste begränsas,
+- och när människor måste ta större ansvar.
+
+Det är just där säkerhet, juridik, normer och mänskligt omdöme möts.
+
+<MultipleChoiceQuiz
+  quizId="aivsman-hogsta-nivan"
+  question="Vilket resonemang är mest utvecklat?"
+  options={[
+    'AI är farligt och borde inte användas',
+    'AI är smartare än människor och borde användas överallt',
+    'AI kan vara användbart, men i riskfyllda situationer behövs mänsklig granskning, ansvar och möjlighet att stoppa fel',
+    'Det går inte att säga något alls om AI'
+  ]}
+  correctAnswer={2}
+  explanation="Det mest utvecklade resonemanget väger nytta mot risk och tydliggör när mänsklig kontroll måste finnas kvar."
+/>

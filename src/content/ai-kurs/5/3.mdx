@@ -1,0 +1,253 @@
+---
+title: '3. Normer i AI - vad anses normalt, och för vem?'
+description: 'Ett utkast till lektion om hur normer påverkar data, design och AI-system, även när inget direkt bryter mot lagen.'
+order: 3
+pubDate: 2026-03-19
+tags:
+  - sammanfattning
+  - normer
+  - etik
+---
+
+import MultipleChoiceQuiz from '../../../components/MultipleChoiceQuiz.astro';
+
+I juridiken frågar vi ofta:
+**Vad är tillåtet?**
+
+När vi arbetar med normer blir frågan i stället:
+**Vad framstår som normalt, rimligt eller självklart - och för vem?**
+
+Den här lektionen handlar om något som är viktigt i AI men som inte alltid syns direkt i lagtext:
+att AI-system ofta lär sig av en värld där vissa mönster redan ses som "normala".
+
+>[!INFO] Koppling till tidigare modul
+> I modulen om AI:s konsekvenser arbetade ni redan med frågor om integritet, etik och klimat.
+> I den här lektionen återvänder vi till liknande situationer, men med ett nytt fokus:
+> **vilka normer byggs in i data, teknik och beslut?**
+
+---
+
+## Vad är en norm?
+
+En norm är en föreställning om vad som uppfattas som:
+
+- normalt,
+- önskvärt,
+- rimligt,
+- professionellt,
+- korrekt.
+
+Normer behöver inte vara skrivna i lag.
+De kan finnas i:
+
+- språk,
+- bilder,
+- skolmiljöer,
+- arbetsplatser,
+- teknik,
+- statistik och data.
+
+>[!INFO] Viktig skillnad
+> En lag säger vad som är tillåtet eller förbjudet.
+> En norm påverkar vad människor förväntar sig, vänjer sig vid eller ser som självklart.
+
+<MultipleChoiceQuiz
+  quizId="normer-vad-ar-det"
+  question="Vilken beskrivning passar bäst för en norm?"
+  options={[
+    'En teknisk regel i en dator',
+    'En idé om vad som uppfattas som normalt eller rimligt',
+    'En lag som alltid finns skriven i lagboken',
+    'Ett matematiskt medelvärde'
+  ]}
+  correctAnswer={1}
+  explanation="Normer handlar om föreställningar, förväntningar och mönster i samhället, inte bara om skrivna regler."
+/>
+
+---
+
+## Varför blir normer viktiga i AI?
+
+AI tränas ofta på data från verkligheten.
+Men verkligheten är inte neutral.
+
+Om datan kommer från ett samhälle där vissa grupper:
+
+- syns mer än andra,
+- tas mer på allvar än andra,
+- oftare får positiv bedömning,
+- oftare hamnar i ledande roller,
+
+så kan AI-system lära sig att just dessa mönster verkar "normala".
+
+Det betyder att AI inte bara speglar världen.
+Den kan också **förstärka** sådant som redan finns där.
+
+>[!TIP] Kom ihåg
+> AI uppfinner inte alltid orättvisor från början.
+> Ofta lär den sig dem från data, designval och mänskliga prioriteringar.
+
+<MultipleChoiceQuiz
+  quizId="normer-ai-varfor"
+  question="Varför är normer viktiga i AI?"
+  options={[
+    'För att AI alltid hittar på egna regler helt utan människor',
+    'För att AI kan lära sig mönster från data som redan innehåller snedvridningar',
+    'För att normer bara finns i sociala medier',
+    'För att normer ersätter lagar'
+  ]}
+  correctAnswer={1}
+  explanation="AI tränas på data från verkligheten, och den verkligheten kan redan vara sned eller orättvis."
+/>
+
+---
+
+## Tre vanliga sätt normer hamnar i AI
+
+### 1. Normer i datan
+
+Om datan speglar gamla mönster kommer modellen lätt att göra samma sak.
+
+Exempel:
+
+- tidigare anställningar,
+- gamla elevbedömningar,
+- historiska kreditbeslut,
+- bilddatabaser där vissa grupper syns mer än andra.
+
+### 2. Normer i designen
+
+Någon bestämmer alltid:
+
+- vad som ska mätas,
+- vad som räknas som framgång,
+- vad modellen ska optimera,
+- vad som räknas som avvikande beteende.
+
+Där kommer mänskliga normer in direkt.
+
+### 3. Normer i användningen
+
+Även om systemet fungerar tekniskt kan det användas på ett sätt som förstärker normer.
+
+Till exempel:
+
+- en skola kanske litar mer på AI om den bekräftar tidigare uppfattningar,
+- ett företag kanske använder AI för att "effektivisera" utan att granska vem som missgynnas,
+- en app kanske bygger på föreställningar om hur en "normal" användare beter sig.
+
+---
+
+## Exempel 1 - Ansiktsigenkänning
+
+Ansiktsigenkänning har ofta fungerat bättre för vissa grupper än för andra.
+
+Det här kan bero på flera saker:
+
+- vissa grupper finns oftare i träningsdatan,
+- bildkvalitet och miljöer skiljer sig,
+- systemet utvecklas utifrån en begränsad bild av vem användaren är.
+
+Här ser vi hur en teknisk lösning kan bygga in en norm om vem som räknas som "standardanvändare".
+
+## Exempel 2 - Rekrytering
+
+Om ett AI-system tränas på tidigare rekryteringar kan det lära sig gamla mönster.
+Om arbetsplatsen historiskt har valt en viss typ av kandidat oftare än andra, kan AI börja tolka just det som "bäst lämpad".
+
+Det behöver inte bero på att någon uttryckligen har programmerat in diskriminering.
+Det kan uppstå därför att systemet lär sig från ett normmönster som redan fanns.
+
+## Exempel 3 - Språkmodeller
+
+Språkmodeller tränas på enorma mängder text från internet, böcker, forum och artiklar.
+Det betyder att de också tränas på:
+
+- stereotyper,
+- fördomar,
+- värderingar,
+- sociala normer.
+
+Modellen kan därför skriva på sätt som känns "naturliga", men där det naturliga egentligen bara är det vanligaste eller mest spridda.
+
+---
+
+## Lagligt betyder inte alltid rättvist
+
+Ett viktigt budskap i den här lektionen är:
+
+**ett AI-system kan vara lagligt och ändå problematiskt.**
+
+Det kan bero på att:
+
+- det förstärker stereotypa roller,
+- vissa grupper osynliggörs,
+- vissa användare alltid ses som avvikande,
+- besluten känns objektiva trots att normerna bakom dem inte är neutrala.
+
+Det är här normanalysen blir viktig.
+Juridiken räcker inte alltid ensam för att upptäcka problemet.
+
+<MultipleChoiceQuiz
+  quizId="normer-lagligt-rattvist"
+  question="Vilket påstående är viktigast att komma ihåg i den här lektionen?"
+  options={[
+    'Om något är tekniskt avancerat är det också rättvist',
+    'Om något inte bryter mot lagen finns inget problem',
+    'Ett AI-system kan vara lagligt men ändå förstärka problematiska normer',
+    'Normer spelar ingen roll om datan är stor'
+  ]}
+  correctAnswer={2}
+  explanation="Normkritik behövs just eftersom laglighet och rättvisa inte alltid är samma sak."
+/>
+
+---
+
+## Frågor att ställa när du granskar normer i AI
+
+När du ser ett AI-system kan du fråga:
+
+1. Vem verkar systemet vara byggt för?
+2. Vem riskerar att inte passa in?
+3. Vilken typ av beteende ses som normalt?
+4. Vilka grupper syns mest i datan?
+5. Vilka grupper riskerar att feltolkas?
+6. Vem har bestämt vad som räknas som ett "bra" resultat?
+
+Det här är frågor som inte alltid syns i tekniken, men som påverkar resultatet mycket.
+
+---
+
+## Kort övning
+
+Gå gärna tillbaka till ett case ni redan arbetat med i modulen om AI:s konsekvenser.
+Om ni vill kan ni också välja ett av följande områden:
+
+- ansiktsigenkänning,
+- rekryterings-AI,
+- AI i skolan,
+- sociala medieflöden,
+- språkmodeller/chatbots.
+
+Skriv kort:
+
+1. Vilken norm kan finnas inbyggd här?
+2. Vem riskerar att missgynnas?
+3. Hur skulle systemet kunna göras mer rättvist?
+
+---
+
+## Exit ticket
+
+<MultipleChoiceQuiz
+  quizId="normer-exit"
+  question="Vad är poängen med att studera normer i AI?"
+  options={[
+    'Att ersätta juridik helt',
+    'Att förstå hur AI kan förstärka mönster som redan finns i samhället',
+    'Att visa att all AI är diskriminerande',
+    'Att bevisa att teknik aldrig fungerar'
+  ]}
+  correctAnswer={1}
+  explanation="Normer hjälper oss att se sådant som inte alltid syns i lagtext eller teknikbeskrivningar, men som ändå påverkar människor."
+/>
